@@ -1,5 +1,7 @@
 * Emacs Initialization file
 
+** Modeline
+   
 ** Emacs Settings
 *** Emacs UI
     #+begin_src emacs-lisp
@@ -30,7 +32,7 @@
       (setq display-time-format "%Y-%m-%d %H:%M")
     #+end_src
 
-*** Emacs Backup
+** Emacs Backup
     #+begin_src emacs-lisp
       (setq
       backup-by-copying t
@@ -56,6 +58,11 @@
 *** Custom Load Paths
     #+begin_src emacs-lisp
       (add-to-list 'load-path "~/.emacs.d/elisp/")
+    #+end_src
+
+*** CC-mode
+    #+begin_src emacs-lisp
+      (require 'cc-mode)
     #+end_src
 
 ** Packages
@@ -166,13 +173,13 @@
         (add-to-list 'auto-mode-alist '("\\.Rmd$" . poly-markdown+r-mode)))
     #+end_src
     
-*** Undo-Tree
+*** COMMENT Undo-Tree
     #+begin_src emacs-lisp
       (use-package undo-tree
-        :ensure t
-        :config
-        (setq undo-tree-auto-save-history t) 
-        (global-undo-tree-mode))
+	:ensure t
+	:config
+	(setq undo-tree-auto-save-history t) 
+	(global-undo-tree-mode))
     #+end_src
     
 *** Flycheck
@@ -205,6 +212,17 @@
         (emacs-lisp-mode . smartparens-mode))
     #+end_src
     
+*** COMMENT EXWM
+    #+begin_src emacs-lisp
+      (use-package xelb
+	:ensure t)
+      (use-package exwm
+	:ensure t
+	:init
+	(require 'exwm-config)
+	(exwm-config-default))
+    #+end_src
+
 *** Web-mode
     #+begin_src emacs-lisp
       (use-package web-mode
@@ -231,16 +249,16 @@
         :ensure t)
     #+end_src
     
-*** Eclim
+*** COMMENT Eclim
     #+begin_src emacs-lisp
       (use-package eclim
-        :ensure t
-        :init
-        (setq eclimd-autostart t)
-        (defun my-java-mode ()
-          (eclim-mode t))
-        :hook
-        (java-mode . my-java-mode))
+	:ensure t
+	:init
+	(setq eclimd-autostart t)
+	(defun my-java-mode ()
+	  (eclim-mode t))
+	:hook
+	(java-mode . my-java-mode))
     #+end_src
     
 *** Company
@@ -251,13 +269,13 @@
         (prog-mode . global-company-mode))
     #+end_src
     
-**** Company-emacs-eclim
+**** COMMENT Company-emacs-eclim
      #+begin_src emacs-lisp
        (use-package company-emacs-eclim
-         :ensure t
-         :config
-         (company-emacs-eclim-setup)
-         (global-company-mode t))
+	 :ensure t
+	 :config
+	 (company-emacs-eclim-setup)
+	 (global-company-mode t))
      #+end_src
      
 **** Company-auctex
@@ -470,7 +488,9 @@
         :commands R)
     #+end_src
 
-*** Dired-narrow 
+*** Dired-hacks
+
+**** Dired-narrow 
     #+begin_src emacs-lisp
       (use-package dired-narrow
         :ensure t
@@ -479,24 +499,19 @@
 
     #+end_src
     
-*** Telephone Line
+**** Dired-filter
     #+begin_src emacs-lisp
-      (use-package telephone-line
-        :ensure t
-        :config
-        (setq telephone-line-lhs
-              '((evil   . (telephone-line-evil-tag-segment))
-                (accent . (telephone-line-vc-segment
-                           telephone-line-erc-modified-channels-segment
-                           telephone-line-process-segment))
-                (nil    . (telephone-line-buffer-segment))))
-        (setq telephone-line-rhs
-              '((nil    . (telephone-line-misc-info-segment))
-                (accent . (telephone-line-major-mode-segment))
-                (evil   . (telephone-line-airline-position-segment))))
-        (telephone-line-mode 1))
+      (use-package dired-filter
+	:ensure t
+	:config)
     #+end_src
-
+    
+**** Dired-open
+     #+begin_src emacs-lisp
+       (use-package dired-open
+	 :ensure t)
+     #+end_src
+    
 *** Highligt-indent
     #+begin_src emacs-lisp
       (use-package highlight-indent-guides
@@ -510,26 +525,101 @@
 	(prog-mode . highlight-indent-guides-mode))
     #+end_src
 
+*** COMMENT Multiple-cursors
+    #+begin_src emacs-lisp
+      (use-package multiple-cursors
+	:ensure t
+	:init
+	(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines))
+    #+end_src
+
+*** Fsharp-mode
+    #+begin_src emacs-lisp
+      (use-package fsharp-mode
+	:ensure t
+	:init
+	(setq inferior-fsharp-program "/usr/bin/fsharpi")
+	(setq fsharp-compiler "/usr/bin/fsharpc"))
+    #+end_src
+
+*** COMMENT Lsp-java
+    #+begin_src emacs-lisp
+      (use-package lsp-mode
+	:ensure t
+	:init (setq lsp-inhibit-message nil ; you may set this to t to hide messages from message area
+		    lsp-eldoc-render-all nil
+		    lsp-highlight-symbol-at-point nil))
+
+      (use-package company-lsp
+	:after company
+	:ensure t
+	:config
+	(add-hook 'java-mode-hook (lambda () (push 'company-lsp company-backends)))
+	(setq company-lsp-enable-snippet t
+	      company-lsp-cache-candidates t)
+	(push 'java-mode company-global-modes))
+
+      (use-package lsp-ui
+	:ensure t
+	:config
+	(setq lsp-ui-sideline-enable t
+	      lsp-ui-sideline-show-symbol t
+	      lsp-ui-sideline-show-hover t
+	      lsp-ui-sideline-show-code-actions t
+	      lsp-ui-sideline-update-mode 'point))
+
+      (use-package lsp-java
+	:ensure t
+	:requires (lsp-ui-flycheck lsp-ui-sideline)
+	:config
+	(add-hook 'java-mode-hook  'lsp-java-enable)
+	(add-hook 'java-mode-hook  'flycheck-mode)
+	(add-hook 'java-mode-hook  'company-mode)
+	(add-hook 'java-mode-hook  (lambda () (lsp-ui-flycheck-enable t)))
+	(add-hook 'java-mode-hook  'lsp-ui-sideline-mode)
+	(setq lsp-java--workspace-folders (list ("/home/samch/Documents/Java/Projects/HelloworldJava"))))
+    #+end_src
 ** Evil Keybinds
    
 *** Definitions
     #+begin_src emacs-lisp
       (define-prefix-command 'my/leader-map)
       (define-prefix-command 'my/avy-menu-map)
+      (define-prefix-command 'my/origami-menu-map)
     #+end_src
 
 *** Evil Prefix
     #+begin_src emacs-lisp
-      (define-key evil-normal-state-map (kbd "SPC") my/leader-map)
+      (define-key evil-normal-state-map (kbd "SPC") 'my/leader-map)
     #+end_src
 
+*** Quick Access
+    #+begin_src emacs-lisp
+      (use-package evil
+	:config
+	(define-key my/leader-map (kbd "f") 'swiper)
+	(define-key my/leader-map (kbd "c") 'calc)
+	(define-key my/leader-map (kbd "t") 'org-agenda)
+	(define-key my/leader-map (kbd "g") 'magit-status))
+    #+end_src
+    
 *** Avy Menu
     #+begin_src emacs-lisp
       (use-package evil
         :config
         (define-key my/leader-map (kbd "a") 'my/avy-menu-map)
 
-        (define-key my/avy-menu-map "n" 'avy-goto-char-2)
-        (define-key my/avy-menu-map "c" 'avy-goto-char)
+        (define-key my/avy-menu-map "c" 'avy-goto-char-2)
+        ;(define-key my/avy-menu-map "n" 'avy-goto-char)
         (define-key my/avy-menu-map "a" 'avy-goto-line))
+    #+end_src
+
+*** Origami Menu
+    #+begin_src emacs-lisp
+      (use-package origami
+	:config
+	(define-key my/leader-map (kbd "b") 'my/origami-menu-map)
+
+	(define-key my/origami-menu-map (kbd "TAB") 'origami-recursively-toggle-node)
+	(define-key my/origami-menu-map (kbd "S-TAB") 'origami-show-only-node))
     #+end_src

@@ -1,12 +1,10 @@
 * Emacs Initialization file
 
-** Modeline
-*** File Status -:---
 ** Emacs Settings
 *** Emacs UI
     #+begin_src emacs-lisp
      (menu-bar-mode -1)
-     (display-battery-mode 0)
+     (display-battery-mode 1)
      (display-time-mode 1)
      (scroll-bar-mode -1)
      (tool-bar-mode -1)
@@ -29,10 +27,10 @@
 
       (defalias 'yes-or-no-p 'y-or-n-p)
 
-      (setq display-time-format "%Y-%m-%d %H:%M")
+      ;; (setq display-time-format "%Y-%m-%d %H:%M")
     #+end_src
 
-** Emacs Backup
+*** Emacs Backup
     #+begin_src emacs-lisp
       (setq
       backup-by-copying t
@@ -64,6 +62,24 @@
     #+begin_src emacs-lisp
       (require 'cc-mode)
     #+end_src
+*** Buffer Focus
+    #+begin_src emacs-lisp
+      (global-set-key "\C-x2" (lambda () (interactive)(split-window-vertically) (other-window 1)))
+      (global-set-key "\C-x3" (lambda () (interactive)(split-window-horizontally) (other-window 1)))
+    #+end_src
+** Modeline
+   #+begin_src emacs-lisp
+     (setq-default mode-line-format
+		   (list
+		    ;; Filestatus -:---
+		    mode-line-mule-info
+		    mode-line-modified
+		    mode-line-client
+		    mode-line-remote
+		    mode-line-front-space
+		    ;; VC/Git
+		    vc-mode))
+   #+end_src
 
 ** Packages
 *** Dired
@@ -129,16 +145,16 @@
 *** Ivy
     #+begin_src emacs-lisp
       (use-package ivy
-        :ensure t
-        :init
-        (setq ivy-use-virtual-buffers t)
-        (setq ivy-count-format "(%d/%d) ")
-        (setq ivy-use-selectable-prompt t)
-        :config
-        (ivy-mode 1)
-        :bind
-        ("C-s" . 'counsel-grep-or-swiper)
-        ("M-x" . 'counsel-M-x))
+	:ensure t
+	:init
+	(setq ivy-use-virtual-buffers t)
+	(setq ivy-count-format "(%d/%d) ")
+	(setq ivy-use-selectable-prompt t)
+	:config
+	(ivy-mode 1)
+	:bind
+	("C-s" . 'counsel-grep-or-swiper)
+	("M-x" . 'counsel-M-x))
     #+end_src
     
 *** Spacemacs Theme
@@ -312,10 +328,10 @@
       :init
       (setq dashboard-banner-logo-title "== SMTX Emacs ==")
       (setq dashboard-items '((recents  . 5)
-                              (bookmarks . 5)
-                              (projects . 5)
-                              (agenda . 5)
-                              (registers . 5))))
+			      (bookmarks . 5)
+			      ;; (projects . 5)
+			      (agenda . 5)
+			      (registers . 5))))
     #+end_src
 
 *** COMMENT Projectile
@@ -579,6 +595,14 @@
 	(add-hook 'java-mode-hook  'lsp-ui-sideline-mode)
 	(setq lsp-java--workspace-folders (list ("/home/samch/Documents/Java/Projects/HelloworldJava"))))
     #+end_src
+** Custom Functions
+*** Current-directory
+    #+begin_src emacs-lisp
+      (defun current-directory()
+	(interactive)
+	(message (buffer-file-name)))
+    #+end_src
+
 ** Evil Keybinds
    
 *** Definitions
@@ -598,9 +622,11 @@
       (use-package evil
 	:config
 	(define-key my/leader-map (kbd "f") 'swiper)
+	(define-key my/leader-map (kbd "F") 'swiper-all)
 	(define-key my/leader-map (kbd "c") 'calc)
 	(define-key my/leader-map (kbd "t") 'org-agenda)
-	(define-key my/leader-map (kbd "g") 'magit-status))
+	(define-key my/leader-map (kbd "g") 'magit-status)
+	(define-key my/leader-map (kbd "d") 'current-directory))
     #+end_src
     
 *** Avy Menu

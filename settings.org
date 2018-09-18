@@ -1,7 +1,7 @@
 * Emacs Initialization file
 
 ** Modeline
-   
+*** File Status -:---
 ** Emacs Settings
 *** Emacs UI
     #+begin_src emacs-lisp
@@ -120,7 +120,7 @@
         :ensure t)
     #+end_src
 
-**** Counsel Projectile
+**** COMMENT Counsel Projectile
      #+begin_src emacs-lisp
        (use-package counsel-projectile
          :ensure t)
@@ -318,7 +318,7 @@
                               (registers . 5))))
     #+end_src
 
-*** Projectile
+*** COMMENT Projectile
     #+begin_src emacs-lisp
       (use-package projectile
         :ensure t)

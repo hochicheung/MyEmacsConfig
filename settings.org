@@ -1,22 +1,19 @@
 * Emacs Initialization file
-
 ** Emacs Settings
 *** Emacs UI
     #+begin_src emacs-lisp
-     (menu-bar-mode -1)
-     (display-battery-mode 1)
-     (display-time-mode 1)
-     (scroll-bar-mode -1)
-     (tool-bar-mode -1)
-     (blink-cursor-mode 0)
-     (show-paren-mode 1)
-     (global-visual-line-mode t)
+      (menu-bar-mode -1)
+      (display-battery-mode 1)
+      (display-time-mode 1)
+      (scroll-bar-mode 0)
+      (tool-bar-mode -1)
+      (blink-cursor-mode 0)
+      (show-paren-mode 1)
+      (global-visual-line-mode t)
    #+end_src
 
 *** Emacs Misc
     #+begin_src emacs-lisp
-      (setq display-time-default-load-average nil)
-      (setq display-time-load-average-threshold 2)
       (setq tab-width 4)
       (mouse-wheel-mode -1)
       (setq show-paren-delay 0)
@@ -26,8 +23,6 @@
       (help-at-pt-set-timer)
 
       (defalias 'yes-or-no-p 'y-or-n-p)
-
-      ;; (setq display-time-format "%Y-%m-%d %H:%M")
     #+end_src
 
 *** Emacs Backup
@@ -62,6 +57,7 @@
     #+begin_src emacs-lisp
       (require 'cc-mode)
     #+end_src
+
 *** Buffer Focus
     #+begin_src emacs-lisp
       (global-set-key "\C-x2" (lambda () (interactive)(split-window-vertically) (other-window 1)))
@@ -77,8 +73,10 @@
 		    mode-line-client
 		    mode-line-remote
 		    mode-line-front-space
+		    ;; Buffername
+		    "%b"
 		    ;; VC/Git
-		    vc-mode))
+		    '(vc-mode vc-mode)))
    #+end_src
 
 ** Packages

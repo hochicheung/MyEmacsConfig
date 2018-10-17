@@ -442,7 +442,7 @@
            '(add-to-list 'company-backends 'company-irony 'company-auctex)))
      #+end_src
      
-*** nLinum
+*** COMMENT nLinum
     #+begin_src emacs-lisp
       (use-package nlinum-relative
         :ensure t
@@ -526,7 +526,7 @@
 	 :ensure t)
      #+end_src
     
-*** Highligt-indent
+*** COMMENT Highligt-indent
     #+begin_src emacs-lisp
       (use-package highlight-indent-guides
 	:ensure t
@@ -612,7 +612,7 @@
 
 *** Evil Prefix
     #+begin_src emacs-lisp
-      (define-key evil-normal-state-map (kbd "SPC") 'my/leader-map)
+      (define-key evil-normal-state-map (kbd "C-SPC") 'my/leader-map)
     #+end_src
 
 *** Quick Access

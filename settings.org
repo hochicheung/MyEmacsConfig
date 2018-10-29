@@ -212,18 +212,26 @@
          (flycheck-mode . flycheck-irony-setup))
      #+end_src 
      
+**** Flycheck lisp
+     #+begin_src emacs-lisp
+       (use-package flycheck
+	 :init
+	 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+     #+end_src
 *** Smart/Evilparens
     #+begin_src emacs-lisp
       (use-package evil-smartparens
-        :ensure t)
+	:ensure t)
       (use-package smartparens
-        :ensure t
-        :hook
-        (smartparens-enabled . evil-smartparens-mode)
-        (web-mode . smartparens-mode)
-        (c-mode . smartparens-mode)
-        (java-mode . smartparens-mode)
-        (emacs-lisp-mode . smartparens-mode))
+	:ensure t
+	:hook
+	(smartparens-enabled . evil-smartparens-mode)
+	(web-mode . smartparens-mode)
+	(c-mode . smartparens-mode)
+	(java-mode . smartparens-mode)
+	(emacs-lisp-mode . smartparens-mode)
+	:config
+	(sp-local-pair '(lisp-mode emacs-lisp-mode) "'" nil :actions nil))
     #+end_src
     
 *** COMMENT EXWM
@@ -332,7 +340,7 @@
 			      (registers . 5))))
     #+end_src
 
-*** COMMENT Projectile
+*** Projectile
     #+begin_src emacs-lisp
       (use-package projectile
         :ensure t)
@@ -556,42 +564,48 @@
 	(setq fsharp-compiler "/usr/bin/fsharpc"))
     #+end_src
 
-*** COMMENT Lsp-java
+*** Lsp-java
     #+begin_src emacs-lisp
       (use-package lsp-mode
 	:ensure t
-	:init (setq lsp-inhibit-message nil ; you may set this to t to hide messages from message area
-		    lsp-eldoc-render-all nil
+	:init (setq lsp-eldoc-render-all nil
 		    lsp-highlight-symbol-at-point nil))
 
       (use-package company-lsp
-	:after company
+	:after  company
 	:ensure t
 	:config
-	(add-hook 'java-mode-hook (lambda () (push 'company-lsp company-backends)))
-	(setq company-lsp-enable-snippet t
-	      company-lsp-cache-candidates t)
-	(push 'java-mode company-global-modes))
+	(setq company-lsp-cache-candidates t
+	      company-lsp-async t))
 
       (use-package lsp-ui
 	:ensure t
 	:config
-	(setq lsp-ui-sideline-enable t
-	      lsp-ui-sideline-show-symbol t
-	      lsp-ui-sideline-show-hover t
-	      lsp-ui-sideline-show-code-actions t
-	      lsp-ui-sideline-update-mode 'point))
+	(setq lsp-ui-sideline-update-mode 'point))
 
       (use-package lsp-java
 	:ensure t
-	:requires (lsp-ui-flycheck lsp-ui-sideline)
+	:init
+	(setq lsp-inhibit-message t)
 	:config
-	(add-hook 'java-mode-hook  'lsp-java-enable)
-	(add-hook 'java-mode-hook  'flycheck-mode)
-	(add-hook 'java-mode-hook  'company-mode)
-	(add-hook 'java-mode-hook  (lambda () (lsp-ui-flycheck-enable t)))
-	(add-hook 'java-mode-hook  'lsp-ui-sideline-mode)
-	(setq lsp-java--workspace-folders (list ("/home/samch/Documents/Java/Projects/HelloworldJava"))))
+	(add-hook 'java-mode-hook
+		  (lambda ()
+		    (setq-local company-backends (list 'company-lsp))))
+
+	(add-hook 'java-mode-hook 'lsp-java-enable)
+	(add-hook 'java-mode-hook 'flycheck-mode)
+	(add-hook 'java-mode-hook 'company-mode)
+	(add-hook 'java-mode-hook 'lsp-ui-mode))
+
+      (use-package dap-mode
+	:ensure t
+	:after lsp-mode
+	:config
+	(dap-mode t)
+	(dap-ui-mode t))
+
+      (use-package dap-java
+	:after (lsp-java))
     #+end_src
 ** Custom Functions
 *** Current-directory
@@ -612,10 +626,10 @@
 
 *** Evil Prefix
     #+begin_src emacs-lisp
-      (define-key evil-normal-state-map (kbd "C-SPC") 'my/leader-map)
+      (define-key evil-normal-state-map (kbd "SPC") 'my/leader-map)
     #+end_src
 
-*** Quick Access
+*** Leader map
     #+begin_src emacs-lisp
       (use-package evil
 	:config

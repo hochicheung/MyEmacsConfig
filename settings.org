@@ -76,7 +76,12 @@
 		    ;; Buffername
 		    "%b"
 		    ;; VC/Git
-		    '(vc-mode vc-mode)))
+		    '(vc-mode vc-mode)
+		    ;; Date (Week Year-Month-Day)
+		    '(:eval(propertize(format-time-string "w%V %Y-%m-%d")))
+		    ;; Time (Hour:Minutes:Seconds:Nanoseconds)
+		    '(:eval(propertize(format-time-string " %H:%M:%S")))
+		    ))
    #+end_src
 
 ** Packages
@@ -121,7 +126,12 @@
         (evil-set-initial-state 'pdf-view-mode 'normal)
         (evil-mode 1))
     #+end_src
-
+**** Evil-magit
+     #+begin_src emacs-lisp
+       (use-package evil-magit
+	 :ensure t
+	 )
+     #+end_src
 *** Swiper
     #+begin_src emacs-lisp
       (use-package swiper
@@ -332,6 +342,7 @@
       :config
       (dashboard-setup-startup-hook)
       :init
+      (setq show-week-agenda-p t)
       (setq dashboard-banner-logo-title "== SMTX Emacs ==")
       (setq dashboard-items '((recents  . 5)
 			      (bookmarks . 5)

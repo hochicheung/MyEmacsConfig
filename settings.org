@@ -109,28 +109,29 @@
 *** Evil
     #+begin_src emacs-lisp
       (use-package evil
-        :ensure t
-        :init
-        (add-to-list 'load-path "~/.emacs.d/evil")
-        (setq evil-want-C-u-scroll t)
-        :config
-        (evil-set-initial-state 'image-mode 'normal)
-        (evil-define-key 'normal image-mode-map
-          (kbd "j") 'image-next-file
-          (kbd "k") 'image-previous-file
-          (kbd "q") 'quit-window
-          (kbd "gg") 'beginning-of-buffer
-          (kbd "G") 'end-of-buffer
-          (kbd "J") 'image-scroll-down
-          (kbd "K") 'image-scroll-up)
-        (evil-set-initial-state 'pdf-view-mode 'normal)
-        (evil-mode 1))
+	:ensure t
+	:init
+	(setq evil-want-integration t)
+	(setq evil-want-keybinding nil)
+	(add-to-list 'load-path "~/.emacs.d/evil")
+	:config
+	(evil-mode 1))
     #+end_src
 **** Evil-magit
      #+begin_src emacs-lisp
        (use-package evil-magit
 	 :ensure t
 	 )
+     #+end_src
+**** Evil-collection
+     #+begin_src emacs-lisp
+       (use-package evil-collection
+	 :after evil
+	 :ensure t
+	 :custom
+	 (evil-collection-setup-minibuffer t)
+	 :init
+	 (evil-collection-init))
      #+end_src
 *** Swiper
     #+begin_src emacs-lisp

@@ -79,7 +79,7 @@
 		    '(vc-mode vc-mode)
 		    ;; Date (Week Year-Month-Day)
 		    '(:eval(propertize(format-time-string "w%V %Y-%m-%d")))
-		    ;; Time (Hour:Minutes:Seconds:Nanoseconds)
+		    ;; Time (Hour:Minutes:Seconds)
 		    '(:eval(propertize(format-time-string " %H:%M:%S")))
 		    ))
    #+end_src

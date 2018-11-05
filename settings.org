@@ -65,23 +65,53 @@
     #+end_src
 ** Modeline
    #+begin_src emacs-lisp
+     (defun modeline-alignment (left right)
+       (let* ((available-width (-(window-width)(length left) 2)))
+	 (format (format "%%s %%%ds " available-width) left right)))
+
+     ;; (setq-default mode-line-format
+     ;; 	      (list
+     ;; 	       ;; Filestatus -:---
+     ;; 	       mode-line-mule-info
+     ;; 	       mode-line-modified
+     ;; 	       mode-line-client
+     ;; 	       mode-line-remote
+     ;; 	       mode-line-front-space
+     ;; 	       ;; Buffername
+     ;; 	       "%b"
+     ;; 	       ;; VC/Git
+     ;; 	       '(vc-mode vc-mode)
+     ;; 	       ;; Date (Week Year-Month-Day)
+     ;; 	       '(:eval(propertize(format-time-string "w%V %Y-%m-%d")))
+     ;; 	       ;; Time (Hour:Minutes:Seconds)
+     ;; 	       '(:eval(propertize(format-time-string " %H:%M:%S")))
+     ;; 	       ))
+
      (setq-default mode-line-format
-		   (list
-		    ;; Filestatus -:---
-		    mode-line-mule-info
-		    mode-line-modified
-		    mode-line-client
-		    mode-line-remote
-		    mode-line-front-space
-		    ;; Buffername
-		    "%b"
-		    ;; VC/Git
-		    '(vc-mode vc-mode)
-		    ;; Date (Week Year-Month-Day)
-		    '(:eval(propertize(format-time-string "w%V %Y-%m-%d")))
-		    ;; Time (Hour:Minutes:Seconds)
-		    '(:eval(propertize(format-time-string " %H:%M:%S")))
-		    ))
+		   '((:eval (modeline-alignment
+			     ;;left
+			     (format-mode-line
+			      (list
+			       "   "
+			       ;; Filestatus -:---
+			       mode-line-mule-info
+			       mode-line-modified
+			       mode-line-client
+			       mode-line-remote
+			       mode-line-front-space
+			       ;; Buffername
+			       "%b"
+			       ;; VC/Git
+			       '(vc-mode vc-mode)
+			       ))
+			     ;;right
+			     (format-mode-line
+			      (list
+			       ;; Date (Week Year-Month-Day)
+			       '(:eval(propertize(format-time-string "w%V %a %Y-%m-%d")))
+			       ;; Time (Hour:Minutes:Seconds)
+			       '(:eval(propertize(format-time-string " %H:%M:%S")))
+			       ))))))
    #+end_src
 
 ** Packages
@@ -345,10 +375,9 @@
       :init
       (setq show-week-agenda-p t)
       (setq dashboard-banner-logo-title "== SMTX Emacs ==")
-      (setq dashboard-items '((recents  . 5)
-			      (bookmarks . 5)
-			      ;; (projects . 5)
-			      (agenda . 5)
+      (setq dashboard-items '((recents  . 10)
+			      (bookmarks . 3)
+			      (agenda . 8)
 			      (registers . 5))))
     #+end_src
 
@@ -533,7 +562,7 @@
 
     #+end_src
     
-**** Dired-filter
+**** COMMENT Dired-filter
     #+begin_src emacs-lisp
       (use-package dired-filter
 	:ensure t
@@ -620,13 +649,13 @@
 	:after (lsp-java))
     #+end_src
 
-*** Zoom
+*** COMMENT Zoom
     #+begin_src emacs-lisp
       (use-package zoom
 	:ensure t
 	:custom
 	'(zoom-mode t)
-	(zoom-size '(0.618 . 0.618)))
+	(zoom-size '(0.7 . 0.7)))
     #+end_src
 ** Custom Functions
 *** Current-directory
@@ -654,6 +683,7 @@
     #+begin_src emacs-lisp
       (use-package evil
 	:config
+	(define-key my/leader-map (kbd "b") 'switch-to-buffer)
 	(define-key my/leader-map (kbd "f") 'swiper)
 	(define-key my/leader-map (kbd "F") 'swiper-all)
 	(define-key my/leader-map (kbd "c") 'calc)
@@ -661,8 +691,7 @@
 	(define-key my/leader-map (kbd "g") 'magit-status)
 	(define-key my/leader-map (kbd "d") 'current-directory))
     #+end_src
-    
-*** Avy Menu
+**** Avy Menu
     #+begin_src emacs-lisp
       (use-package evil
         :config
@@ -673,11 +702,11 @@
         (define-key my/avy-menu-map "a" 'avy-goto-line))
     #+end_src
 
-*** Origami Menu
+**** Origami Menu
     #+begin_src emacs-lisp
       (use-package origami
 	:config
-	(define-key my/leader-map (kbd "b") 'my/origami-menu-map)
+	(define-key my/leader-map (kbd "o") 'my/origami-menu-map)
 
 	(define-key my/origami-menu-map (kbd "TAB") 'origami-recursively-toggle-node)
 	(define-key my/origami-menu-map (kbd "S-TAB") 'origami-show-only-node))

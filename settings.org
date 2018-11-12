@@ -103,14 +103,19 @@
 			       "%b"
 			       ;; VC/Git
 			       '(vc-mode vc-mode)
+			       ;; Eyebrowse
+			       ;; (eyebrowse-mode-line-indicator())
 			       ))
 			     ;;right
 			     (format-mode-line
 			      (list
 			       ;; Date (Week Year-Month-Day)
-			       '(:eval(propertize(format-time-string "w%V %a %Y-%m-%d")))
+			       '(:eval(propertize(format-time-string "w%V  %m/%d-%a")))
 			       ;; Time (Hour:Minutes:Seconds)
-			       '(:eval(propertize(format-time-string " %H:%M:%S")))
+			       '(:eval(propertize(format-time-string "  %H:%M")))
+			       (unless (assoc 'eyebrowse-mode mode-line-misc-info)
+				 (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
+				       (cdr (last mode-line-misc-info))))
 			       ))))))
    #+end_src
 
@@ -324,7 +329,7 @@
 	(java-mode . my-java-mode))
     #+end_src
     
-*** Company
+*** COMMENT Company
     #+begin_src emacs-lisp
       (use-package company
         :ensure t
@@ -375,7 +380,7 @@
       :init
       (setq show-week-agenda-p t)
       (setq dashboard-banner-logo-title "== SMTX Emacs ==")
-      (setq dashboard-items '((recents  . 10)
+      (setq dashboard-items '((recents  . 5)
 			      (bookmarks . 3)
 			      (agenda . 8)
 			      (registers . 5))))
@@ -433,40 +438,40 @@
 *** PDF Tools
     #+begin_src emacs-lisp
       (use-package pdf-tools
-        :defer t
-        :ensure t
-        :config
-        (pdf-tools-install)
-        :mode
-        ("\\.pdf\\'" . pdf-view-mode)
-        :config
-        (evil-define-key 'normal pdf-view-mode-map
-          (kbd "h") 'image-backward-hscroll
-          (kbd "j") 'pdf-view-next-line-or-next-page
-          (kbd "k") 'pdf-view-previous-line-or-previous-page
-          (kbd "l") 'image-forward-hscroll
-          (kbd "J") 'pdf-view-next-page
-          (kbd "K") 'pdf-view-previous-page
-          (kbd "W") 'pdf-view-fit-width-to-window
-          (kbd "H") 'pdf-view-fit-height-to-window
-          (kbd "P") 'pdf-view-fit-page-to-window
-          (kbd "d") 'pdf-view-scroll-up-or-next-page
-          (kbd "u") 'pdf-view-scroll-down-or-previous-page
-          (kbd "O") 'pdf-outline
-          (kbd "-") 'pdf-view-shrink
-          (kbd "+") 'pdf-view-enlarge
-          (kbd "=") 'pdf-view-enlarge
-          (kbd "gg") 'pdf-view-first-page
-          (kbd "G") 'pdf-view-last-page
-          (kbd "n") 'pdf-view-midnight-minor-mode
-          (kbd "r") 'revert-buffer
-          (kbd "p") 'pdf-misc-print-document)
-        (evil-define-key 'normal outline-mode-map
-          (kbd "j") 'next-line
-          (kbd "k") 'previous-line
-          (kbd "TAB") 'outline-toggle-children
-          (kbd "RET") 'pdf-outline-follow-link
-          (kbd "SPC") 'pdf-outline-follow-link))
+	:defer t
+	:ensure t
+	:config
+	(pdf-tools-install)
+	:mode
+	("\\.pdf\\'" . pdf-view-mode))
+	:config
+	;; (evil-define-key 'normal pdf-view-mode-map
+	;;   (kbd "h") 'image-backward-hscroll
+	;;   (kbd "j") 'pdf-view-next-line-or-next-page
+	;;   (kbd "k") 'pdf-view-previous-line-or-previous-page
+	;;   (kbd "l") 'image-forward-hscroll
+	;;   (kbd "J") 'pdf-view-next-page
+	;;   (kbd "K") 'pdf-view-previous-page
+	;;   (kbd "W") 'pdf-view-fit-width-to-window
+	;;   (kbd "H") 'pdf-view-fit-height-to-window
+	;;   (kbd "P") 'pdf-view-fit-page-to-window
+	;;   (kbd "d") 'pdf-view-scroll-up-or-next-page
+	;;   (kbd "u") 'pdf-view-scroll-down-or-previous-page
+	;;   (kbd "O") 'pdf-outline
+	;;   (kbd "-") 'pdf-view-shrink
+	;;   (kbd "+") 'pdf-view-enlarge
+	;;   (kbd "=") 'pdf-view-enlarge
+	;;   (kbd "gg") 'pdf-view-first-page
+	;;   (kbd "G") 'pdf-view-last-page
+	;;   (kbd "n") 'pdf-view-midnight-minor-mode
+	;;   (kbd "r") 'revert-buffer
+	;;   (kbd "p") 'pdf-misc-print-document)
+	;; (evil-define-key 'normal outline-mode-map
+	;;   (kbd "j") 'next-line
+	;;   (kbd "k") 'previous-line
+	;;   (kbd "TAB") 'outline-toggle-children
+	;;   (kbd "RET") 'pdf-outline-follow-link
+	;;   (kbd "SPC") 'pdf-outline-follow-link))
     #+end_src
     
 *** Irony
@@ -623,11 +628,13 @@
 	:ensure t
 	:config
 	(setq lsp-ui-sideline-update-mode 'point))
+	;; :hook lsp-ui-mode
+	;; :hook (java-mode . flycheck-mode))
 
       (use-package lsp-java
 	:ensure t
-	:init
-	(setq lsp-inhibit-message t)
+	;; :init
+	;; (setq lsp-inhibit-message t)
 	:config
 	(add-hook 'java-mode-hook
 		  (lambda ()
@@ -655,7 +662,25 @@
 	:ensure t
 	:custom
 	'(zoom-mode t)
-	(zoom-size '(0.7 . 0.7)))
+	(zoom-size '(0.618 . 0.618)))
+    #+end_src
+
+*** Eyebrowse
+    #+begin_src emacs-lisp
+      (use-package eyebrowse
+	:ensure t
+	:init
+	(eyebrowse-mode t))
+    #+end_src
+
+*** COMMENT lsp-ui
+    #+begin_src emacs-lisp
+      (use-package lsp-ui
+	:ensure t
+	:config
+	(setq lsp-ui-sideline-update-mode 'point)
+	:hook lsp-ui-mode
+	:hook (java-mode . flycheck-mode))
     #+end_src
 ** Custom Functions
 *** Current-directory

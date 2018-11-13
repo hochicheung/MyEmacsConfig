@@ -130,8 +130,7 @@
 **** Evil-magit
      #+begin_src emacs-lisp
        (use-package evil-magit
-	 :ensure t
-	 )
+	 :ensure t)
      #+end_src
 **** Evil-collection
      #+begin_src emacs-lisp
@@ -143,6 +142,21 @@
 	 :init
 	 (evil-collection-init))
      #+end_src
+
+*** Ivy
+    #+begin_src emacs-lisp
+      (use-package ivy
+	:ensure t
+	:init
+	(setq ivy-use-virtual-buffers t)
+	(setq ivy-count-format "(%d/%d) ")
+	(setq ivy-use-selectable-prompt t)
+	:config
+	(ivy-mode 1)
+	:bind
+	("C-s" . 'counsel-grep-or-swiper)
+	("M-x" . 'counsel-M-x))
+    #+end_src
 *** Swiper
     #+begin_src emacs-lisp
       (use-package swiper
@@ -160,21 +174,6 @@
        (use-package counsel-projectile
          :ensure t)
      #+end_src    
-
-*** Ivy
-    #+begin_src emacs-lisp
-      (use-package ivy
-	:ensure t
-	:init
-	(setq ivy-use-virtual-buffers t)
-	(setq ivy-count-format "(%d/%d) ")
-	(setq ivy-use-selectable-prompt t)
-	:config
-	(ivy-mode 1)
-	:bind
-	("C-s" . 'counsel-grep-or-swiper)
-	("M-x" . 'counsel-M-x))
-    #+end_src
     
 *** Spacemacs Theme
     #+begin_src emacs-lisp
@@ -290,18 +289,6 @@
     #+begin_src emacs-lisp
       (use-package disaster
         :ensure t)
-    #+end_src
-    
-*** COMMENT Eclim
-    #+begin_src emacs-lisp
-      (use-package eclim
-	:ensure t
-	:init
-	(setq eclimd-autostart t)
-	(defun my-java-mode ()
-	  (eclim-mode t))
-	:hook
-	(java-mode . my-java-mode))
     #+end_src
     
 *** Company

@@ -113,9 +113,7 @@
 *** Magit
     #+begin_src emacs-lisp
       (use-package magit
-        :ensure t
-        :bind
-        ("C-x g" . magit-status))
+        :ensure t)
     #+end_src
     
 *** Evil

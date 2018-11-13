@@ -560,18 +560,6 @@
 
 *** Lsp-java
     #+begin_src emacs-lisp
-      (use-package lsp-mode
-	:ensure t
-	:init (setq lsp-eldoc-render-all nil
-		    lsp-highlight-symbol-at-point nil))
-
-      (use-package lsp-ui
-	:ensure t
-	:config
-	(setq lsp-ui-sideline-update-mode 'point)
-	:hook lsp-ui-mode
-	:hook (java-mode . flycheck-mode))
-
       (use-package lsp-java
 	:ensure t
 	;; :init
@@ -585,16 +573,41 @@
 	(add-hook 'java-mode-hook 'flycheck-mode)
 	(add-hook 'java-mode-hook 'company-mode)
 	(add-hook 'java-mode-hook 'lsp-ui-mode))
+    #+end_src
 
-      (use-package dap-mode
+**** Dap-mode
+     #+begin_src emacs-lisp
+       (use-package dap-mode
+	 :ensure t
+	 :after lsp-mode
+	 :config
+	 (dap-mode t)
+	 (dap-ui-mode t))
+     #+end_src
+
+**** Dap-java
+     #+begin_src emacs-lisp
+       (use-package dap-java
+	 :after (lsp-java))
+
+     #+end_src
+
+**** lsp-mode
+     #+begin_src emacs-lisp
+      (use-package lsp-mode
 	:ensure t
-	:after lsp-mode
-	:config
-	(dap-mode t)
-	(dap-ui-mode t))
+	:init (setq lsp-eldoc-render-all nil
+		    lsp-highlight-symbol-at-point nil))
+     #+end_src
 
-      (use-package dap-java
-	:after (lsp-java))
+*** lsp-ui
+    #+begin_src emacs-lisp
+      (use-package lsp-ui
+	:ensure t
+	:config
+	(setq lsp-ui-sideline-update-mode 'point)
+	:hook lsp-ui-mode
+	:hook (java-mode . flycheck-mode))
     #+end_src
 
 *** COMMENT Zoom
@@ -612,16 +625,6 @@
 	:ensure t
 	:init
 	(eyebrowse-mode t))
-    #+end_src
-
-*** COMMENT lsp-ui
-    #+begin_src emacs-lisp
-      (use-package lsp-ui
-	:ensure t
-	:config
-	(setq lsp-ui-sideline-update-mode 'point)
-	:hook lsp-ui-mode
-	:hook (java-mode . flycheck-mode))
     #+end_src
 ** Custom Functions
 *** Current-directory

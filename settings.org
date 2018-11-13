@@ -58,11 +58,6 @@
       (require 'cc-mode)
     #+end_src
 
-*** Buffer Focus
-    #+begin_src emacs-lisp
-      (global-set-key "\C-x2" (lambda () (interactive)(split-window-vertically) (other-window 1)))
-      (global-set-key "\C-x3" (lambda () (interactive)(split-window-horizontally) (other-window 1)))
-    #+end_src
 ** Modeline
    #+begin_src emacs-lisp
      (defun modeline-alignment (left right)

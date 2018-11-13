@@ -329,7 +329,7 @@
 	(java-mode . my-java-mode))
     #+end_src
     
-*** COMMENT Company
+*** Company
     #+begin_src emacs-lisp
       (use-package company
         :ensure t
@@ -627,9 +627,9 @@
       (use-package lsp-ui
 	:ensure t
 	:config
-	(setq lsp-ui-sideline-update-mode 'point))
-	;; :hook lsp-ui-mode
-	;; :hook (java-mode . flycheck-mode))
+	(setq lsp-ui-sideline-update-mode 'point)
+	:hook lsp-ui-mode
+	:hook (java-mode . flycheck-mode))
 
       (use-package lsp-java
 	:ensure t

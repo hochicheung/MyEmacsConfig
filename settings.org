@@ -506,7 +506,6 @@
     #+end_src
 
 *** Dired-hacks
-
 **** Dired-narrow 
     #+begin_src emacs-lisp
       (use-package dired-narrow

@@ -64,24 +64,6 @@
        (let* ((available-width (-(window-width)(length left) 2)))
 	 (format (format "%%s %%%ds " available-width) left right)))
 
-     ;; (setq-default mode-line-format
-     ;; 	      (list
-     ;; 	       ;; Filestatus -:---
-     ;; 	       mode-line-mule-info
-     ;; 	       mode-line-modified
-     ;; 	       mode-line-client
-     ;; 	       mode-line-remote
-     ;; 	       mode-line-front-space
-     ;; 	       ;; Buffername
-     ;; 	       "%b"
-     ;; 	       ;; VC/Git
-     ;; 	       '(vc-mode vc-mode)
-     ;; 	       ;; Date (Week Year-Month-Day)
-     ;; 	       '(:eval(propertize(format-time-string "w%V %Y-%m-%d")))
-     ;; 	       ;; Time (Hour:Minutes:Seconds)
-     ;; 	       '(:eval(propertize(format-time-string " %H:%M:%S")))
-     ;; 	       ))
-
      (setq-default mode-line-format
 		   '((:eval (modeline-alignment
 			     ;;left

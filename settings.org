@@ -406,7 +406,7 @@
 	(pdf-tools-install)
 	:mode
 	("\\.pdf\\'" . pdf-view-mode))
-	:config
+	;;:config
 	;; (evil-define-key 'normal pdf-view-mode-map
 	;;   (kbd "h") 'image-backward-hscroll
 	;;   (kbd "j") 'pdf-view-next-line-or-next-page
@@ -458,19 +458,6 @@
            '(add-to-list 'company-backends 'company-irony 'company-auctex)))
      #+end_src
      
-*** COMMENT nLinum
-    #+begin_src emacs-lisp
-      (use-package nlinum-relative
-        :ensure t
-        :init
-        (nlinum-relative-setup-evil)
-        (setq nlinum-relative-redisplay-delay 0)
-        (setq nlinum-relative-current-symbol "")
-        (setq nlinum-relative-offset 0)
-        :hook
-        (prog-mode . nlinum-relative-mode))
-    #+end_src
-    
 *** Rainbow mode
     #+begin_src emacs-lisp
       (use-package rainbow-mode

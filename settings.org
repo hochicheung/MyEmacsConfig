@@ -299,26 +299,6 @@
         (prog-mode . global-company-mode))
     #+end_src
      
-**** Company-auctex
-     #+begin_src emacs-lisp
-       (use-package company-auctex
-         :ensure t
-         :init
-         (setq TeX-auto-save t)
-         (setq TeX-parse-self t)
-         (add-to-list 'load-path "path/to/company-auctex.el")
-         (company-auctex-init))
-     #+end_src
-
-**** Comapany-lsp
-     #+begin_src emacs-lisp
-       (use-package company-lsp
-	 :after  company
-	 :ensure t
-	 :config
-	 (setq company-lsp-cache-candidates t
-	       company-lsp-async t))
-     #+end_src
 *** Org Bullets
     #+begin_src emacs-lisp
       (use-package org-bullets
@@ -478,6 +458,16 @@
         :ensure auctex)
     #+end_src
 
+**** Company-auctex
+     #+begin_src emacs-lisp
+       (use-package company-auctex
+         :ensure t
+         :init
+         (setq TeX-auto-save t)
+         (setq TeX-parse-self t)
+         (add-to-list 'load-path "path/to/company-auctex.el")
+         (company-auctex-init))
+     #+end_src
 **** Auctex Latexmk
      #+begin_src emacs-lisp
        (use-package auctex-latexmk
@@ -574,7 +564,15 @@
 	(add-hook 'java-mode-hook 'company-mode)
 	(add-hook 'java-mode-hook 'lsp-ui-mode))
     #+end_src
-
+**** Comapany-lsp
+     #+begin_src emacs-lisp
+       (use-package company-lsp
+	 :after  company
+	 :ensure t
+	 :config
+	 (setq company-lsp-cache-candidates t
+	       company-lsp-async t))
+     #+end_src
 **** Dap-mode
      #+begin_src emacs-lisp
        (use-package dap-mode
@@ -600,14 +598,12 @@
 		    lsp-highlight-symbol-at-point nil))
      #+end_src
 
-*** lsp-ui
+**** lsp-ui
     #+begin_src emacs-lisp
       (use-package lsp-ui
 	:ensure t
 	:config
-	(setq lsp-ui-sideline-update-mode 'point)
-	:hook lsp-ui-mode
-	:hook (java-mode . flycheck-mode))
+	(setq lsp-ui-sideline-update-mode 'point))
     #+end_src
 
 *** COMMENT Zoom
@@ -643,7 +639,7 @@
       (define-prefix-command 'my/origami-menu-map)
     #+end_src
 
-*** Evil Prefix
+*** Evil Keybinds
     #+begin_src emacs-lisp
       (define-key evil-normal-state-map (kbd "SPC") 'my/leader-map)
     #+end_src

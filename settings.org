@@ -50,7 +50,9 @@
 
 *** Custom Load Paths
     #+begin_src emacs-lisp
-      (add-to-list 'load-path "~/.emacs.d/elisp/")
+      (add-to-list 'load-path
+		   "~/.emacs.d/elisp/"
+		   "~/.emacs.d/plugins/yasnippet")
     #+end_src
 
 *** CC-mode
@@ -139,6 +141,7 @@
 	 :ensure t
 	 :custom
 	 (evil-collection-setup-minibuffer t)
+	 (evil-collection-company-use-tng nil)
 	 :init
 	 (evil-collection-init))
      #+end_src
@@ -564,7 +567,8 @@
 	(add-hook 'java-mode-hook 'company-mode)
 	(add-hook 'java-mode-hook 'lsp-ui-mode))
     #+end_src
-**** Comapany-lsp
+
+**** Company-lsp
      #+begin_src emacs-lisp
        (use-package company-lsp
 	 :after  company
@@ -573,6 +577,7 @@
 	 (setq company-lsp-cache-candidates t
 	       company-lsp-async t))
      #+end_src
+
 **** Dap-mode
      #+begin_src emacs-lisp
        (use-package dap-mode
@@ -621,6 +626,22 @@
 	:ensure t
 	:init
 	(eyebrowse-mode t))
+    #+end_src
+*** Yasnippet
+    #+begin_src emacs-lisp
+      (use-package yasnippet
+	:ensure t
+	:config
+	(yas-global-mode))
+    #+end_src
+*** Prettify Symbols
+    #+begin_src emacs-lisp
+      (add-hook 'prog-mode-hook
+		(lambda ()
+		  (push '(">=" . ?≥) prettify-symbols-alist)
+		  (push '("<=" . ?≤) prettify-symbols-alist)
+		  (push '("pi" . ?π) prettify-symbols-alist)
+		  ))
     #+end_src
 ** Custom Functions
 *** Current-directory

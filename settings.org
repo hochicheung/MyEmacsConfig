@@ -262,7 +262,7 @@
 	(sp-local-pair '(lisp-mode emacs-lisp-mode) "'" nil :actions nil))
     #+end_src
     
-*** COMMENT EXWM
+*** EXWM
     #+begin_src emacs-lisp
       (use-package xelb
 	:ensure t)

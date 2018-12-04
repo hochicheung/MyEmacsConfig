@@ -105,6 +105,7 @@
       (dired-hide-details-mode 1))
       (add-hook 'dired-mode-hook 'xah-dired-mode-setup)
     #+end_src
+
 *** Org-mode
     #+begin_src emacs-lisp
       (require 'org)
@@ -129,11 +130,13 @@
 	:config
 	(evil-mode 1))
     #+end_src
+
 **** Evil-magit
      #+begin_src emacs-lisp
        (use-package evil-magit
 	 :ensure t)
      #+end_src
+
 **** Evil-collection
      #+begin_src emacs-lisp
        (use-package evil-collection
@@ -160,6 +163,7 @@
 	("C-s" . 'counsel-grep-or-swiper)
 	("M-x" . 'counsel-M-x))
     #+end_src
+
 *** Swiper
     #+begin_src emacs-lisp
       (use-package swiper
@@ -241,6 +245,7 @@
 	 :init
 	 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
      #+end_src
+
 *** Smart/Evilparens
     #+begin_src emacs-lisp
       (use-package evil-smartparens
@@ -471,6 +476,7 @@
          (add-to-list 'load-path "path/to/company-auctex.el")
          (company-auctex-init))
      #+end_src
+
 **** Auctex Latexmk
      #+begin_src emacs-lisp
        (use-package auctex-latexmk
@@ -627,6 +633,7 @@
 	:init
 	(eyebrowse-mode t))
     #+end_src
+
 *** Yasnippet
     #+begin_src emacs-lisp
       (use-package yasnippet
@@ -634,6 +641,7 @@
 	:config
 	(yas-global-mode))
     #+end_src
+
 *** Prettify Symbols
     #+begin_src emacs-lisp
       (add-hook 'prog-mode-hook
@@ -643,6 +651,7 @@
 		  (push '("pi" . ?π) prettify-symbols-alist)
 		  ))
     #+end_src
+
 ** Custom Functions
 *** Current-directory
     #+begin_src emacs-lisp
@@ -677,6 +686,7 @@
 	(define-key my/leader-map (kbd "g") 'magit-status)
 	(define-key my/leader-map (kbd "d") 'current-directory))
     #+end_src
+
 **** Avy Menu
     #+begin_src emacs-lisp
       (use-package evil

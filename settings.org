@@ -546,29 +546,6 @@
         :commands R)
     #+end_src
 
-*** COMMENT Dired-hacks
-**** Dired-narrow 
-    #+begin_src emacs-lisp
-      (use-package dired-narrow
-        :ensure t
-        :bind (:map dired-mode-map
-                    ("/" . dired-narrow)))
-
-    #+end_src
-    
-**** Dired-filter
-    #+begin_src emacs-lisp
-      (use-package dired-filter
-	:ensure t
-	:config)
-    #+end_src
-    
-**** Dired-open
-     #+begin_src emacs-lisp
-       (use-package dired-open
-	 :ensure t)
-     #+end_src
-    
 *** COMMENT Highligt-indent
     #+begin_src emacs-lisp
       (use-package highlight-indent-guides

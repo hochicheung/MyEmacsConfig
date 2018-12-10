@@ -3,13 +3,13 @@
 *** Emacs UI
     #+begin_src emacs-lisp
       (menu-bar-mode -1)
-      (display-battery-mode 1)
       (display-time-mode 1)
       (scroll-bar-mode 0)
       (tool-bar-mode -1)
       (blink-cursor-mode 0)
       (show-paren-mode 1)
       (global-visual-line-mode t)
+      (fringe-mode 1)
    #+end_src
 
 *** Emacs Misc
@@ -81,21 +81,16 @@
 			       ;; Buffername
 			       "%b"
 			       ;; VC/Git
-			       '(vc-mode vc-mode)
-			       ;; Eyebrowse
-			       ;; (eyebrowse-mode-line-indicator())
-			       ))
+			       '(vc-mode vc-mode)))
 			     ;;right
 			     (format-mode-line
 			      (list
+			       '(:eval (if (not (eq battery-mode-line-string ""))
+					  (concat "" battery-mode-line-string "%%%   | ")))
 			       ;; Date (Week Year-Month-Day)
 			       '(:eval(propertize(format-time-string "w%V  %m/%d-%a")))
 			       ;; Time (Hour:Minutes:Seconds)
-			       '(:eval(propertize(format-time-string "  %H:%M")))
-			       (unless (assoc 'eyebrowse-mode mode-line-misc-info)
-				 (push '(eyebrowse-mode (:eval (eyebrowse-mode-line-indicator)))
-				       (cdr (last mode-line-misc-info))))
-			       ))))))
+			       '(:eval(propertize(format-time-string "  %H:%M")))))))))
    #+end_src
 
 ** Packages
@@ -104,6 +99,14 @@
       (defun xah-dired-mode-setup ()
       (dired-hide-details-mode 1))
       (add-hook 'dired-mode-hook 'xah-dired-mode-setup)
+    #+end_src
+
+*** Battery
+    #+begin_src emacs-lisp
+      (use-package battery
+	:init
+	(display-battery-mode 1)
+	(setq battery-mode-line-format "%p"))
     #+end_src
 
 *** Org-mode
@@ -269,8 +272,47 @@
       (use-package exwm
 	:ensure t
 	:init
+	(server-start)
 	(require 'exwm-config)
-	(exwm-config-default))
+	(setq exwm-input-global-keys
+	      `(
+		([?\s-r] . exwm-reset)
+		([?\s-w] . exwm-workspace-switch)
+		,@(mapcar (lambda (i)
+			    `(,(kbd (format "s-%d" i)) .
+			      (lambda ()
+				(interactive)
+				(exwm-workspace-switch-create ,i))))
+			  (number-sequence 0 9))
+		([?\s-&] . (lambda (command)
+			     (interactive (list (read-shell-command "$ ")))
+			     (start-process-shell-command command nil command)))
+		([s-f2] . (lambda ()
+			    (interactive)
+			    (start-process "" nil "/usr/bin/slock")))))
+	(define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
+	(setq exwm-input-simulation-keys
+	      '(
+		;; movement
+		([?\C-b] . [left])
+		([?\M-b] . [C-left])
+		([?\C-f] . [right])
+		([?\M-f] . [C-right])
+		([?\C-p] . [up])
+		([?\C-n] . [down])
+		([?\C-a] . [home])
+		([?\C-e] . [end])
+		([?\M-v] . [prior])
+		([?\C-v] . [next])
+		([?\C-d] . [delete])
+		([?\C-k] . [S-end delete])
+		;; cut/paste.
+		([?\C-w] . [?\C-x])
+		([?\M-w] . [?\C-c])
+		([?\C-y] . [?\C-v])
+		;; search
+		([?\C-s] . [?\C-f])))
+	(exwm-enable))
     #+end_src
 
 *** Web-mode
@@ -504,7 +546,7 @@
         :commands R)
     #+end_src
 
-*** Dired-hacks
+*** COMMENT Dired-hacks
 **** Dired-narrow 
     #+begin_src emacs-lisp
       (use-package dired-narrow
@@ -514,7 +556,7 @@
 
     #+end_src
     
-**** COMMENT Dired-filter
+**** Dired-filter
     #+begin_src emacs-lisp
       (use-package dired-filter
 	:ensure t
@@ -626,7 +668,7 @@
 	(zoom-size '(0.618 . 0.618)))
     #+end_src
 
-*** Eyebrowse
+*** COMMENT Eyebrowse
     #+begin_src emacs-lisp
       (use-package eyebrowse
 	:ensure t

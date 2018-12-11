@@ -38,8 +38,8 @@
 
 *** Font
     #+begin_src emacs-lisp
-      (set-face-attribute 'default nil :font "DejaVu Sans Mono-12")
-      (set-frame-font "DejaVu Sans Mono-12" nil t)
+      (set-face-attribute 'default nil :font "DejaVu Sans mono 12")
+      (set-frame-font "DejaVu Sans mono 12" nil t)
     #+end_src
     
 *** Web Browser Setting
@@ -64,6 +64,7 @@
     #+begin_src emacs-lisp
       (load-theme 'spacemacs-dark t)
     #+end_src
+
 ** Modeline
    #+begin_src emacs-lisp
      (defun modeline-alignment (left right)
@@ -103,6 +104,12 @@
       (defun xah-dired-mode-setup ()
       (dired-hide-details-mode 1))
       (add-hook 'dired-mode-hook 'xah-dired-mode-setup)
+    #+end_src
+
+*** HTMLize
+    #+begin_src emacs-lisp
+      (use-package htmlize
+	:ensure t)
     #+end_src
 
 *** Battery
@@ -601,6 +608,14 @@
 	(add-hook 'java-mode-hook 'lsp-ui-mode))
     #+end_src
 
+**** lsp-mode
+     #+begin_src emacs-lisp
+      (use-package lsp-mode
+	:ensure t
+	:init (setq lsp-eldoc-render-all nil
+		    lsp-highlight-symbol-at-point nil))
+     #+end_src
+
 **** Company-lsp
      #+begin_src emacs-lisp
        (use-package company-lsp
@@ -614,8 +629,7 @@
 **** Dap-mode
      #+begin_src emacs-lisp
        (use-package dap-mode
-	 :ensure t
-	 :after lsp-mode
+	 :ensure t :after lsp-mode
 	 :config
 	 (dap-mode t)
 	 (dap-ui-mode t))
@@ -626,14 +640,6 @@
        (use-package dap-java
 	 :after (lsp-java))
 
-     #+end_src
-
-**** lsp-mode
-     #+begin_src emacs-lisp
-      (use-package lsp-mode
-	:ensure t
-	:init (setq lsp-eldoc-render-all nil
-		    lsp-highlight-symbol-at-point nil))
      #+end_src
 
 **** lsp-ui
@@ -712,6 +718,12 @@
       (add-hook 'org-mode-hook 'my-prettify-mode-hook)
     #+end_src
 
+*** Ox-twbs
+    #+begin_src emacs-lisp
+      (use-package ox-twbs
+	:ensure t)
+    #+end_src
+
 ** Custom Functions
 *** Current-directory
     #+begin_src emacs-lisp
@@ -721,7 +733,6 @@
     #+end_src
 
 ** Evil Keybinds
-   
 *** Definitions
     #+begin_src emacs-lisp
       (define-prefix-command 'my/leader-map)

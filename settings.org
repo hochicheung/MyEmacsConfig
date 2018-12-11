@@ -1,6 +1,6 @@
-* Emacs Initialization file
-** Emacs Settings
-*** Emacs UI
+#+TITLE: Emacs Initialization file
+* Emacs Settings
+** Emacs UI
     #+begin_src emacs-lisp
       (menu-bar-mode -1)
       (display-time-mode 1)
@@ -12,7 +12,7 @@
       (fringe-mode 1)
    #+end_src
 
-*** Emacs Misc
+** Emacs Misc
     #+begin_src emacs-lisp
       (setq tab-width 4)
       (mouse-wheel-mode -1)
@@ -25,7 +25,7 @@
       (defalias 'yes-or-no-p 'y-or-n-p)
     #+end_src
 
-*** Emacs Backup
+** Emacs Backup
     #+begin_src emacs-lisp
       (setq
       backup-by-copying t
@@ -36,36 +36,36 @@
       version-control t)
     #+end_src
 
-*** Font
+** Font
     #+begin_src emacs-lisp
       (set-face-attribute 'default nil :font "DejaVu Sans mono 12")
       (set-frame-font "DejaVu Sans mono 12" nil t)
     #+end_src
     
-*** Web Browser Setting
+** Web Browser Setting
     #+begin_src emacs-lisp
       (setq browse-url-browser-function 'browse-url-generic
             browse-url-generic-program "qutebrowser")
     #+end_src
 
-*** Custom Load Paths
+** Custom Load Paths
     #+begin_src emacs-lisp
       (add-to-list 'load-path
 		   "~/.emacs.d/elisp/"
 		   "~/.emacs.d/plugins/yasnippet")
     #+end_src
 
-*** CC-mode
+** CC-mode
     #+begin_src emacs-lisp
       (require 'cc-mode)
     #+end_src
 
-*** Colorscheme
+** Colorscheme
     #+begin_src emacs-lisp
       (load-theme 'spacemacs-dark t)
     #+end_src
 
-** Modeline
+* Modeline
    #+begin_src emacs-lisp
      (defun modeline-alignment (left right)
        (let* ((available-width (-(window-width)(length left) 2)))
@@ -98,21 +98,21 @@
 			       '(:eval(propertize(format-time-string "  %H:%M")))))))))
    #+end_src
 
-** Packages
-*** Dired
+* Packages
+** Dired
     #+begin_src emacs-lisp
       (defun xah-dired-mode-setup ()
       (dired-hide-details-mode 1))
       (add-hook 'dired-mode-hook 'xah-dired-mode-setup)
     #+end_src
 
-*** HTMLize
+** HTMLize
     #+begin_src emacs-lisp
       (use-package htmlize
 	:ensure t)
     #+end_src
 
-*** Battery
+** Battery
     #+begin_src emacs-lisp
       (use-package battery
 	:init
@@ -120,20 +120,20 @@
 	(setq battery-mode-line-format "%p"))
     #+end_src
 
-*** Org-mode
+** Org-mode
     #+begin_src emacs-lisp
       (require 'org)
       (setq org-src-fontify-natively t)
       (setq org-src-tab-acts-natively t)
     #+end_src
 
-*** Magit
+** Magit
     #+begin_src emacs-lisp
       (use-package magit
         :ensure t)
     #+end_src
     
-*** Evil
+** Evil
     #+begin_src emacs-lisp
       (use-package evil
 	:ensure t
@@ -145,13 +145,13 @@
 	(evil-mode 1))
     #+end_src
 
-**** Evil-magit
+*** Evil-magit
      #+begin_src emacs-lisp
        (use-package evil-magit
 	 :ensure t)
      #+end_src
 
-**** Evil-collection
+*** Evil-collection
      #+begin_src emacs-lisp
        (use-package evil-collection
 	 :after evil
@@ -163,7 +163,7 @@
 	 (evil-collection-init))
      #+end_src
 
-*** Ivy
+** Ivy
     #+begin_src emacs-lisp
       (use-package ivy
 	:ensure t
@@ -178,32 +178,32 @@
 	("M-x" . 'counsel-M-x))
     #+end_src
 
-*** Swiper
+** Swiper
     #+begin_src emacs-lisp
       (use-package swiper
         :ensure t)
     #+end_src
 
-*** Counsel
+** Counsel
     #+begin_src emacs-lisp
       (use-package counsel
         :ensure t)
     #+end_src
 
-**** COMMENT Counsel Projectile
+*** COMMENT Counsel Projectile
      #+begin_src emacs-lisp
        (use-package counsel-projectile
          :ensure t)
      #+end_src    
     
-*** Spacemacs Theme
+** Spacemacs Theme
     #+begin_src emacs-lisp
       (use-package spacemacs-theme
         :ensure t
         :defer t)
     #+end_src
     
-*** Which-key
+** Which-key
     #+begin_src emacs-lisp
       (use-package which-key
         :ensure t
@@ -211,7 +211,7 @@
         (which-key-mode))
     #+end_src
     
-*** Polymode
+** Polymode
     #+begin_src emacs-lisp
       (use-package polymode
         :ensure t
@@ -227,7 +227,7 @@
         (add-to-list 'auto-mode-alist '("\\.Rmd$" . poly-markdown+r-mode)))
     #+end_src
     
-*** COMMENT Undo-Tree
+** COMMENT Undo-Tree
     #+begin_src emacs-lisp
       (use-package undo-tree
 	:ensure t
@@ -236,7 +236,7 @@
 	(global-undo-tree-mode))
     #+end_src
     
-*** Flycheck
+** Flycheck
     #+begin_src emacs-lisp
       (use-package flycheck
         :ensure t
@@ -244,7 +244,7 @@
         (prog-mode . flycheck-mode))
     #+end_src
 
-**** Flycheck Irony
+*** Flycheck Irony
      #+begin_src emacs-lisp
        (use-package flycheck-irony
          :ensure t
@@ -252,14 +252,14 @@
          (flycheck-mode . flycheck-irony-setup))
      #+end_src 
      
-**** Flycheck lisp
+*** Flycheck lisp
      #+begin_src emacs-lisp
        (use-package flycheck
 	 :init
 	 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
      #+end_src
 
-*** Smart/Evilparens
+** Smart/Evilparens
     #+begin_src emacs-lisp
       (use-package evil-smartparens
 	:ensure t)
@@ -275,7 +275,7 @@
 	(sp-local-pair '(lisp-mode emacs-lisp-mode) "'" nil :actions nil))
     #+end_src
     
-*** EXWM
+** EXWM
     #+begin_src emacs-lisp
       (use-package xelb
 	:ensure t)
@@ -325,7 +325,7 @@
 	(exwm-enable))
     #+end_src
 
-*** Web-mode
+** Web-mode
     #+begin_src emacs-lisp
       (use-package web-mode
         :ensure t
@@ -345,13 +345,13 @@
 
     #+end_src
 
-*** Disaster
+** Disaster
     #+begin_src emacs-lisp
       (use-package disaster
         :ensure t)
     #+end_src
     
-*** Company
+** Company
     #+begin_src emacs-lisp
       (use-package company
         :ensure t
@@ -359,7 +359,7 @@
         (prog-mode . global-company-mode))
     #+end_src
      
-*** Org Bullets
+** Org Bullets
     #+begin_src emacs-lisp
       (use-package org-bullets
         :ensure t
@@ -367,13 +367,13 @@
         (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
     #+end_src
 
-*** Page Break Lines
+** Page Break Lines
     #+begin_src emacs-lisp
       (use-package page-break-lines
         :ensure t)
     #+end_src
     
-*** Dashboard
+** Dashboard
     #+begin_src emacs-lisp
       (use-package dashboard
       :ensure t
@@ -388,7 +388,7 @@
 			      (registers . 5))))
     #+end_src
 
-*** Projectile
+** Projectile
     #+begin_src emacs-lisp
       (use-package projectile
 	:ensure t
@@ -399,7 +399,7 @@
 	)
     #+end_src
 
-*** Rainbow Delimiters
+** Rainbow Delimiters
     #+begin_src emacs-lisp
       (use-package rainbow-delimiters
         :ensure t)
@@ -408,19 +408,19 @@
         (prog-mode))
     #+end_src
     
-*** Dash
+** Dash
     #+begin_src emacs-lisp
       (use-package dash
         :ensure t)
     #+end_src
     
-*** S
+** S
 #+begin_src emacs-lisp
   (use-package s
     :ensure t)
 #+end_src
     
-*** Origami
+** Origami
     #+begin_src emacs-lisp
       (use-package origami
         :ensure t
@@ -428,7 +428,7 @@
         (prog-mode . origami-mode))
     #+end_src
     
-*** Indent Guide
+** Indent Guide
     #+begin_src emacs-lisp
       (use-package indent-guide
         :ensure t
@@ -436,13 +436,13 @@
         (prog-mode . indent-guide-mode))
     #+end_src
     
-*** Tablist
+** Tablist
     #+begin_src emacs-lisp
       (use-package tablist
         :ensure t)
     #+end_src
     
-*** PDF Tools
+** PDF Tools
     #+begin_src emacs-lisp
       (use-package pdf-tools
 	:defer t
@@ -481,7 +481,7 @@
 	;;   (kbd "SPC") 'pdf-outline-follow-link))
     #+end_src
     
-*** Irony
+** Irony
     #+begin_src emacs-lisp
       (use-package irony
         :ensure t)
@@ -494,7 +494,7 @@
         (irony-mode . irony-cdb-autosetup-compile-options))
     #+end_src
 
-**** Company Irony
+*** Company Irony
      #+begin_src emacs-lisp
        (use-package company-irony
          :ensure t
@@ -503,7 +503,7 @@
            '(add-to-list 'company-backends 'company-irony 'company-auctex)))
      #+end_src
      
-*** Rainbow mode
+** Rainbow mode
     #+begin_src emacs-lisp
       (use-package rainbow-mode
         :ensure t
@@ -511,19 +511,19 @@
         (prog-mode))
     #+end_src
 
-*** Avy
+** Avy
     #+begin_src emacs-lisp
       (use-package avy
         :ensure t)
     #+end_src
 
-*** Auctex
+** Auctex
     #+begin_src emacs-lisp
       (use-package tex
         :ensure auctex)
     #+end_src
 
-**** Company-auctex
+*** Company-auctex
      #+begin_src emacs-lisp
        (use-package company-auctex
          :ensure t
@@ -534,7 +534,7 @@
          (company-auctex-init))
      #+end_src
 
-**** Auctex Latexmk
+*** Auctex Latexmk
      #+begin_src emacs-lisp
        (use-package auctex-latexmk
          :ensure t
@@ -542,7 +542,7 @@
          (auctex-latexmk-setup))
      #+end_src
      
-*** Aggresive Indent
+** Aggresive Indent
     #+begin_src emacs-lisp
       (use-package aggressive-indent
         :load-path "~/.emacs.d/elisp/"
@@ -551,7 +551,7 @@
         (prog-mode . aggressive-indent-mode))
     #+end_src
     
-*** ESS
+** ESS
     #+begin_src emacs-lisp
       (use-package ess
         :ensure t
@@ -561,7 +561,7 @@
         :commands R)
     #+end_src
 
-*** COMMENT Highligt-indent
+** COMMENT Highligt-indent
     #+begin_src emacs-lisp
       (use-package highlight-indent-guides
 	:ensure t
@@ -574,7 +574,7 @@
 	(prog-mode . highlight-indent-guides-mode))
     #+end_src
 
-*** COMMENT Multiple-cursors
+** COMMENT Multiple-cursors
     #+begin_src emacs-lisp
       (use-package multiple-cursors
 	:ensure t
@@ -582,7 +582,7 @@
 	(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines))
     #+end_src
 
-*** Fsharp-mode
+** Fsharp-mode
     #+begin_src emacs-lisp
       (use-package fsharp-mode
 	:ensure t
@@ -591,7 +591,7 @@
 	(setq fsharp-compiler "/usr/bin/fsharpc"))
     #+end_src
 
-*** Lsp-java
+** Lsp-java
     #+begin_src emacs-lisp
       (use-package lsp-java
 	:ensure t
@@ -608,7 +608,7 @@
 	(add-hook 'java-mode-hook 'lsp-ui-mode))
     #+end_src
 
-**** lsp-mode
+*** lsp-mode
      #+begin_src emacs-lisp
       (use-package lsp-mode
 	:ensure t
@@ -616,7 +616,7 @@
 		    lsp-highlight-symbol-at-point nil))
      #+end_src
 
-**** Company-lsp
+*** Company-lsp
      #+begin_src emacs-lisp
        (use-package company-lsp
 	 :after  company
@@ -626,7 +626,7 @@
 	       company-lsp-async t))
      #+end_src
 
-**** Dap-mode
+*** Dap-mode
      #+begin_src emacs-lisp
        (use-package dap-mode
 	 :ensure t :after lsp-mode
@@ -635,14 +635,14 @@
 	 (dap-ui-mode t))
      #+end_src
 
-**** Dap-java
+*** Dap-java
      #+begin_src emacs-lisp
        (use-package dap-java
 	 :after (lsp-java))
 
      #+end_src
 
-**** lsp-ui
+*** lsp-ui
     #+begin_src emacs-lisp
       (use-package lsp-ui
 	:ensure t
@@ -650,7 +650,7 @@
 	(setq lsp-ui-sideline-update-mode 'point))
     #+end_src
 
-*** COMMENT Zoom
+** COMMENT Zoom
     #+begin_src emacs-lisp
       (use-package zoom
 	:ensure t
@@ -659,7 +659,7 @@
 	(zoom-size '(0.618 . 0.618)))
     #+end_src
 
-*** COMMENT Eyebrowse
+** COMMENT Eyebrowse
     #+begin_src emacs-lisp
       (use-package eyebrowse
 	:ensure t
@@ -667,7 +667,7 @@
 	(eyebrowse-mode t))
     #+end_src
 
-*** Yasnippet
+** Yasnippet
     #+begin_src emacs-lisp
       (use-package yasnippet
 	:ensure t
@@ -675,7 +675,7 @@
 	(yas-global-mode))
     #+end_src
 
-*** Prettify Symbols
+** Prettify Symbols
     #+begin_src emacs-lisp
       (defun my-prettify-mode-hook ()
 	(push '("forall" . ?∀) prettify-symbols-alist)
@@ -718,34 +718,34 @@
       (add-hook 'org-mode-hook 'my-prettify-mode-hook)
     #+end_src
 
-*** Ox-twbs
+** Ox-twbs
     #+begin_src emacs-lisp
       (use-package ox-twbs
 	:ensure t)
     #+end_src
 
-** Custom Functions
-*** Current-directory
+* Custom Functions
+** Current-directory
     #+begin_src emacs-lisp
       (defun current-directory()
 	(interactive)
 	(message (buffer-file-name)))
     #+end_src
 
-** Evil Keybinds
-*** Definitions
+* Evil Keybinds
+** Definitions
     #+begin_src emacs-lisp
       (define-prefix-command 'my/leader-map)
       (define-prefix-command 'my/avy-menu-map)
       (define-prefix-command 'my/origami-menu-map)
     #+end_src
 
-*** Evil Keybinds
+** Evil Keybinds
     #+begin_src emacs-lisp
       (define-key evil-normal-state-map (kbd "SPC") 'my/leader-map)
     #+end_src
 
-*** Leader map
+** Leader map
     #+begin_src emacs-lisp
       (use-package evil
 	:config
@@ -758,7 +758,7 @@
 	(define-key my/leader-map (kbd "d") 'current-directory))
     #+end_src
 
-**** Avy Menu
+*** Avy Menu
     #+begin_src emacs-lisp
       (use-package evil
         :config
@@ -769,7 +769,7 @@
         (define-key my/avy-menu-map "a" 'avy-goto-line))
     #+end_src
 
-**** Origami Menu
+*** Origami Menu
     #+begin_src emacs-lisp
       (use-package origami
 	:config

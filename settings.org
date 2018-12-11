@@ -60,6 +60,10 @@
       (require 'cc-mode)
     #+end_src
 
+*** Colorscheme
+    #+begin_src emacs-lisp
+      (load-theme 'spacemacs-dark t)
+    #+end_src
 ** Modeline
    #+begin_src emacs-lisp
      (defun modeline-alignment (left right)
@@ -189,8 +193,7 @@
     #+begin_src emacs-lisp
       (use-package spacemacs-theme
         :ensure t
-        :defer t
-        :init (load-theme 'spacemacs-dark t))
+        :defer t)
     #+end_src
     
 *** Which-key
@@ -381,7 +384,12 @@
 *** Projectile
     #+begin_src emacs-lisp
       (use-package projectile
-        :ensure t)
+	:ensure t
+	:config
+	;; (projectile-mode +1)
+	;; (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+	;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+	)
     #+end_src
 
 *** Rainbow Delimiters
@@ -666,7 +674,7 @@
       (defun my-prettify-mode-hook ()
 	(push '("forall" . ?∀) prettify-symbols-alist)
 	(push '("thereexists" . ?∃) prettify-symbols-alist)
-	(push '("iff" . ?≡) prettify-symbols-alist)
+	(push '("ifandonlyif" . ?≡) prettify-symbols-alist)
 	(push '("implies" . ?→) prettify-symbols-alist)
 
 	(push '("XOR" . ?⊕) prettify-symbols-alist)
@@ -677,7 +685,26 @@
 	(push '(">=" . ?≥) prettify-symbols-alist)
 	(push '("<=" . ?≤) prettify-symbols-alist)
 
+	(push '("union" . ?∪) prettify-symbols-alist)
+	(push '("intersection" . ?∩) prettify-symbols-alist)
+	(push '("superset" . ?⊆) prettify-symbols-alist)
+	(push '("propersuperset" . ?⊂) prettify-symbols-alist)
+	(push '("element" . ?∈) prettify-symbols-alist)
+
+	(push '("primenumber" . ?ℙ) prettify-symbols-alist)
+	(push '("naturalnumber" . ?ℕ) prettify-symbols-alist)
+	(push '("intergernumber" . ?ℤ) prettify-symbols-alist)
+	(push '("rationalnumber" . ?ℚ) prettify-symbols-alist)
+	(push '("realnumber" . ?ℝ) prettify-symbols-alist)
+	(push '("complexnumber" . ?ℂ) prettify-symbols-alist)
+	(push '("quaternionnumber" . ?ℍ) prettify-symbols-alist)
+
 	(push '("pi" . ?π) prettify-symbols-alist)
+	(push '("delta" . ?Δ) prettify-symbols-alist)
+	(push '("phi" . ?φ) prettify-symbols-alist)
+	(push '("sigma" . ?Σ) prettify-symbols-alist)
+	(push '("lambda" . ?λ) prettify-symbols-alist)
+
 	(push '("||" . ?∥) prettify-symbols-alist)
 	(prettify-symbols-mode 1))
 

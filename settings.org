@@ -88,7 +88,7 @@
 			       '(:eval (if (not (eq battery-mode-line-string ""))
 					  (concat "" battery-mode-line-string "%%%   | ")))
 			       ;; Date (Week Year-Month-Day)
-			       '(:eval(propertize(format-time-string "w%V  %m/%d-%a")))
+			       '(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
 			       ;; Time (Hour:Minutes:Seconds)
 			       '(:eval(propertize(format-time-string "  %H:%M")))))))))
    #+end_src
@@ -663,12 +663,26 @@
 
 *** Prettify Symbols
     #+begin_src emacs-lisp
-      (add-hook 'prog-mode-hook
-		(lambda ()
-		  (push '(">=" . ?≥) prettify-symbols-alist)
-		  (push '("<=" . ?≤) prettify-symbols-alist)
-		  (push '("pi" . ?π) prettify-symbols-alist)
-		  ))
+      (defun my-prettify-mode-hook ()
+	(push '("forall" . ?∀) prettify-symbols-alist)
+	(push '("thereexists" . ?∃) prettify-symbols-alist)
+	(push '("iff" . ?≡) prettify-symbols-alist)
+	(push '("implies" . ?→) prettify-symbols-alist)
+
+	(push '("XOR" . ?⊕) prettify-symbols-alist)
+	(push '("OR" . ?∨) prettify-symbols-alist)
+	(push '("AND" . ?∧) prettify-symbols-alist)
+	(push '("NOT" . ?¬) prettify-symbols-alist)
+
+	(push '(">=" . ?≥) prettify-symbols-alist)
+	(push '("<=" . ?≤) prettify-symbols-alist)
+
+	(push '("pi" . ?π) prettify-symbols-alist)
+	(push '("||" . ?∥) prettify-symbols-alist)
+	(prettify-symbols-mode 1))
+
+      (add-hook 'prog-mode-hook 'my-prettify-mode-hook)
+      (add-hook 'org-mode-hook 'my-prettify-mode-hook)
     #+end_src
 
 ** Custom Functions

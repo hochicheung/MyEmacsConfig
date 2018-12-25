@@ -1,1 +1,1 @@
-/home/samch/.emacs.d/settings.org
+settings.org

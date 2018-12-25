@@ -631,8 +631,8 @@
        (use-package dap-mode
 	 :ensure t :after lsp-mode
 	 :config
-	 (dap-mode t)
-	 (dap-ui-mode t))
+	 (dap-mode 1)
+	 (dap-ui-mode 1))
      #+end_src
 
 *** Dap-java
@@ -675,7 +675,7 @@
 	(yas-global-mode))
     #+end_src
 
-** Prettify Symbols
+** COMMENT Prettify Symbols
     #+begin_src emacs-lisp
       (defun my-prettify-mode-hook ()
 	(push '("forall" . ?∀) prettify-symbols-alist)
@@ -732,8 +732,8 @@
 	(message (buffer-file-name)))
     #+end_src
 
-* Evil Keybinds
-** Definitions
+* Custom Keybinds
+** Key maps
     #+begin_src emacs-lisp
       (define-prefix-command 'my/leader-map)
       (define-prefix-command 'my/avy-menu-map)
@@ -743,6 +743,14 @@
 ** Evil Keybinds
     #+begin_src emacs-lisp
       (define-key evil-normal-state-map (kbd "SPC") 'my/leader-map)
+    #+end_src
+
+** Dired
+# Remove Space = next dired
+# Next marked
+
+    #+begin_src
+
     #+end_src
 
 ** Leader map
@@ -755,7 +763,8 @@
 	(define-key my/leader-map (kbd "c") 'calc)
 	(define-key my/leader-map (kbd "t") 'org-agenda)
 	(define-key my/leader-map (kbd "g") 'magit-status)
-	(define-key my/leader-map (kbd "d") 'current-directory))
+	(define-key my/leader-map (kbd "d") 'current-directory)
+	(define-key my/leader-map (kbd "I") 'org-toggle-pretty-entities))
     #+end_src
 
 *** Avy Menu

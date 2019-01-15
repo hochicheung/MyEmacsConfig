@@ -275,7 +275,7 @@
 	(sp-local-pair '(lisp-mode emacs-lisp-mode) "'" nil :actions nil))
     #+end_src
     
-** EXWM
+** COMMENT EXWM
     #+begin_src emacs-lisp
       (use-package xelb
 	:ensure t)
@@ -604,8 +604,7 @@
 
 	(add-hook 'java-mode-hook 'lsp-java-enable)
 	(add-hook 'java-mode-hook 'flycheck-mode)
-	(add-hook 'java-mode-hook 'company-mode)
-	(add-hook 'java-mode-hook 'lsp-ui-mode))
+	(add-hook 'java-mode-hook 'company-mode))
     #+end_src
 
 *** lsp-mode
@@ -642,7 +641,7 @@
 
      #+end_src
 
-*** lsp-ui
+*** COMMENT lsp-ui
     #+begin_src emacs-lisp
       (use-package lsp-ui
 	:ensure t

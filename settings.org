@@ -611,7 +611,7 @@
      #+begin_src emacs-lisp
       (use-package lsp-mode
 	:ensure t
-	:init (setq lsp-eldoc-render-all nil
+	:init (setq lsp-eldoc-render-all t
 		    lsp-highlight-symbol-at-point nil))
      #+end_src
 

@@ -737,6 +737,7 @@
       (define-prefix-command 'my/leader-map)
       (define-prefix-command 'my/avy-menu-map)
       (define-prefix-command 'my/origami-menu-map)
+      (define-prefix-command 'my/bookmark-menu-map)
     #+end_src
 
 ** Evil Keybinds
@@ -756,7 +757,6 @@
     #+begin_src emacs-lisp
       (use-package evil
 	:config
-	(define-key my/leader-map (kbd "b") 'switch-to-buffer)
 	(define-key my/leader-map (kbd "f") 'swiper)
 	(define-key my/leader-map (kbd "F") 'swiper-all)
 	(define-key my/leader-map (kbd "c") 'calc)
@@ -785,4 +785,13 @@
 
 	(define-key my/origami-menu-map (kbd "TAB") 'origami-recursively-toggle-node)
 	(define-key my/origami-menu-map (kbd "S-TAB") 'origami-show-only-node))
+    #+end_src
+
+*** Bookmark-menu
+    #+begin_src emacs-lisp
+      (define-key my/leader-map (kbd "b") 'my/bookmark-menu-map)
+
+      (define-key my/bookmark-menu-map (kbd "l") 'bookmark-bmenu-list)
+      (define-key my/bookmark-menu-map (kbd "a") 'bookmark-set)
+      (define-key my/bookmark-menu-map (kbd "j") 'bookmark-jump)
     #+end_src

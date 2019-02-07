@@ -1,1 +1,1 @@
-Config.org
+config.org

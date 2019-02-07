@@ -1,1 +1,1 @@
-settings.org
+Config.org

@@ -25,17 +25,6 @@
       (defalias 'yes-or-no-p 'y-or-n-p)
     #+end_src
 
-** Emacs Backup
-    #+begin_src emacs-lisp
-      (setq
-      backup-by-copying t
-      backup-directory-alist '(("." . "~/.saves/"))
-      delete-old-versions t
-      kept-new-version 6
-      kept-old-versions 2
-      version-control t)
-    #+end_src
-
 ** Font
     #+begin_src emacs-lisp
       (set-face-attribute 'default nil :font "DejaVu Sans mono 12")
@@ -51,18 +40,18 @@
 * Packages
 ** Straight
    #+begin_src emacs-lisp
-      (defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+     (defvar bootstrap-version)
+     (let ((bootstrap-file
+	    (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	   (bootstrap-version 5))
+       (unless (file-exists-p bootstrap-file)
+	 (with-current-buffer
+	     (url-retrieve-synchronously
+	      "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	      'silent 'inhibit-cookies)
+	   (goto-char (point-max))
+	   (eval-print-last-sexp)))
+       (load bootstrap-file nil 'nomessage))
    #+end_src
 ** Evil
    #+begin_src emacs-lisp

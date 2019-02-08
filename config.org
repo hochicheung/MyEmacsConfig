@@ -62,8 +62,6 @@
 			     ;;right
 			     (format-mode-line
 			      (list
-			       '(:eval (if (not (eq battery-mode-line-string ""))
-					   (concat "" battery-mode-line-string "%%%   | ")))
 			       ;; Date (Week Year-Month-Day)
 			       '(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
 			       ;; Time (Hour:Minutes:Seconds)

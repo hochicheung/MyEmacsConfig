@@ -14,7 +14,7 @@
 
 ** Emacs Misc
     #+begin_src emacs-lisp
-      (setq tab-width 4)
+      (setq tab-width 2)
       (mouse-wheel-mode -1)
       (setq show-paren-delay 0)
 
@@ -37,6 +37,39 @@
             browse-url-generic-program "qutebrowser")
     #+end_src
 
+** Modeline
+   #+begin_src emacs-lisp
+     (defun modeline-alignment (left right)
+       (let* ((available-width (-(window-width)(length left) 2)))
+	 (format (format "%%s %%%ds " available-width) left right)))
+
+     (setq-default mode-line-format
+		   '((:eval (modeline-alignment
+			     ;;left
+			     (format-mode-line
+			      (list
+			       "   "
+			       ;; Filestatus -:---
+			       mode-line-mule-info
+			       mode-line-modified
+			       mode-line-client
+			       mode-line-remote
+			       mode-line-front-space
+			       ;; Buffername
+			       "%b"
+			       ;; VC/Git
+			       '(vc-mode vc-mode)))
+			     ;;right
+			     (format-mode-line
+			      (list
+			       '(:eval (if (not (eq battery-mode-line-string ""))
+					   (concat "" battery-mode-line-string "%%%   | ")))
+			       ;; Date (Week Year-Month-Day)
+			       '(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
+			       ;; Time (Hour:Minutes:Seconds)
+			       '(:eval(propertize(format-time-string "  %H:%M")))))))))
+   #+end_src
+
 * Packages
 ** Straight
    #+begin_src emacs-lisp
@@ -53,8 +86,15 @@
 	   (eval-print-last-sexp)))
        (load bootstrap-file nil 'nomessage))
    #+end_src
+
 ** Evil
    #+begin_src emacs-lisp
      (straight-use-package 'evil)
      (evil-mode)
+   #+end_src
+
+** Spacemacs Theme
+   #+begin_src emacs-lisp
+     (straight-use-package 'spacemacs-theme)
+     (load-theme 'spacemacs-light t)
    #+end_src

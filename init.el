@@ -11,12 +11,14 @@
 
 ;; Export .org --> .el
 (defun my/export-config()
+  (message "Exporting config.org")
   (require 'ob-tangle)
   (ignore-errors
     (org-babel-tangle-file my/config my/config-exported "emacs-lisp")))
 
 ;; Compile .el --> .elc
 (defun my/compile-exported()
+  (ignore-errors
   (setq byte-compile-warnings '(not
 				nresolved
 				free-vars
@@ -26,7 +28,6 @@
 				noruntime
 				cl-functions
 				interactive-only))
-  (ignore-errors
     (byte-compile-file my/config-exported)))
 
 ;; Load .elc
@@ -49,4 +50,3 @@
      ((not my/export-config) (progn (message "Config.org was NOT exported")
 				    (my/load-compiled))))
     (my/load-compiled))
-

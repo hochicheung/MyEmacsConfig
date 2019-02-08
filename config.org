@@ -98,3 +98,8 @@
      (straight-use-package 'spacemacs-theme)
      (load-theme 'spacemacs-light t)
    #+end_src
+   
+** Magit
+   #+begin_src emacs-lisp
+     (straight-use-package 'magit)
+   #+end_src

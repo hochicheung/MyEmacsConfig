@@ -120,3 +120,12 @@
      (straight-use-package 'company)
      (add-hook 'prog-mode-hook 'global-company-mode)
    #+end_src
+
+** Pdf Tools
+   #+begin_src emacs-lisp
+     (straight-use-package 'pdf-tools)
+     (pdf-tools-install)
+     (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
+   #+end_src
+
+** Isearch

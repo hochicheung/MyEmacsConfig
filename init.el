@@ -1,4 +1,4 @@
-(setq debug-on-error t)
+;(setq debug-on-error t)
 
 ;; Config Locations
 (defvar my/config (expand-file-name (concat user-emacs-directory "config.org")))

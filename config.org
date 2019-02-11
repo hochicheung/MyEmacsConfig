@@ -91,13 +91,26 @@
      (evil-mode)
    #+end_src
 
+** Helm
+   #+begin_src emacs-lisp
+     (straight-use-package 'helm)
+   #+end_src 
+
 ** Spacemacs Theme
    #+begin_src emacs-lisp
      (straight-use-package 'spacemacs-theme)
-     (load-theme 'spacemacs-light t)
+     (load-theme 'spacemacs-dark t)
    #+end_src
    
 ** Magit
    #+begin_src emacs-lisp
      (straight-use-package 'magit)
+   #+end_src
+
+** Org Bullets
+   #+begin_src emacs-lisp
+     (straight-use-package 'org-bullets)
+     (defun org-bullet-mode()
+       (org-bullets-mode 1))
+     (add-hook 'org-mode-hook 'org-bullet-mode)
    #+end_src

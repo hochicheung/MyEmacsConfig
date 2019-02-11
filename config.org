@@ -128,8 +128,6 @@
      (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
    #+end_src
 
-** Isearch
-   
 ** Rainbow mode
     #+begin_src emacs-lisp
       (straight-use-package 'rainbow-mode

@@ -129,3 +129,9 @@
    #+end_src
 
 ** Isearch
+   
+** Rainbow mode
+    #+begin_src emacs-lisp
+      (straight-use-package 'rainbow-mode
+      (add-hook 'prog-mode-hook 'rainbow-mode)
+    #+end_src

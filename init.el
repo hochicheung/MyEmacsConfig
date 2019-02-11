@@ -4,6 +4,7 @@
 (defvar my/config (expand-file-name (concat user-emacs-directory "config.org")))
 (defvar my/config-exported (expand-file-name (concat user-emacs-directory "config.el")))
 (defvar my/config-compiled (expand-file-name (concat user-emacs-directory "config.elc")))
+(defvar my/config-stable (expand-file-name (concat user-emacs-directory "stable.elc")))
 
 ;; Latest modified (is file1 latestmodified)
 (defun my/is-file-latestmodified (file1 file2)
@@ -36,17 +37,20 @@
     (load-file my/config-compiled)))
 (defun my/load-compiled()
   (cond
-   ((my/loadc) (message "Config.elc Loaded"))
-   ((not my/loadc) (message "Config.elc was Not-Loaded"))))
+   ((not (my/loadc)) (progn (message "Config.elc was Not-Loaded")
+													(load-file my/config-stable)))
+   ((my/loadc) (progn (message "Config.elc Loaded")
+											(delete-file my/config-stable)
+											(rename-file my/config-compiled my/config-stable)))))
 
 ;; Main
 ;; If (if config isLatestmodifed versus exported) OR (exported doesn't exist)
 (if (or (my/is-file-latestmodified my/config my/config-exported) (not (file-exists-p my/config-exported)))
     (cond
      ((my/export-config) (cond
-			  ((my/compile-exported) (my/load-compiled))
-			  ((not my/compile-exported) (progn (message "Config.el was not compiled, Loading config.elc")
-							     (my/load-compiled)))))
-     ((not my/export-config) (progn (message "Config.org was NOT exported")
-				    (my/load-compiled))))
-    (my/load-compiled))
+													((my/compile-exported) (my/load-compiled))
+													((not (my/compile-exported)) (progn (message "Config.el was not compiled, Loading config.elc")
+																														(my/load-compiled)))))
+		 ((not (my/export-config)) (progn (message "Config.org was NOT exported")
+																		(my/load-compiled))))
+	(load-file my/config-stable))

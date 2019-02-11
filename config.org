@@ -114,3 +114,9 @@
        (org-bullets-mode 1))
      (add-hook 'org-mode-hook 'org-bullet-mode)
    #+end_src
+
+** Company
+   #+begin_src emacs-lisp
+     (straight-use-package 'company)
+     (add-hook 'prog-mode-hook 'global-company-mode)
+   #+end_src

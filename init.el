@@ -38,19 +38,19 @@
 (defun my/load-compiled()
   (cond
    ((not (my/loadc)) (progn (message "Config.elc was Not-Loaded")
-													(load-file my/config-stable)))
+			    (load-file my/config-stable)))
    ((my/loadc) (progn (message "Config.elc Loaded")
-											(delete-file my/config-stable)
-											(rename-file my/config-compiled my/config-stable)))))
+		      (delete-file my/config-stable)
+		      (rename-file my/config-compiled my/config-stable)))))
 
 ;; Main
 ;; If (if config isLatestmodifed versus exported) OR (exported doesn't exist)
 (if (or (my/is-file-latestmodified my/config my/config-exported) (not (file-exists-p my/config-exported)))
     (cond
      ((my/export-config) (cond
-													((my/compile-exported) (my/load-compiled))
-													((not (my/compile-exported)) (progn (message "Config.el was not compiled, Loading config.elc")
-																														(my/load-compiled)))))
-		 ((not (my/export-config)) (progn (message "Config.org was NOT exported")
-																		(my/load-compiled))))
-	(load-file my/config-stable))
+			  ((my/compile-exported) (my/load-compiled))
+			  ((not (my/compile-exported)) (progn (message "Config.el was not compiled, Loading config.elc")
+							      (my/load-compiled)))))
+     ((not (my/export-config)) (progn (message "Config.org was NOT exported")
+				      (my/load-compiled))))
+  (load-file my/config-stable))

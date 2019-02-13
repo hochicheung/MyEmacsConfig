@@ -6,7 +6,7 @@
 
 ;; Is config.org updated?
 (defun my/is-file-updated(file1 file2)
-  (time-less-p (nth 5 (file-attributes file2)) (nth 5 (file-attributes file1))))
+  (time-less-p (nth 5 (file-attributes file1)) (nth 5 (file-attributes file2))))
 
 ;; Export config.org --> config.el
 (defun my/export-config()
@@ -45,6 +45,7 @@
 	(message "Marked stable.elc"))
     ((error)(progn
 	      (load-file my/config-stable)
+	      (message "Could NOT load config.elc, config.org implementation error")
 	      (message "Loaded stable.elc")))))
 
 ;; Main()
@@ -58,4 +59,7 @@
 				 (message "Config.el was not compiled, Loading config.elc")))))
       ((error) (progn (my/load-compiled)
 		      (message "Config.org was NOT exported"))))
-  (load-file my/config-stable))
+  (progn (load-file my/config-stable)
+	 (message "Loaded stable.elc")))
+(if (file-exists-p my/config-compiled)
+    (message "Config.org has errors"))

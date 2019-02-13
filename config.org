@@ -121,6 +121,13 @@
      (add-hook 'prog-mode-hook 'global-company-mode)
    #+end_src
 
+** Aggressive Indent
+   #+begin_src emacs-lisp
+     (straight-use-package 'aggressive-indent)
+     (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+     (add-hook 'c-mode-hook #'aggressive-indent-mode)
+   #+end_src
+
 ** Pdf Tools
    #+begin_src emacs-lisp
      (straight-use-package 'pdf-tools)
@@ -156,5 +163,6 @@
        ;(kbd "RET") 'pdf-outline-follow-link
        ;(kbd "SPC") 'pdf-outline-follow-link)
    #+end_src
+   
    
    

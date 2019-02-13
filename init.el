@@ -1,5 +1,3 @@
-;; Emacs Init-file
-
 ;; Config Locations
 (defvar my/config (expand-file-name (concat user-emacs-directory "config.org")))
 (defvar my/config-exported (expand-file-name (concat user-emacs-directory "config.el")))

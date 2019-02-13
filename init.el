@@ -1,4 +1,4 @@
-;(setq debug-on-error t)
+;; Emacs Init-file
 
 ;; Config Locations
 (defvar my/config (expand-file-name (concat user-emacs-directory "config.org")))
@@ -6,51 +6,58 @@
 (defvar my/config-compiled (expand-file-name (concat user-emacs-directory "config.elc")))
 (defvar my/config-stable (expand-file-name (concat user-emacs-directory "stable.elc")))
 
-;; Latest modified (is file1 latestmodified)
-(defun my/is-file-latestmodified (file1 file2)
-  (time-less-p (nth 5 (file-attributes file2)) (nth 5 (file-attributes file1))))
+;; Is config.org updated?
+(defun my/is-file-updated(file1 file2)
+		(time-less-p (nth 5 (file-attributes file2)) (nth 5 (file-attributes file1))))
 
-;; Export .org --> .el
+;; Export config.org --> config.el
 (defun my/export-config()
-  (message "Exporting config.org")
-  (require 'ob-tangle)
-  (ignore-errors
-    (org-babel-tangle-file my/config my/config-exported "emacs-lisp")))
+  (condition-case nil
+      (progn
+				(require 'ob-tangle)
+				(org-babel-tangle-file my/config my/config-exported "emacs-lisp")
+				(message "Exported config.org"))
+    ((error)(message "Config.org was NOT exported"))))
 
-;; Compile .el --> .elc
+;; Compile config.el --> config.elc
 (defun my/compile-exported()
-  (ignore-errors
-  (setq byte-compile-warnings '(not
-				nresolved
-				free-vars
-				unresolved
-				callargs
-				redefine
-				noruntime
-				cl-functions
-				interactive-only))
-    (byte-compile-file my/config-exported)))
+  (condition-case nil
+      (progn
+				(setq byte-compile-warnings '(not
+																			nresolved
+																			free-vars
+																			unresolved
+																			callargs
+																			redefine
+																			noruntime
+																			cl-functions
+																			interactive-only))
+				(byte-compile-file my/config-exported)
+				(message "Compiled config.el"))
+		((error)(message "Config.el was NOT compiled"))))
 
-;; Load .elc
-(defun my/loadc()
-  (ignore-errors
-    (load-file my/config-compiled)))
+;; Load config.elc
 (defun my/load-compiled()
-  (cond
-   ((not (my/loadc)) (progn (message "Config.elc was Not-Loaded")
-			    (load-file my/config-stable)))
-   ((my/loadc) (progn (message "Config.elc Loaded")
-		      (delete-file my/config-stable)
-		      (rename-file my/config-compiled my/config-stable)))))
+  (condition-case nil
+      (progn
+				(load-file my/config-compiled)
+				(message "Loaded config.elc")
+				(delete-file my/config-stable)
+				(rename-file my/config-compiled my/config-stable)
+				(message "Marked stable.elc"))
+    ((error)(progn
+							(load-file my/config-stable)
+							(message "Loaded stable.elc")))))
 
-;; Main
-;; If (if config isLatestmodifed versus exported) OR (exported doesn't exist)
-(if (or (my/is-file-latestmodified my/config my/config-exported) (not (file-exists-p my/config-exported)))
-    (cond
-     ((my/export-config) (cond
-			  ((my/compile-exported) (my/load-compiled))
-			  ((not (my/compile-exported)) (progn (message "Config.el was not compiled, Loading config.elc")
-							      (my/load-compiled)))))
-     ((not (my/export-config)) (progn (message "Config.org was NOT exported")
-				      (my/load-compiled))))
+;; Main()
+(if (or (my/is-file-updated my/config-exported my/config) (not (file-exists-p my/config-exported)))
+    (condition-case nil
+				(progn (my/export-config)
+							 (condition-case nil
+									 (progn (my/compile-exported)
+													(my/load-compiled))
+								 ((error) (progn (my/load-compiled)
+																 (message "Config.el was not compiled, Loading config.elc")))))
+      ((error) (progn (my/load-compiled)
+											(message "Config.org was NOT exported"))))
   (load-file my/config-stable))

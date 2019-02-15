@@ -178,4 +178,15 @@
      (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
    #+end_src
 
-** 
+** Ox Twbs
+   #+begin_src emacs-lisp
+     (straight-use-package 'ox-twbs)
+   #+end_src
+
+** Smart Parens
+   #+begin_src emacs-lisp
+     (straight-use-package 'smartparens)
+     (add-hook 'org-mode-hook #'smartparens-mode)
+     (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
+     (add-hook ' #'smartparens-mode)
+   #+end_src

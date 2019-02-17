@@ -188,5 +188,4 @@
      (straight-use-package 'smartparens)
      (add-hook 'org-mode-hook #'smartparens-mode)
      (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
-     (add-hook ' #'smartparens-mode)
    #+end_src

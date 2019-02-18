@@ -1,4 +1,5 @@
 #+TITLE: Emacs Initialization file
+- [[*Packages][Packages]]
 * Emacs Settings
 ** Emacs UI
     #+begin_src emacs-lisp

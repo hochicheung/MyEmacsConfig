@@ -1,5 +1,5 @@
 #+TITLE: Emacs Initialization file
-- [[*Packages][Packages]]
+- [[https://github.com/Samtex98/MyEmacsConfig#packages][Packages]]
 * Emacs Settings
 ** Emacs UI
     #+begin_src emacs-lisp

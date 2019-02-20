@@ -101,8 +101,26 @@
    #+end_src
 
 *** Counsel
+    #+begin_src emacs-lisp
+      (straight-use-package 'counsel)
+      (global-set-key (kbd "M-x") 'counsel-M-x)
+      (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+      (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+      (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+      (global-set-key (kbd "<f1> l") 'counsel-find-library)
+      (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+      (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+    #+end_src
 
 *** Swiper
+    #+begin_src emacs-lisp
+      (straight-use-package 'swiper)
+    #+end_src
+
+** Avy
+   #+begin_src emacs-lisp
+     (straight-use-package 'avy)
+   #+end_src
 
 ** Swiper Helm
 	 #+begin_src emacs-lisp
@@ -165,4 +183,5 @@
      (add-hook 'org-mode-hook #'smartparens-mode)
      (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
    #+end_src
+   
    

@@ -28,8 +28,8 @@
 
 ** Font
     #+begin_src emacs-lisp
-      (set-face-attribute 'default nil :font "DejaVu Sans mono 12")
-      (set-frame-font "DejaVu Sans mono 12" nil t)
+      (set-face-attribute 'default nil :font "DejaVu Sans mono 13")
+      (set-frame-font "DejaVu Sans mono 13" nil t)
     #+end_src
     
 ** Web Browser Setting
@@ -122,17 +122,30 @@
      (straight-use-package 'avy)
    #+end_src
 
-** Swiper Helm
-	 #+begin_src emacs-lisp
-		 (straight-use-package 'swiper-helm)
-	 #+end_src
-
-** Spacemacs Theme
+** Which Key
    #+begin_src emacs-lisp
-     (straight-use-package 'spacemacs-theme)
-     (load-theme 'spacemacs-dark t)
+     (straight-use-package 'which-key)
+     (which-key-mode)
+     (setq which-key-show-prefix 'left)
    #+end_src
+
+** Colorschemes
+
+*** Gruvbox Theme
+    #+begin_src emacs-lisp
+      (straight-use-package 'gruvbox-theme)
+    #+end_src
+
+*** Spacemacs Theme
+    #+begin_src emacs-lisp
+      (straight-use-package 'spacemacs-theme)
+    #+end_src
    
+*** Load Theme
+    #+begin_src emacs-lisp
+      (load-theme 'spacemacs-dark t)
+    #+end_src
+
 ** Magit
    #+begin_src emacs-lisp
      (straight-use-package 'magit)

@@ -4,6 +4,12 @@
 (defvar my/config-compiled (expand-file-name (concat user-emacs-directory "config.elc")))
 (defvar my/config-stable (expand-file-name (concat user-emacs-directory "stable.elc")))
 
+;;(setq debug-on-error t)
+;;(setq debug-ignored-errors '(void-variable
+			     ;;void-function
+			     ;;wrong-type-argument
+			     ;;end-of-file))
+;;(setq debug-on-signal t)
 ;; Is config.org updated?
 (defun my/is-file-updated(file1 file2)
   (time-less-p (nth 5 (file-attributes file1)) (nth 5 (file-attributes file2))))
@@ -63,3 +69,4 @@
 	 (message "Loaded stable.elc")))
 (if (file-exists-p my/config-compiled)
     (message "Config.org has errors"))
+

@@ -15,7 +15,7 @@
 
 ** Emacs Misc
     #+begin_src emacs-lisp
-      (setq tab-width 2)
+      (setq-default tab-width 2)
       (mouse-wheel-mode -1)
       (setq show-paren-delay 0)
 
@@ -88,6 +88,7 @@
 
 ** Evil
    #+begin_src emacs-lisp
+     (setq evil-want-keybinding nil)
      (straight-use-package 'evil)
      (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
      (evil-mode)
@@ -178,8 +179,6 @@
      (straight-use-package 'pdf-tools)
      (pdf-tools-install)
      (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
-     ;;(evil-define-key 'normal pdf-view-mode-map
-       ;;(kbd "j") 'pdf-view-next-line-or-next-page)
    #+end_src
 
 ** Rainbow Delimiters
@@ -200,4 +199,9 @@
      (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
    #+end_src
    
-   
+** Evil Collection
+   #+begin_src emacs-lisp
+     (straight-use-package 'evil-collection)
+     (setq evil-collection-setup-minibuffer t)
+     (evil-collection-init)
+   #+end_src

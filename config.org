@@ -115,6 +115,7 @@
 *** Swiper
     #+begin_src emacs-lisp
       (straight-use-package 'swiper)
+      (global-set-key (kbd "\C-s") 'swiper)
     #+end_src
 
 ** Avy
@@ -177,6 +178,8 @@
      (straight-use-package 'pdf-tools)
      (pdf-tools-install)
      (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
+     ;;(evil-define-key 'normal pdf-view-mode-map
+       ;;(kbd "j") 'pdf-view-next-line-or-next-page)
    #+end_src
 
 ** Rainbow Delimiters

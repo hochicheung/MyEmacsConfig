@@ -15,7 +15,7 @@
 
 ** Emacs Misc
     #+begin_src emacs-lisp
-      (setq-default tab-width 2)
+      (setq-default tab-width 4)
       (mouse-wheel-mode -1)
       (setq show-paren-delay 0)
 
@@ -204,4 +204,9 @@
      (straight-use-package 'evil-collection)
      (setq evil-collection-setup-minibuffer t)
      (evil-collection-init)
+   #+end_src
+
+** Display line
+   #+begin_src emacs-lisp
+	 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
    #+end_src

@@ -222,3 +222,7 @@
 		 "NOBAT"))
    #+end_src
 
+** Flycheck
+   #+begin_src emacs-lisp
+	 (straight-use-package 'flycheck)
+   #+end_src

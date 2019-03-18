@@ -40,33 +40,33 @@
 
 ** Modeline
    #+begin_src emacs-lisp
-     (defun modeline-alignment (left right)
-       (let* ((available-width (-(window-width)(length left) 2)))
+	 (defun modeline-alignment (left right)
+	   (let* ((available-width (-(window-width)(length left) 2)))
 	 (format (format "%%s %%%ds " available-width) left right)))
 
-     (setq-default mode-line-format
-		   '((:eval (modeline-alignment
-			     ;;left
-			     (format-mode-line
-			      (list
-			       "   "
-			       ;; Filestatus -:---
-			       mode-line-mule-info
-			       mode-line-modified
-			       mode-line-client
-			       mode-line-remote
-			       mode-line-front-space
-			       ;; Buffername
-			       "%b"
-			       ;; VC/Git
-			       '(vc-mode vc-mode)))
-			     ;;right
-			     (format-mode-line
-			      (list
-			       ;; Date (Week Year-Month-Day)
-			       '(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
-			       ;; Time (Hour:Minutes:Seconds)
-			       '(:eval(propertize(format-time-string "  %H:%M")))))))))
+	 (setq-default mode-line-format
+				   '((:eval (modeline-alignment
+							 ;;left
+							 (format-mode-line
+							  (list
+							   "   "
+							   ;; Filestatus -:---
+							   mode-line-mule-info
+							   mode-line-modified
+							   mode-line-client
+							   mode-line-remote
+							   mode-line-front-space
+							   ;; Buffername
+							   "%b"
+							   ;; VC/Git
+							   '(vc-mode vc-mode)))
+							 ;;right
+							 (format-mode-line
+							  (list
+							   ;; Date (Week Year-Month-Day)
+							   '(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
+							   ;; Time (Hour:Minutes:Seconds)
+							   '(:eval(propertize(format-time-string "  %H:%M")))))))))
    #+end_src
 
 * Packages
@@ -209,4 +209,31 @@
 ** Display line
    #+begin_src emacs-lisp
 	 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+   #+end_src
+
+** COMMENT Battery
+   #+begin_src emacs-lisp
+	 (defun my/battery()
+	   (interactive)
+	   (defcustom my/battery-format "%p%% %t")
+	   (if (and my/battery-format battery-status-function)
+		   (battery-format my/bettery-format
+						   (funcall battery-status-function))
+		 "NOBAT"))
+   #+end_src
+
+** Flycheck
+   #+begin_src emacs-lisp
+	 (straight-use-package 'flycheck)
+   #+end_src
+   
+** Lsp mode
+   #+begin_src emacs-lisp
+	 (straight-use-package 'lsp-mode)
+   #+end_src
+
+** Emacs-ccls
+   #+begin_src emacs-lisp
+	 (require 'ccls)
+	 (setq ccls-executable "/path/to/ccls/Release/ccls")
    #+end_src

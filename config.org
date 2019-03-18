@@ -247,3 +247,10 @@
 	 (require 'ccls)
 	 (setq ccls-executable "/usr/bin/ccls")
    #+end_src
+
+** Lsp-java
+   #+begin_src emacs-lisp
+	 (straight-use-package 'lsp-java)
+	 (require 'lsp-java)
+	 (add-hook 'java-mode-hook #'lsp)
+   #+end_src

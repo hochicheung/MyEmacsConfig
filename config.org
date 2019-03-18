@@ -226,3 +226,9 @@
    #+begin_src emacs-lisp
 	 (straight-use-package 'flycheck)
    #+end_src
+
+** Lsp-mode
+   #+begin_src emacs-lisp
+	 (straight-use-package 'lsp-mode)
+	 (require 'lsp-mode)
+   #+end_src

@@ -232,3 +232,17 @@
 	 (straight-use-package 'lsp-mode)
 	 (require 'lsp-mode)
    #+end_src
+
+** Company-lsp
+   #+begin_src emacs-lisp
+	 (straight-use-package 'company-lsp)
+	 (require 'company-lsp)
+	 (push 'company-lsp company-backends)
+   #+end_src
+
+** Emacs-ccls
+   #+begin_src emacs-lisp
+	 (straight-use-package 'ccls)
+	 (require 'ccls)
+	 (setq ccls-executable "/usr/bin/ccls")
+   #+end_src

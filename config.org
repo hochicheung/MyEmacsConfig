@@ -1,5 +1,4 @@
 #+TITLE: Emacs Initialization file
-- [[https://github.com/Samtex98/MyEmacsConfig#packages][Packages]]
 * Emacs Settings
 ** Emacs UI
     #+begin_src emacs-lisp
@@ -171,7 +170,6 @@
    #+begin_src emacs-lisp
      (straight-use-package 'aggressive-indent)
      (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-     (add-hook 'c-mode-hook #'aggressive-indent-mode)
    #+end_src
 
 ** Pdf Tools
@@ -225,12 +223,15 @@
 ** Flycheck
    #+begin_src emacs-lisp
 	 (straight-use-package 'flycheck)
+	 (global-flycheck-mode)
    #+end_src
 
 ** Lsp-mode
    #+begin_src emacs-lisp
 	 (straight-use-package 'lsp-mode)
 	 (require 'lsp-mode)
+	 (add-hook 'c++-mode-hook #'lsp)
+	 (add-hook 'c-mode-hook #'lsp)
    #+end_src
 
 ** Company-lsp
@@ -240,7 +241,7 @@
 	 (push 'company-lsp company-backends)
    #+end_src
 
-** Emacs-ccls
+** Ccls
    #+begin_src emacs-lisp
 	 (straight-use-package 'ccls)
 	 (require 'ccls)

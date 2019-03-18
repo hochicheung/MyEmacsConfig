@@ -222,18 +222,3 @@
 		 "NOBAT"))
    #+end_src
 
-** Flycheck
-   #+begin_src emacs-lisp
-	 (straight-use-package 'flycheck)
-   #+end_src
-   
-** Lsp mode
-   #+begin_src emacs-lisp
-	 (straight-use-package 'lsp-mode)
-   #+end_src
-
-** Emacs-ccls
-   #+begin_src emacs-lisp
-	 (require 'ccls)
-	 (setq ccls-executable "/path/to/ccls/Release/ccls")
-   #+end_src

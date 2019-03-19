@@ -68,6 +68,22 @@
 							   '(:eval(propertize(format-time-string "  %H:%M")))))))))
    #+end_src
 
+** COMMENT Battery
+   #+begin_src emacs-lisp
+	 (defun my/battery()
+	   (interactive)
+	   (defcustom my/battery-format "%p%% %t")
+	   (if (and my/battery-format battery-status-function)
+		   (battery-format my/bettery-format
+						   (funcall battery-status-function))
+		 "NOBAT"))
+   #+end_src
+
+** Line Numbers
+   #+begin_src emacs-lisp
+	 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+   #+end_src
+
 * Packages
 ** Straight
    #+begin_src emacs-lisp
@@ -207,7 +223,7 @@
    #+begin_src emacs-lisp
 	 (straight-use-package 'smartparens)
 	 (add-hook 'org-mode-hook #'smartparens-mode)
-	 (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
+	 (add-hook 'prog-mode-hook #'smartparens-mode)
    #+end_src
    
 ** COMMENT Evil Collection
@@ -215,22 +231,6 @@
      (straight-use-package 'evil-collection)
      (setq evil-collection-setup-minibuffer t)
      (evil-collection-init)
-   #+end_src
-
-** Display line
-   #+begin_src emacs-lisp
-	 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-   #+end_src
-
-** COMMENT Battery
-   #+begin_src emacs-lisp
-	 (defun my/battery()
-	   (interactive)
-	   (defcustom my/battery-format "%p%% %t")
-	   (if (and my/battery-format battery-status-function)
-		   (battery-format my/bettery-format
-						   (funcall battery-status-function))
-		 "NOBAT"))
    #+end_src
 
 ** Flycheck

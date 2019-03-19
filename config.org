@@ -87,7 +87,6 @@
 
 ** Evil
    #+begin_src emacs-lisp
-     (setq evil-want-keybinding nil)
      (straight-use-package 'evil)
      (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
      (evil-mode)
@@ -147,6 +146,26 @@
       (load-theme 'spacemacs-dark t)
     #+end_src
 
+** Code Completion
+*** Yasnippet
+	#+begin_src emacs-lisp
+	  (straight-use-package 'yasnippet)
+	  (add-to-list 'load-path
+				   "~/.emacs.d/plugins/yasnippet")
+	  (require 'yasnippet)
+	  (yas-global-mode 1)
+	#+end_src
+
+*** Company-lsp
+   #+begin_src emacs-lisp
+	   (straight-use-package 'company-lsp)
+	   (require 'company-lsp)
+	   (push 'company-lsp company-backends)
+	   (setq company-lsp-cache-candidates t)
+	   (setq company-lsp-async t)
+	   (setq company-lsp-enable-snippet t)
+   #+end_src
+
 ** Magit
    #+begin_src emacs-lisp
      (straight-use-package 'magit)
@@ -158,12 +177,6 @@
      (defun org-bullet-mode()
        (org-bullets-mode 1))
      (add-hook 'org-mode-hook 'org-bullet-mode)
-   #+end_src
-
-** Company
-   #+begin_src emacs-lisp
-     (straight-use-package 'company)
-     (add-hook 'prog-mode-hook 'global-company-mode)
    #+end_src
 
 ** Aggressive Indent
@@ -192,12 +205,12 @@
 
 ** Smart Parens
    #+begin_src emacs-lisp
-     (straight-use-package 'smartparens)
-     (add-hook 'org-mode-hook #'smartparens-mode)
-     (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
+	 (straight-use-package 'smartparens)
+	 (add-hook 'org-mode-hook #'smartparens-mode)
+	 (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
    #+end_src
    
-** Evil Collection
+** COMMENT Evil Collection
    #+begin_src emacs-lisp
      (straight-use-package 'evil-collection)
      (setq evil-collection-setup-minibuffer t)
@@ -232,25 +245,24 @@
 	 (require 'lsp-mode)
 	 (add-hook 'c++-mode-hook #'lsp)
 	 (add-hook 'c-mode-hook #'lsp)
-   #+end_src
-
-** Company-lsp
-   #+begin_src emacs-lisp
-	 (straight-use-package 'company-lsp)
-	 (require 'company-lsp)
-	 (push 'company-lsp company-backends)
-   #+end_src
-
-** Ccls
-   #+begin_src emacs-lisp
-	 (straight-use-package 'ccls)
-	 (require 'ccls)
-	 (setq ccls-executable "/usr/bin/ccls")
-   #+end_src
-
-** Lsp-java
-   #+begin_src emacs-lisp
-	 (straight-use-package 'lsp-java)
-	 (require 'lsp-java)
 	 (add-hook 'java-mode-hook #'lsp)
    #+end_src
+
+*** Ccls
+   #+begin_src emacs-lisp
+	 (with-eval-after-load 'lsp
+	   (straight-use-package 'ccls)
+	   (require 'ccls)
+	   (setq ccls-executable "/usr/bin/ccls")
+	   (add-hook 'c-mode-hook #'lsp)
+	   (add-hook 'objc-mode-hook #'lsp)
+	   (add-hook 'c++-mode-hook #'lsp))
+   #+end_src
+
+*** Lsp-java
+   #+begin_src emacs-lisp
+	 (with-eval-after-load 'lsp
+	   (straight-use-package 'lsp-java)
+	   (require 'lsp-java))
+   #+end_src
+

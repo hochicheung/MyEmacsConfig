@@ -111,6 +111,10 @@
      (evil-mode)
    #+end_src
 
+** Hydra
+   #+begin_src emacs-lisp
+   #+end_src
+
 ** Ivy
    #+begin_src emacs-lisp
      (straight-use-package 'ivy)
@@ -240,6 +244,8 @@
    #+begin_src emacs-lisp
 	 (straight-use-package 'flycheck)
 	 (global-flycheck-mode)
+	 (with-eval-after-load 'flycheck
+	   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
    #+end_src
 
 ** Lsp-mode

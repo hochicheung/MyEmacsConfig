@@ -1,4 +1,7 @@
 #+TITLE: Emacs Initialization file
+* TODO
+  - Rework modeline
+  - Implement hydra binds
 * Emacs Settings
 ** Emacs UI
     #+begin_src emacs-lisp

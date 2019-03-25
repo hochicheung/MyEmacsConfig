@@ -158,6 +158,7 @@
 
 	  (define-key Buffer-menu-mode-map "." 'hydra-buffer-menu/body)
 	#+end_src
+
 ** Ivy
    #+begin_src emacs-lisp
      (straight-use-package 'ivy)
@@ -235,6 +236,12 @@
 	   (setq company-lsp-cache-candidates t)
 	   (setq company-lsp-async t)
 	   (setq company-lsp-enable-snippet t)
+   #+end_src
+
+** ESS
+   #+begin_src emacs-lisp
+	 (straight-use-package 'ess)
+	 (require 'ess-r-mode)
    #+end_src
 
 ** Magit

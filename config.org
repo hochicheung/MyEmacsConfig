@@ -1,5 +1,5 @@
 #+TITLE: Emacs Initialization file
-* ToDo
+* To Do
   - Rework modeline
   - Implement hydra binds
 * Emacs Settings

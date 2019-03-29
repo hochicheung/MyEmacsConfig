@@ -17,15 +17,15 @@
 
 ** Emacs Misc
     #+begin_src emacs-lisp
-      (setq-default tab-width 4)
-      (mouse-wheel-mode -1)
-      (setq show-paren-delay 0)
+	  (setq-default tab-width 4)
+	  (mouse-wheel-mode -1)
+	  (setq show-paren-delay 0)
 
-      (setq help-at-pt-display-when-idle t)
-      (setq help-at-pt-timer-delay 0.1)
-      (help-at-pt-set-timer)
+	  (setq help-at-pt-display-when-idle t)
+	  (setq help-at-pt-timer-delay 0.1)
+	  (help-at-pt-set-timer)
 
-      (defalias 'yes-or-no-p 'y-or-n-p)
+	  (defalias 'yes-or-no-p 'y-or-n-p)
     #+end_src
 
 ** Font
@@ -65,6 +65,8 @@
 							 ;;right
 							 (format-mode-line
 							  (list
+							   "%p%%"
+							   "  "
 							   ;; Date (Week Year-Month-Day)
 							   '(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
 							   ;; Time (Hour:Minutes:Seconds)
@@ -73,13 +75,26 @@
 
 ** COMMENT Battery
    #+begin_src emacs-lisp
-	 (defun my/battery()
-	   (interactive)
-	   (defcustom my/battery-format "%p%% %t")
-	   (if (and my/battery-format battery-status-function)
-		   (battery-format my/bettery-format
-						   (funcall battery-status-function))
-		 "NOBAT"))
+	 (define-minor-mode my/display-battery-mode
+	   "Toggle battery status display in mode line (Display Battery mode).
+	 The text displayed in the mode line is controlled by
+	 `battery-mode-line-format' and `battery-status-function'.
+	 The mode line is be updated every `battery-update-interval'
+	 seconds."
+	   :global t :group 'battery
+	   (setq battery-mode-line-string "")
+	   (or global-mode-string (setq global-mode-string '("")))
+	   (and battery-update-timer (cancel-timer battery-update-timer))
+	   (if (and battery-status-function battery-mode-line-format)
+		   (if (not display-battery-mode)
+			   (setq global-mode-string
+					 (delq 'battery-mode-line-string global-mode-string))
+			 (add-to-list 'global-mode-string 'battery-mode-line-string t)
+			 (setq battery-update-timer (run-at-time nil battery-update-interval
+													 'battery-update-handler))
+			 (battery-update))
+		 (message "Battery status not available")
+		 (setq display-battery-mode nil)))
    #+end_src
 
 ** Line Numbers
@@ -330,3 +345,73 @@
 	   (require 'lsp-java))
    #+end_src
 
+** Exwm
+   #+begin_src emacs-lisp
+	 (straight-use-package 'exwm)
+	 (server-start)
+	 (require 'exwm)
+
+	 (setq exwm-workspace-number 4)
+
+	 (add-hook 'exwm-update-class-hook
+			   (lambda ()
+				 (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+							 (string= "gimp" exwm-instance-name))
+				   (exwm-workspace-rename-buffer exwm-class-name))))
+	 (add-hook 'exwm-update-title-hook
+			   (lambda ()
+				 (when (or (not exwm-instance-name)
+						   (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+						   (string= "gimp" exwm-instance-name))
+				   (exwm-workspace-rename-buffer exwm-title))))
+
+	 (setq exwm-input-global-keys
+		   `(
+			 ;; [s-r] Exit char-mode and fullscreen mode
+			 ([?\s-r] . exwm-reset)
+			 ;; [s-w] Switch workspace interactively
+			 ([?\s-w] . exwm-workspace-switch)
+			 ;; [s-%d] Switch to a workspace by its index
+			 ,@(mapcar (lambda (i)
+						 `(,(kbd (format "s-%d" i)) .
+						   (lambda ()
+							 (interactive)
+							 (exwm-workspace-switch-create ,i))))
+					   (number-sequence 0 9))
+			 ;; [s-&][M-&] Launch applications 
+			 ([?\s-&] . (lambda (command)
+						  (interactive (list (read-shell-command "$ ")))
+						  (start-process-shell-command command nil command)))
+			 ;; Bind "s-<f2>" to "slock", a simple X display locker.
+			 ([s-f2] . (lambda ()
+						 (interactive)
+						 (start-process "" nil "/usr/bin/slock")))))
+
+	 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
+
+	 (setq exwm-input-simulation-keys
+		   '(
+			 ;; movement
+			 ([?\C-b] . [left])
+			 ([?\M-b] . [C-left])
+			 ([?\C-f] . [right])
+			 ([?\M-f] . [C-right])
+			 ([?\C-p] . [up])
+			 ([?\C-n] . [down])
+			 ([?\C-a] . [home])
+			 ([?\C-e] . [end])
+			 ([?\M-v] . [prior])
+			 ([?\C-v] . [next])
+			 ([?\C-d] . [delete])
+			 ([?\C-k] . [S-end delete])
+			 ;; cut/paste.
+			 ([?\C-w] . [?\C-x])
+			 ([?\M-w] . [?\C-c])
+			 ([?\C-y] . [?\C-v])
+			 ;; search
+			 ([?\C-s] . [?\C-f])))
+
+	 (exwm-enable)
+   #+end_src
+
+   

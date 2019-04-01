@@ -5,14 +5,15 @@
 * Emacs Settings
 ** Emacs UI
     #+begin_src emacs-lisp
-      (menu-bar-mode -1)
-      (display-time-mode 1)
-      (scroll-bar-mode 0)
-      (tool-bar-mode -1)
-      (blink-cursor-mode 0)
-      (show-paren-mode 1)
-      (global-visual-line-mode t)
-      (fringe-mode 1)
+	  (menu-bar-mode -1)
+	  (display-time-mode 1)
+	  (scroll-bar-mode 0)
+	  (tool-bar-mode -1)
+	  (blink-cursor-mode 0)
+	  (show-paren-mode 1)
+	  (global-visual-line-mode t)
+	  (fringe-mode 1)
+	  (display-battery-mode t)
    #+end_src
 
 ** Emacs Misc
@@ -40,57 +41,43 @@
             browse-url-generic-program "qutebrowser")
     #+end_src
 
-** COMMENT Modeline
+** Modeline
 
    #+begin_src emacs-lisp
 	 (defun modeline-alignment (left right)
 	   (let* ((available-width (-(window-width)(length left) 2)))
 		 (format (format "%%s %%%ds " available-width) left right)))
 
-	 (setq-default mode-line-format-left
-				   (list
-					"   "
-					mode-line-mule-info
-					mode-line-modified
-					mode-line-client
-					mode-line-remote
-					mode-line-front-space
-					"%b"
-					'(vc-mode vc-mode)))
+	 (setq-default mode-line-format
+				   '((:eval (modeline-alignment
+							 ;;left
+							 (format-mode-line
+							  (list
+							   "   "
+							   ;; Filestatus -:---
+							   mode-line-mule-info
+							   mode-line-modified
+							   mode-line-client
+							   mode-line-remote
+							   mode-line-front-space
+							   ;; Buffername
+							   "%b"
+							   ;; VC/Git
+							   '(vc-mode vc-mode)))
+							 ;;right
+							 (format-mode-line
+							  (list
+							   "%p%%"
+							   "  "
+							   ;; Date (Week Year-Month-Day)
+							   '(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
+							   ;; Time (Hour:Minutes:Seconds)
+							   '(:eval(propertize(format-time-string "  %H:%M  ")))
+							   ;; Battery Life
+							   battery-mode-line-string
+							   "]"
+							   ))))))
 
-	 (setq-default mode-line-format-right
-				   (list
-					"%p%%"
-					"  "
-					'(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
-					'(:eval(propertize(format-time-string "  %H:%M")))))
-
-	 (modeline-alignment(format-mode-line(mode-line-format-left))
-						(format-mode-line(mode-line-format-right)))
-   #+end_src
-
-** COMMENT Battery
-   #+begin_src emacs-lisp
-	 (define-minor-mode my/display-battery-mode
-	   "Toggle battery status display in mode line (Display Battery mode).
-	 The text displayed in the mode line is controlled by
-	 `battery-mode-line-format' and `battery-status-function'.
-	 The mode line is be updated every `battery-update-interval'
-	 seconds."
-	   :global t :group 'battery
-	   (setq battery-mode-line-string "")
-	   (or global-mode-string (setq global-mode-string '("")))
-	   (and battery-update-timer (cancel-timer battery-update-timer))
-	   (if (and battery-status-function battery-mode-line-format)
-		   (if (not display-battery-mode)
-			   (setq global-mode-string
-					 (delq 'battery-mode-line-string global-mode-string))
-			 (add-to-list 'global-mode-string 'battery-mode-line-string t)
-			 (setq battery-update-timer (run-at-time nil battery-update-interval
-													 'battery-update-handler))
-			 (battery-update))
-		 (message "Battery status not available")
-		 (setq display-battery-mode nil)))
    #+end_src
 
 ** Line Numbers

@@ -40,37 +40,33 @@
             browse-url-generic-program "qutebrowser")
     #+end_src
 
-** Modeline
+** COMMENT Modeline
+
    #+begin_src emacs-lisp
 	 (defun modeline-alignment (left right)
 	   (let* ((available-width (-(window-width)(length left) 2)))
-	 (format (format "%%s %%%ds " available-width) left right)))
+		 (format (format "%%s %%%ds " available-width) left right)))
 
-	 (setq-default mode-line-format
-				   '((:eval (modeline-alignment
-							 ;;left
-							 (format-mode-line
-							  (list
-							   "   "
-							   ;; Filestatus -:---
-							   mode-line-mule-info
-							   mode-line-modified
-							   mode-line-client
-							   mode-line-remote
-							   mode-line-front-space
-							   ;; Buffername
-							   "%b"
-							   ;; VC/Git
-							   '(vc-mode vc-mode)))
-							 ;;right
-							 (format-mode-line
-							  (list
-							   "%p%%"
-							   "  "
-							   ;; Date (Week Year-Month-Day)
-							   '(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
-							   ;; Time (Hour:Minutes:Seconds)
-							   '(:eval(propertize(format-time-string "  %H:%M")))))))))
+	 (setq-default mode-line-format-left
+				   (list
+					"   "
+					mode-line-mule-info
+					mode-line-modified
+					mode-line-client
+					mode-line-remote
+					mode-line-front-space
+					"%b"
+					'(vc-mode vc-mode)))
+
+	 (setq-default mode-line-format-right
+				   (list
+					"%p%%"
+					"  "
+					'(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
+					'(:eval(propertize(format-time-string "  %H:%M")))))
+
+	 (modeline-alignment(format-mode-line(mode-line-format-left))
+						(format-mode-line(mode-line-format-right)))
    #+end_src
 
 ** COMMENT Battery

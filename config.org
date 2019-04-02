@@ -31,8 +31,8 @@
 
 ** Font
     #+begin_src emacs-lisp
-      (set-face-attribute 'default nil :font "DejaVu Sans mono 13")
-      (set-frame-font "DejaVu Sans mono 13" nil t)
+      (set-face-attribute 'default nil :font "deja vu sans mono 12")
+      (set-frame-font "deja vu sans mono 12" nil t)
     #+end_src
     
 ** Web Browser Setting
@@ -104,9 +104,9 @@
 
 ** Evil
    #+begin_src emacs-lisp
-     (straight-use-package 'evil)
-     (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
-     (evil-mode)
+	 (straight-use-package 'evil)
+	 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
+	 (evil-mode)
    #+end_src
 
 ** Hydra
@@ -122,19 +122,39 @@
 		("l" text-scale-decrease "out"))
 	#+end_src
 
-*** hydra-buffer-menu
+*** Hydra-window
+	#+begin_src emacs-lisp
+	  (defhydra hydra-window ()
+		"window-menu"
+		("w" other-window "toggle")
+		("c" delete-window "delete")
+		("x" delete-other-windows "xor")
+		("TAB" previous-buffer "prev")
+		("s" split-window-below "split-below")
+		("v" split-window-right "split-right")
+		("0" balance-windows "balance")
+		(")" balance-windows-area "area")
+		("l" enlarge-window-horizontally "hor+")
+		("h" shrink-window-horizontally "hor-")
+		("k" enlarge-window "hor+")
+		("j" shrink-window "hor+"))
+
+	  (global-set-key (kbd "C-q") 'hydra-window/body)
+	#+end_src
+
+*** Hydra-buffer-menu
 	#+begin_src emacs-lisp
 	  (defhydra hydra-buffer-menu (:color pink
 										  :hint nil)
 		"
-	  ^Mark^             ^Unmark^           ^Actions^          ^Search
-	  ^^^^^^^^-----------------------------------------------------------------
-	  _m_: mark          _u_: unmark        _x_: execute       _R_: re-isearch
-	  _s_: save          _U_: unmark up     _b_: bury          _I_: isearch
-	  _d_: delete        ^ ^                _g_: refresh       _O_: multi-occur
-	  _D_: delete up     ^ ^                _T_: files only: % -28`Buffer-menu-files-only
-	  _~_: modified
-	  "
+		^Mark^             ^Unmark^           ^Actions^          ^Search
+		^^^^^^^^-----------------------------------------------------------------
+		_m_: mark          _u_: unmark        _x_: execute       _R_: re-isearch
+		_s_: save          _U_: unmark up     _b_: bury          _I_: isearch
+		_d_: delete        ^ ^                _g_: refresh       _O_: multi-occur
+		_D_: delete up     ^ ^                _T_: files only: % -28`Buffer-menu-files-only
+		_~_: modified
+		"
 		("m" Buffer-menu-mark)
 		("u" Buffer-menu-unmark)
 		("U" Buffer-menu-backup-unmark)
@@ -284,15 +304,9 @@
 	 (straight-use-package 'smartparens)
 	 (add-hook 'org-mode-hook #'smartparens-mode)
 	 (add-hook 'prog-mode-hook #'smartparens-mode)
+	 ;(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
    #+end_src
    
-** COMMENT Evil Collection
-   #+begin_src emacs-lisp
-     (straight-use-package 'evil-collection)
-     (setq evil-collection-setup-minibuffer t)
-     (evil-collection-init)
-   #+end_src
-
 ** Flycheck
    #+begin_src emacs-lisp
 	 (straight-use-package 'flycheck)

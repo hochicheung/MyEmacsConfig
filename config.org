@@ -3,6 +3,12 @@
   - Rework modeline
   - Implement hydra binds
 * Emacs Settings
+** Keyboard Layout
+   #+begin_src emacs-lisp
+	 (shell-command
+	  "setxkbmap -layout us -variant altgr-intl -option caps:escape"
+	  )
+   #+end_src
 ** Emacs UI
     #+begin_src emacs-lisp
 	  (menu-bar-mode -1)
@@ -260,6 +266,13 @@
    #+begin_src emacs-lisp
 	 (straight-use-package 'ess)
 	 (require 'ess-r-mode)
+   #+end_src
+
+** Org-babel
+   #+begin_src emacs-lisp
+	 (org-babel-do-load-languages
+	  'org-babel-load-languages
+	  '((R . t)))
    #+end_src
 
 ** Magit

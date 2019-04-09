@@ -9,6 +9,7 @@
 	  "setxkbmap -layout us -variant altgr-intl -option caps:escape"
 	  )
    #+end_src
+
 ** Emacs UI
     #+begin_src emacs-lisp
 	  (menu-bar-mode -1)
@@ -362,6 +363,7 @@
 	 (require 'exwm)
 
 	 (setq exwm-workspace-number 4)
+	 (setq ediff-window-setup-function 'ediff-setup-window-plain)
 
 	 (add-hook 'exwm-update-class-hook
 			   (lambda ()

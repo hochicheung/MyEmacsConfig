@@ -114,6 +114,9 @@
 	 (straight-use-package 'evil)
 	 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
 	 (evil-mode)
+	 (setq evil-emacs-state-modes nil)
+	 (setq evil-insert-state-modes nil)
+	 (setq evil-motion-state-modes nil)
    #+end_src
 
 ** Hydra
@@ -232,6 +235,11 @@
       (straight-use-package 'spacemacs-theme)
     #+end_src
    
+*** Ample Theme
+	#+begin_src emacs-lisp
+	  (straight-use-package 'ample-theme)
+	#+end_src
+
 *** Load Theme
     #+begin_src emacs-lisp
       (load-theme 'spacemacs-dark t)
@@ -278,9 +286,32 @@
 
 ** Magit
    #+begin_src emacs-lisp
-     (straight-use-package 'magit)
+	 (straight-use-package 'magit)
    #+end_src
-
+*** Keybinds
+	#+begin_src emacs-lisp
+	  (evil-define-key 'normal 'evil-normal-state-map
+		(kbd "C-x g") 'magit-status)
+	  (evil-define-key 'normal magit-mode-map
+		(kbd "j") 'magit-section-forward
+		(kbd "k") 'magit-section-backward
+		(kbd "p") 'magit-pull
+		(kbd "s") 'magit-stage-file
+		(kbd "u") 'magit-unstage-file
+		(kbd "c") 'magit-commit
+		(kbd "m") 'magit-merge
+		(kbd "P") 'magit-push
+		(kbd "f") 'magit-fetch
+		(kbd "l") 'magit-log
+		(kbd "i") 'magit-gitignore
+		(kbd "r") 'magit-refresh
+		(kbd "g") 'beginning-of-buffer
+		(kbd "G") 'end-of-buffer
+		(kbd "M") 'magit-remote
+		(kbd "d") 'magit-diff
+		(kbd "Q") 'magit-mode-bury-buffer)
+	#+end_src
+	
 ** Org Bullets
    #+begin_src emacs-lisp
      (straight-use-package 'org-bullets)
@@ -301,6 +332,23 @@
      (pdf-tools-install)
      (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
    #+end_src
+*** Keybinds
+	#+begin_src emacs-lisp
+	  (evil-define-key 'normal pdf-view-mode-map
+		(kbd "j") 'pdf-view-next-line-or-next-page
+		(kbd "k") 'pdf-view-previous-line-or-previous-page
+		(kbd "J") 'pdf-view-next-page-command
+		(kbd "K") 'pdf-view-previous-page-command
+		(kbd "f") 'pdf-view-goto-page
+		(kbd "r") 'pdf-view-revert-buffer
+		(kbd "=") 'pdf-view-enlarge
+		(kbd "+") 'pdf-view-enlarge
+		(kbd "-") 'pdf-view-shrink
+		(kbd "0") 'pdf-view-scale-reset
+		(kbd "H") 'pdf-view-fit-height-to-window
+		(kbd "W") 'pdf-view-fit-width-to-window
+		(kbd "P") 'pdf-view-fit-page-to-window)
+	#+end_src
 
 ** Rainbow Delimiters
    #+begin_src emacs-lisp
@@ -346,7 +394,8 @@
 	   (setq ccls-executable "/usr/bin/ccls")
 	   (add-hook 'c-mode-hook #'lsp)
 	   (add-hook 'objc-mode-hook #'lsp)
-	   (add-hook 'c++-mode-hook #'lsp))
+	   (add-hook 'c++-mode-hook #'lsp)
+	   (add-hook 'haskell-mode-hook #'lsp))
    #+end_src
 
 *** Lsp-java
@@ -355,6 +404,13 @@
 	   (straight-use-package 'lsp-java)
 	   (require 'lsp-java))
    #+end_src
+
+*** Lsp-haskell
+	#+begin_src emacs-lisp
+	  (with-eval-after-load 'lsp
+		(straight-use-package 'lsp-haskell)
+		(require 'lsp-haskell))
+	#+end_src
 
 ** Exwm
    #+begin_src emacs-lisp

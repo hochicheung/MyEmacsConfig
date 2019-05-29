@@ -288,6 +288,7 @@
    #+begin_src emacs-lisp
 	 (straight-use-package 'magit)
    #+end_src
+
 *** Keybinds
 	#+begin_src emacs-lisp
 	  (evil-define-key 'normal 'evil-normal-state-map
@@ -332,6 +333,7 @@
      (pdf-tools-install)
      (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
    #+end_src
+
 *** Keybinds
 	#+begin_src emacs-lisp
 	  (evil-define-key 'normal pdf-view-mode-map

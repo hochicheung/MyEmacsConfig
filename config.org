@@ -3,6 +3,7 @@
   - Rework modeline
   - Implement hydra binds
   - Remove default bind ( and )
+  - Bind quit on evil
 * Emacs Settings
 ** Keyboard Layout
    #+begin_src emacs-lisp
@@ -401,6 +402,8 @@
 	 (add-hook 'c++-mode-hook #'lsp)
 	 (add-hook 'c-mode-hook #'lsp)
 	 (add-hook 'java-mode-hook #'lsp)
+	 (add-hook 'lsp-mode-hook #'lsp)
+	 (add-hook 'haskell-mode-hook #'lsp)
    #+end_src
 
 *** Ccls
@@ -411,8 +414,7 @@
 	   (setq ccls-executable "/usr/bin/ccls")
 	   (add-hook 'c-mode-hook #'lsp)
 	   (add-hook 'objc-mode-hook #'lsp)
-	   (add-hook 'c++-mode-hook #'lsp)
-	   (add-hook 'haskell-mode-hook #'lsp))
+	   (add-hook 'c++-mode-hook #'lsp))
    #+end_src
 
 *** Lsp-java
@@ -429,6 +431,20 @@
 		(require 'lsp-haskell))
 	#+end_src
 
+*** Lsp-tex
+	#+begin_src emacs-lisp
+	  (require 'lsp-mode)
+	  (lsp-register-client
+	   (make-lsp-client :new-connection (lsp-stdio-connection "digestif")
+						:major-modes '(latex-mode plain-tex-mode)
+						:server-id 'digestif))
+	  (add-to-list 'lsp-language-id-configuration '(latex-mode . "latex"))
+	  (add-to-list 'lsp-language-id-configuration '(plain-tex-mode . "plaintex"))
+
+	  (require 'company-lsp)
+	  (add-to-list 'company-lsp-filter-candidates '(digestif . nil))
+	#+end_src
+
 ** Octave-mode
    #+begin_src emacs-lisp
 	 (setq auto-mode-alist
@@ -439,6 +455,19 @@
 				 (abbrev-mode 1)
 				 (if (eq window-system 'x)
 					 (font-lock-mode 1))))
+   #+end_src
+   
+** COMMENT AUCTex
+   #+begin_src emacs-lisp
+	 (straight-use-package 'auctex)
+	 (setq TeX-auto-save t)
+	 (setq TeX-parse-self t)
+	 (setq Tex-save-query nil)
+	 (setq TeX-PDF-mode t)
+	 (setq-default TeX-master nil)
+	 (require 'reftex)
+	 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+	 (add-hook 'latex-mode-hook 'turn-on-reftex)
    #+end_src
 
 ** Exwm
@@ -511,3 +540,5 @@
 	 (exwm-enable)
    #+end_src
 
+   
+   

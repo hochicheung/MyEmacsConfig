@@ -2,6 +2,7 @@
 * To Do
   - Rework modeline
   - Implement hydra binds
+  - Remove default bind ( and )
 * Emacs Settings
 ** Keyboard Layout
    #+begin_src emacs-lisp
@@ -92,7 +93,7 @@
 	 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
    #+end_src
 
-* Packages
+* Packages / Modes
 ** Straight
    #+begin_src emacs-lisp
      (defvar bootstrap-version)
@@ -117,6 +118,13 @@
 	 (setq evil-emacs-state-modes nil)
 	 (setq evil-insert-state-modes nil)
 	 (setq evil-motion-state-modes nil)
+
+	 (define-key evil-normal-state-map (kbd "C-k") (lambda ()
+													 (interactive)
+													 (evil-scroll-up nil)))
+	 (define-key evil-normal-state-map (kbd "C-j") (lambda ()
+													 (interactive)
+													 (evil-scroll-down nil)))
    #+end_src
 
 ** Hydra
@@ -349,7 +357,12 @@
 		(kbd "0") 'pdf-view-scale-reset
 		(kbd "H") 'pdf-view-fit-height-to-window
 		(kbd "W") 'pdf-view-fit-width-to-window
-		(kbd "P") 'pdf-view-fit-page-to-window)
+		(kbd "P") 'pdf-view-fit-page-to-window
+		(kbd "/") 'isearch-forward-word
+		(kbd "n") 'isearch-repeat-forward
+		(kbd "N") 'isearch-repeat-backward
+		(kbd "G") 'pdf-view-first-page
+		(kbd "o") 'pdf-outline)
 	#+end_src
 
 ** Rainbow Delimiters
@@ -368,7 +381,9 @@
 	 (straight-use-package 'smartparens)
 	 (add-hook 'org-mode-hook #'smartparens-mode)
 	 (add-hook 'prog-mode-hook #'smartparens-mode)
-	 ;(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+	 ;(sp-local-pair 'c-mode "'" nil :actions :rem)
+	 ;(sp-local-pair 'c-mode "'" "'")
+	 (setq-default sp-escape-quotes-after-insert nil)
    #+end_src
    
 ** Flycheck
@@ -413,6 +428,18 @@
 		(straight-use-package 'lsp-haskell)
 		(require 'lsp-haskell))
 	#+end_src
+
+** Octave-mode
+   #+begin_src emacs-lisp
+	 (setq auto-mode-alist
+		   (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+	 (add-hook 'octave-mode-hook
+			   (lambda()
+				 (abbrev-mode 1)
+				 (if (eq window-system 'x)
+					 (font-lock-mode 1))))
+   #+end_src
 
 ** Exwm
    #+begin_src emacs-lisp
@@ -484,4 +511,3 @@
 	 (exwm-enable)
    #+end_src
 
-   

@@ -3,8 +3,8 @@
   - Rework modeline
   - Implement hydra binds
   - Remove default bind ( and )
-  - Bind quit on evil
   - Page up/down inside exwm buffer
+  - Spell checking or grammar checking
 * Emacs Settings
 ** Keyboard Layout
    #+begin_src emacs-lisp
@@ -109,6 +109,75 @@
 	 (add-hook 'dired-mode-hook
 			   (lambda ()
 				 (dired-hide-details-mode)))
+   #+end_src
+
+** Mu4e
+   #+begin_src emacs-lisp
+	 (require 'mu4e)
+
+	 (setq mail-user-agent 'mu4e-user-agent)
+
+	 (setq mu4e-maildir "~/Maildir/")
+
+	 (setq mu4e-sent-messages-behaviour 'delete)
+
+	 (setq mu4e-get-mail-command "offlineimap")
+
+	 (setq message-kill-buffer-on-exit t)
+
+	 (require 'smtpmail)
+	 (setq mu4e-sent-folder "/Main/[Gmail].Sent Mail"
+		   mu4e-drafts-folder "/Main/[Gmail].Drafts"
+		   mu4e-trash-folder "/Main/[Gmail].Trash"
+		   user-mail-address "hoche002@gmail.com"
+		   smtpmail-default-smtp-server "smtp.gmail.com"
+		   smtpmail-smtp-server "smtp.gmail.com"
+		   smtpmail-smtp-service 587
+		   message-send-mail-function 'smtpmail-send-it
+		   smtpmail-stream-type 'starttls)
+
+	 (defvar my-mu4e-account-alist
+	   '(("Main"
+		  (mu4e-sent-folder "/Main/[Gmail].Sent Mail")
+		  (mu4e-drafts-folder "/Main/[Gmail].Drafts")
+		  (mu4e-trash-folder "/Main/[Gmail].Trash")
+		  (user-mail-address "hoche002@gmail.com")
+		  (smtpmail-default-smtp-server "smtp.gmail.com")
+		  (smtpmail-smtp-user "hoche002")
+		  (smtpmail-smtp-server "smtp.gmail.com")
+		  (smtpmail-stream-type starttls)
+		  (smtpmail-smtp-service 587))
+		 ("Work"
+		  (mu4e-sent-folder "/Work/[Gmail].Sent Mail")
+		  (mu4e-drafts-folder "/Work/[Gmail].Drafts")
+		  (mu4e-trash-folder "/Work/[Gmail].Trash")
+		  (user-mail-address "hochi.cheung.sam@gmail.com")
+		  (smtpmail-default-smtp-server "smtp.gmail.com")
+		  (smtpmail-smtp-user "hochi.cheung.sam")
+		  (smtpmail-smtp-server "smtp.gmail.com")
+		  (smtpmail-stream-type starttls)
+		  (smtpmail-smtp-service 587))))
+
+	 (defun my-mu4e-set-account ()
+	   "Set the account for composing a message."
+	   (let* ((account
+			   (if mu4e-compose-parent-message
+				   (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+					 (string-match "/\\(.*?\\)/" maildir)
+					 (match-string 1 maildir))
+				 (completing-read (format "Compose with account: (%s) "
+										  (mapconcat #'(lambda (var) (car var))
+													 my-mu4e-account-alist "/"))
+								  (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+								  nil t nil nil (caar my-mu4e-account-alist))))
+			  (account-vars (cdr (assoc account my-mu4e-account-alist))))
+		 (if account-vars
+			 (mapc #'(lambda (var)
+					   (set (car var) (cadr var)))
+				   account-vars)
+		   (error "No email account found"))))
+
+	 (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
    #+end_src
 
 ** Straight

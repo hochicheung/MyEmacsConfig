@@ -9,8 +9,7 @@
 ** Keyboard Layout
    #+begin_src emacs-lisp
 	 (shell-command
-	  "setxkbmap -layout us -variant altgr-intl -option caps:escape"
-	  )
+	  "setxkbmap -layout us -variant altgr-intl -option caps:escape")
    #+end_src
 
 ** Emacs UI
@@ -59,7 +58,6 @@
     #+end_src
 
 ** Modeline
-
    #+begin_src emacs-lisp
 	 (defun modeline-alignment (left right)
 	   (let* ((available-width (-(window-width)(length left) 2)))
@@ -103,6 +101,42 @@
    #+end_src
 
 * Packages / Modes
+
+** Straight
+   #+begin_src emacs-lisp
+     (defvar bootstrap-version)
+     (let ((bootstrap-file
+	    (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	   (bootstrap-version 5))
+       (unless (file-exists-p bootstrap-file)
+	 (with-current-buffer
+	     (url-retrieve-synchronously
+	      "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	      'silent 'inhibit-cookies)
+	   (goto-char (point-max))
+	   (eval-print-last-sexp)))
+       (load bootstrap-file nil 'nomessage))
+   #+end_src
+
+** Evil
+   #+begin_src emacs-lisp
+	 (straight-use-package 'evil)
+	 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
+	 (evil-mode)
+	 (setq evil-emacs-state-modes nil)
+	 (setq evil-insert-state-modes nil)
+	 (setq evil-motion-state-modes nil)
+
+	 (define-key evil-normal-state-map (kbd "C-u") (lambda ()
+													 (interactive)
+													 (evil-scroll-up nil)))
+	 (define-key evil-normal-state-map (kbd "C-d") (lambda ()
+													 (interactive)
+													 (evil-scroll-down nil)))
+	 (define-key evil-normal-state-map (kbd "Q") (lambda ()
+												   (interactive)
+												   (quit-window)))
+   #+end_src
 
 ** Dired
    #+begin_src emacs-lisp
@@ -178,43 +212,21 @@
 		   (error "No email account found"))))
 
 	 (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+
+	 (require 'mu4e-contrib)
+	 (setq mu4e-html2text-command 'mu4e-shr2text)
    #+end_src
 
-** Straight
-   #+begin_src emacs-lisp
-     (defvar bootstrap-version)
-     (let ((bootstrap-file
-	    (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-	   (bootstrap-version 5))
-       (unless (file-exists-p bootstrap-file)
-	 (with-current-buffer
-	     (url-retrieve-synchronously
-	      "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-	      'silent 'inhibit-cookies)
-	   (goto-char (point-max))
-	   (eval-print-last-sexp)))
-       (load bootstrap-file nil 'nomessage))
-   #+end_src
-
-** Evil
-   #+begin_src emacs-lisp
-	 (straight-use-package 'evil)
-	 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
-	 (evil-mode)
-	 (setq evil-emacs-state-modes nil)
-	 (setq evil-insert-state-modes nil)
-	 (setq evil-motion-state-modes nil)
-
-	 (define-key evil-normal-state-map (kbd "C-u") (lambda ()
-													 (interactive)
-													 (evil-scroll-up nil)))
-	 (define-key evil-normal-state-map (kbd "C-d") (lambda ()
-													 (interactive)
-													 (evil-scroll-down nil)))
-	 (define-key evil-normal-state-map (kbd "Q") (lambda ()
-												   (interactive)
-												   (quit-window)))
-   #+end_src
+*** Keybinds
+	#+begin_src emacs-lisp
+	  (require 'evil)
+	  (evil-define-key 'normal 'evil-normal-state-map
+		(kbd "C-x m") 'mu4e)
+	  (evil-define-key 'normal mu4e-main-mode-map
+		(kbd "j") 'mu4e~headers-jump-to-maildir
+		(kbd "s") 'mu4e-headers-search
+		(kbd "C") 'mu4e-compose-new)
+	#+end_src
 
 ** Hydra
    #+begin_src emacs-lisp
@@ -388,6 +400,7 @@
 
 *** Keybinds
 	#+begin_src emacs-lisp
+	  (require 'evil)
 	  (evil-define-key 'normal 'evil-normal-state-map
 		(kbd "C-x g") 'magit-status)
 	  (evil-define-key 'normal magit-mode-map
@@ -433,6 +446,7 @@
 
 *** Keybinds
 	#+begin_src emacs-lisp
+	  (require 'evil)
 	  (evil-define-key 'normal pdf-view-mode-map
 		(kbd "j") 'pdf-view-scroll-up-or-next-page
 		(kbd "k") 'pdf-view-scroll-down-or-previous-page
@@ -631,3 +645,5 @@
 
 	 (exwm-enable)
    #+end_src
+
+   

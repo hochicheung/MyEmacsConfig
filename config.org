@@ -5,6 +5,10 @@
   - Remove default bind ( and )
   - Page up/down inside exwm buffer
   - Spell checking or grammar checking
+  - Keepassxc-cli backend
+  - Gdrive
+  - Bind oxtwbs
+  - Smart parens binds
 * Emacs Settings
 ** Keyboard Layout
    #+begin_src emacs-lisp
@@ -87,12 +91,10 @@
 							   "%p%%"
 							   "  "
 							   ;; Date (Week Year-Month-Day)
-							   '(:eval(propertize(format-time-string "w%V  %d/%m-%a")))
+							   '(:eval(propertize(format-time-string "w%V  %a %d/%h")))
 							   ;; Time (Hour:Minutes:Seconds)
 							   '(:eval(propertize(format-time-string "  %H:%M  ")))
 							   ;; Battery Life
-							   battery-mode-line-string
-							   "]"
 							   ))))))
 
    #+end_src
@@ -102,7 +104,7 @@
 	 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
    #+end_src
 
-* Packages / Modes
+* Packages / Functions
 
 ** Straight
    #+begin_src emacs-lisp
@@ -377,7 +379,13 @@
 	  (straight-use-package 'ample-theme)
 	#+end_src
 
-*** Load Theme
+*** Doom Theme
+	#+begin_src emacs-lisp
+	  (straight-use-package 'doom-themes)
+	  ;;(doom-themes-org-config)
+	#+end_src
+
+*** Load Scheme
     #+begin_src emacs-lisp
       (load-theme 'spacemacs-dark t)
     #+end_src
@@ -516,8 +524,9 @@
 	 (straight-use-package 'smartparens)
 	 (add-hook 'org-mode-hook #'smartparens-mode)
 	 (add-hook 'prog-mode-hook #'smartparens-mode)
-	 ;(sp-local-pair 'c-mode "'" nil :actions :rem)
-	 ;(sp-local-pair 'c-mode "'" "'")
+	 ;;(sp-local-pair 'c-mode "'" nil :actions :rem)
+	 ;;(sp-local-pair 'c-mode "'" "'")
+	 ;;(sp-local-pair 'emacs-lisp-mode "`" "'")
 	 (setq-default sp-escape-quotes-after-insert nil)
    #+end_src
    
@@ -579,7 +588,7 @@
 	  (add-to-list 'company-lsp-filter-candidates '(digestif . nil))
 	#+end_src
 
-** Octave-mode
+** COMMENT Octave-mode
    #+begin_src emacs-lisp
 	 (setq auto-mode-alist
 		   (cons '("\\.m$" . octave-mode) auto-mode-alist))
@@ -674,4 +683,28 @@
 	 (exwm-enable)
    #+end_src
 
-   
+** COMMENT My/Battery Echo
+   #+begin_src emacs-lisp
+	 (setq my/batter-echo)
+	 (defun my/battery-echo
+		 (message "%s" ))
+   #+end_src
+
+** My/Set Brightness
+   #+begin_src emacs-lisp 
+	 (defun my/set-brightness()
+	   (interactive)
+
+	   (setq my/max-brightness-file "/sys/class/backlight/intel_backlight/max_brightness")
+	   (setq my/brightness-file "/sys/class/backlight/intel_backlight/brightness")
+
+	   (let* ((my/max-brightness
+			   (string-to-number(f-read-text my/max-brightness-file)))
+			  (my/brightness-ratio
+			   (/ (string-to-number(read-from-minibuffer "Brightness 0-100: ")) 100.0))
+			  (my/brightness
+			   (floor(* my/max-brightness my/brightness-ratio))))
+		 (shell-command
+		  (concat "echo " (number-to-string my/brightness) " > " my/brightness-file))))
+
+   #+end_src

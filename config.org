@@ -2,7 +2,7 @@
 * To Do
   - Rework modeline
   - Implement hydra binds
-  - Remove default bind ( and )
+  - Remove default bind ( and ) ?
   - Page up/down inside exwm buffer
   - Spell checking or grammar checking
   - Keepassxc-cli backend
@@ -91,10 +91,11 @@
 							   "%p%%"
 							   "  "
 							   ;; Date (Week Year-Month-Day)
-							   '(:eval(propertize(format-time-string "w%V  %a %d/%h")))
+							   '(:eval(propertize(format-time-string "w%V %a %d/%h")))
 							   ;; Time (Hour:Minutes:Seconds)
 							   '(:eval(propertize(format-time-string "  %H:%M  ")))
 							   ;; Battery Life
+							   (my/battery-modeline)
 							   ))))))
 
    #+end_src
@@ -522,12 +523,14 @@
 ** Smart Parens
    #+begin_src emacs-lisp
 	 (straight-use-package 'smartparens)
+	 (require 'smartparens-config)
 	 (add-hook 'org-mode-hook #'smartparens-mode)
 	 (add-hook 'prog-mode-hook #'smartparens-mode)
 	 ;;(sp-local-pair 'c-mode "'" nil :actions :rem)
 	 ;;(sp-local-pair 'c-mode "'" "'")
-	 ;;(sp-local-pair 'emacs-lisp-mode "`" "'")
+	 (sp-local-pair 'emacs-lisp-mode "`" "'")
 	 (setq-default sp-escape-quotes-after-insert nil)
+	 ;;Symbol's function definition is void: sp-local-pair
    #+end_src
    
 ** Flycheck
@@ -683,11 +686,14 @@
 	 (exwm-enable)
    #+end_src
 
-** COMMENT My/Battery Echo
+** My/Battery Echo
    #+begin_src emacs-lisp
-	 (setq my/batter-echo)
-	 (defun my/battery-echo
-		 (message "%s" ))
+	 (defun my/battery-modeline ()
+	   (let ((my/battery-echo-area-format "[%p%b]"))
+		 (if (and my/battery-echo-area-format battery-status-function)
+			 (battery-format my/battery-echo-area-format
+							 (funcall battery-status-function))
+		   "[N/A]")))
    #+end_src
 
 ** My/Set Brightness

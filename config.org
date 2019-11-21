@@ -9,6 +9,7 @@
   - Gdrive
   - Bind oxtwbs
   - Smart parens binds
+  - Image mode keybinds
 * Emacs Settings
 ** Keyboard Layout
    #+begin_src emacs-lisp
@@ -69,6 +70,7 @@
 	   (let* ((available-width (-(window-width)(length left) 2)))
 		 (format (format "%%s %%%ds " available-width) left right)))
 
+	 (setq battery-mode-line-format "[%p%%]")
 	 (setq-default mode-line-format
 				   '((:eval (modeline-alignment
 							 ;;left
@@ -95,7 +97,8 @@
 							   ;; Time (Hour:Minutes:Seconds)
 							   '(:eval(propertize(format-time-string "  %H:%M  ")))
 							   ;; Battery Life
-							   (my/battery-modeline)
+							   ;;(my/battery-modeline)
+							   battery-mode-line-string
 							   ))))))
 
    #+end_src
@@ -103,6 +106,11 @@
 ** Line Numbers
    #+begin_src emacs-lisp
 	 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+   #+end_src
+
+** Org Setting
+   #+begin_src emacs-lisp
+	 (setq org-src-window-setup 'current-window)
    #+end_src
 
 * Packages / Functions
@@ -689,11 +697,11 @@
 ** My/Battery Echo
    #+begin_src emacs-lisp
 	 (defun my/battery-modeline ()
-	   (let ((my/battery-echo-area-format "[%p%b]"))
-		 (if (and my/battery-echo-area-format battery-status-function)
-			 (battery-format my/battery-echo-area-format
-							 (funcall battery-status-function))
-		   "[N/A]")))
+	   (setq my/battery-echo-area-format "[%p%b]")
+	   (if (and my/battery-echo-area-format battery-status-function)
+		   (battery-format my/battery-echo-area-format
+						   (funcall battery-status-function))
+		 "[N/A]"))
    #+end_src
 
 ** My/Set Brightness

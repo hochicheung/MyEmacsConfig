@@ -1,15 +1,17 @@
 #+TITLE: Emacs Initialization file
 * To Do
   - Rework modeline
-  - Implement hydra binds
-  - Remove default bind ( and ) ?
   - Page up/down inside exwm buffer
   - Spell checking or grammar checking
-  - Keepassxc-cli backend
-  - Gdrive
-  - Bind oxtwbs
+  - Keepassxc-cli frontend
+  - Rclone frontend
+  - Oxtwbs keybinds
   - Smart parens binds
   - Image mode keybinds
+  - Magit diff/ediff keybinds
+  - emacs-mpc keybinds
+  - Media player?
+  - pulseaudio controls
 * Emacs Settings
 ** Keyboard Layout
    #+begin_src emacs-lisp
@@ -558,7 +560,17 @@
 	 (add-hook 'java-mode-hook #'lsp)
 	 (add-hook 'lsp-mode-hook #'lsp)
 	 (add-hook 'haskell-mode-hook #'lsp)
+	 (add-hook 'python-mode-hook #'lsp)
    #+end_src
+
+*** Dap-mode
+	#+begin_src emacs-lisp
+	  (straight-use-package 'dap-mode)
+	  (dap-mode 1)
+	  (dap-ui-mode 1)
+	  (dap-tooltip-mode 1)
+	  (tooltip-mode 1)
+	#+end_src
 
 *** Ccls
    #+begin_src emacs-lisp
@@ -575,6 +587,7 @@
    #+begin_src emacs-lisp
 	 (with-eval-after-load 'lsp
 	   (straight-use-package 'lsp-java)
+	   (require 'dap-java)
 	   (require 'lsp-java))
    #+end_src
 
@@ -597,6 +610,21 @@
 
 	  (require 'company-lsp)
 	  (add-to-list 'company-lsp-filter-candidates '(digestif . nil))
+	#+end_src
+
+*** Lsp-r
+	#+begin_src emacs-lisp
+	  (lsp-register-client
+	   (make-lsp-client :new-connection
+						(lsp-stdio-connection '("R" "--slave" "-e" "languageserver::run()"))
+						:major-modes '(ess-r-mode inferior-ess-r-mode)
+						:server-id 'lsp-R))
+	#+end_src
+
+*** Lsp-python
+	#+begin_src emacs-lisp
+	  (with-eval-after-load 'lsp
+		(require 'dap-python))
 	#+end_src
 
 ** COMMENT Octave-mode
@@ -694,7 +722,7 @@
 	 (exwm-enable)
    #+end_src
 
-** My/Battery Echo
+** COMMENT My/Battery Echo
    #+begin_src emacs-lisp
 	 (defun my/battery-modeline ()
 	   (setq my/battery-echo-area-format "[%p%b]")

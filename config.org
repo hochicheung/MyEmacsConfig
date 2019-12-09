@@ -366,7 +366,7 @@
      (straight-use-package 'avy)
    #+end_src
 
-** COMMENT Which Key
+** Which Key
    #+begin_src emacs-lisp
      (straight-use-package 'which-key)
      (which-key-mode)
@@ -749,4 +749,9 @@
 		 (shell-command
 		  (concat "echo " (number-to-string my/brightness) " > " my/brightness-file))))
 
+   #+end_src
+
+** Pulseaudio-control
+   #+begin_src emacs-lisp
+	 (straight-use-package 'pulseaudio-control)
    #+end_src

@@ -467,6 +467,7 @@
 		(kbd "G") 'end-of-buffer
 		(kbd "M") 'magit-remote
 		(kbd "d") 'magit-diff
+		(kbd "b") 'magit-branch
 		(kbd "Q") 'magit-mode-bury-buffer)
 	#+end_src
 	

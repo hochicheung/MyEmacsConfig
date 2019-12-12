@@ -1,4 +1,3 @@
-#+TITLE: Emacs Initialization file
 * To Do
   - Rework modeline
   - Page up/down inside exwm buffer
@@ -10,7 +9,6 @@
   - Image mode keybinds
   - Magit diff/ediff keybinds
   - emacs-mpc keybinds
-  - Media player?
   - pulseaudio controls
 * Emacs Settings
 ** Keyboard Layout
@@ -272,6 +270,13 @@
 ** Hydra
    #+begin_src emacs-lisp
 	 (straight-use-package 'hydra)
+
+	 (defhydra hydra-menu ()
+	   "Hydra Menu"
+	   ("w" hydra-window/body "hydra-window" :exit t)
+	   ("s-SPC" nil "quit"))
+
+	 (global-set-key (kbd "s-SPC") 'hydra-menu/body)
    #+end_src
 
 *** Hydra-window
@@ -289,9 +294,9 @@
 		("l" enlarge-window-horizontally "hor+")
 		("h" shrink-window-horizontally "hor-")
 		("k" enlarge-window "hor+")
-		("j" shrink-window "hor+"))
-
-	  (global-set-key (kbd "C-q") 'hydra-window/body)
+		("j" shrink-window "hor+")
+		("b" hydra-menu/body "back" :exit t)
+		("s-SPC" nil "quit"))
 	#+end_src
 
 ** Ivy

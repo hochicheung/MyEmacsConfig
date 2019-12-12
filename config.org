@@ -274,6 +274,7 @@
 	 (defhydra hydra-menu ()
 	   "Hydra Menu"
 	   ("w" hydra-window/body "hydra-window" :exit t)
+	   ("e" hydra-pulseaudio/body "hydra-pulseaudio" :exit t)
 	   ("s-SPC" nil "quit"))
 
 	 (global-set-key (kbd "s-SPC") 'hydra-menu/body)
@@ -294,10 +295,22 @@
 		("l" enlarge-window-horizontally "hor+")
 		("h" shrink-window-horizontally "hor-")
 		("k" enlarge-window "hor+")
-		("j" shrink-window "hor+")
+		("j" shrink-window "hor-")
 		("b" hydra-menu/body "back" :exit t)
 		("s-SPC" nil "quit"))
 	#+end_src
+
+*** Hydra-pulseaudio
+	#+begin_src emacs-lisp
+	  (defhydra hydra-pulseaudio ()
+		"pulseaudio-menu"
+		("=" pulseaudio-control-increase-volume "inc +10")
+		("-" pulseaudio-control-decrease-volume "dec -10")
+		("b" hydra-window/body "back" :exit t)
+		("s-SPC" nil "quit" :exit t))
+	#+end_src
+
+	#+RESULTS:
 
 ** Ivy
    #+begin_src emacs-lisp

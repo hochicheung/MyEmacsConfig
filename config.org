@@ -1,6 +1,5 @@
 * To Do
   - Rework modeline
-  - Page up/down inside exwm buffer
   - Spell checking or grammar checking
   - Keepassxc-cli frontend
   - Rclone frontend
@@ -8,8 +7,6 @@
   - Smart parens binds
   - Image mode keybinds
   - Magit diff/ediff keybinds
-  - emacs-mpc keybinds
-  - pulseaudio controls
 * Emacs Settings
 ** Keyboard Layout
    #+begin_src emacs-lisp
@@ -270,16 +267,19 @@
 ** Hydra
    #+begin_src emacs-lisp
 	 (straight-use-package 'hydra)
-
-	 (defhydra hydra-menu ()
-	   "Hydra Menu"
-	   ("w" hydra-window/body "hydra-window" :exit t)
-	   ("e" hydra-pulseaudio/body "hydra-pulseaudio" :exit t)
-	   ("s-SPC" nil "quit"))
-
-	 (global-set-key (kbd "s-SPC") 'hydra-menu/body)
    #+end_src
+	 
+*** Hydra-menu
+		#+begin_src emacs-lisp
+			(defhydra hydra-menu ()
+				"Hydra Menu"
+				("w" hydra-window/body "hydra-window" :exit t)
+				("e" hydra-pulseaudio/body "hydra-pulseaudio" :exit t)
+				("s-SPC" nil "quit"))
 
+			(global-set-key (kbd "s-SPC") 'hydra-menu/body)
+		#+end_src
+		
 *** Hydra-window
 	#+begin_src emacs-lisp
 	  (defhydra hydra-window ()
@@ -302,11 +302,13 @@
 
 *** Hydra-pulseaudio
 	#+begin_src emacs-lisp
-	  (defhydra hydra-pulseaudio ()
+		(defhydra hydra-pulseaudio ()
 		"pulseaudio-menu"
-		("=" pulseaudio-control-increase-volume "inc +10")
 		("-" pulseaudio-control-decrease-volume "dec -10")
-		("b" hydra-window/body "back" :exit t)
+		("=" pulseaudio-control-increase-volume "inc +10")
+		("_" pulseaudio-control-select-sink-by-name "select sink")
+		("+" pulseaudio-control-toggle-current-sink-mute "mute sink")
+		("b" hydra-menu/body "back" :exit t)
 		("s-SPC" nil "quit" :exit t))
 	#+end_src
 
@@ -629,74 +631,90 @@
 	 (add-hook 'latex-mode-hook 'turn-on-reftex)
    #+end_src
 
+** Common Lisp
+	 #+begin_src emacs-lisp
+		 (require 'cl)
+	 #+end_src
+
 ** Exwm
    #+begin_src emacs-lisp
-	 (straight-use-package 'exwm)
-	 (server-start)
-	 (require 'exwm)
+		 (straight-use-package 'exwm)
+		 (server-start)
+		 (require 'exwm)
 
-	 (setq exwm-workspace-number 4)
-	 (setq ediff-window-setup-function 'ediff-setup-window-plain)
+		 (setq exwm-workspace-number 4)
+		 (setq ediff-window-setup-function 'ediff-setup-window-plain)
 
-	 (add-hook 'exwm-update-class-hook
-			   (lambda ()
-				 (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-							 (string= "gimp" exwm-instance-name))
-				   (exwm-workspace-rename-buffer exwm-class-name))))
-	 (add-hook 'exwm-update-title-hook
-			   (lambda ()
-				 (when (or (not exwm-instance-name)
-						   (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-						   (string= "gimp" exwm-instance-name))
-				   (exwm-workspace-rename-buffer exwm-title))))
+		 (add-hook 'exwm-update-class-hook
+							 (lambda ()
+								 (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+														 (string= "gimp" exwm-instance-name))
+									 (exwm-workspace-rename-buffer exwm-class-name))))
+		 (add-hook 'exwm-update-title-hook
+							 (lambda ()
+								 (when (or (not exwm-instance-name)
+													 (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+													 (string= "gimp" exwm-instance-name))
+									 (exwm-workspace-rename-buffer exwm-title))))
 
-	 (setq exwm-input-global-keys
-		   `(
-			 ;; [s-r] Exit char-mode and fullscreen mode
-			 ([?\s-r] . exwm-reset)
-			 ;; [s-w] Switch workspace interactively
-			 ([?\s-w] . exwm-workspace-switch)
-			 ;; [s-%d] Switch to a workspace by its index
-			 ,@(mapcar (lambda (i)
-						 `(,(kbd (format "s-%d" i)) .
-						   (lambda ()
-							 (interactive)
-							 (exwm-workspace-switch-create ,i))))
-					   (number-sequence 0 9))
-			 ;; [s-&][M-&] Launch applications 
-			 ([?\s-&] . (lambda (command)
-						  (interactive (list (read-shell-command "$ ")))
-						  (start-process-shell-command command nil command)))
-			 ;; Bind "s-<f2>" to "slock", a simple X display locker.
-			 ([s-f2] . (lambda ()
-						 (interactive)
-						 (start-process "" nil "/usr/bin/slock")))))
+		 (setq exwm-input-global-keys
+					 `(
+						 ;; [s-r] Exit char-mode and fullscreen mode
+						 ([?\s-r] . exwm-reset)
+						 ;; [s-w] Switch workspace interactively
+						 ([?\s-w] . exwm-workspace-switch)
+						 ;; [s-%d] Switch to a workspace by its index
+						 ,@(mapcar (lambda (i)
+												 `(,(kbd (format "s-%d" i)) .
+													 (lambda ()
+														 (interactive)
+														 (exwm-workspace-switch-create ,i))))
+											 (number-sequence 0 9))
+						 ;; [s-&][M-&] Launch applications 
+						 ([?\s-&] . (lambda (command)
+													(interactive (list (read-shell-command "$ ")))
+													(start-process-shell-command command nil command)))
+						 ;; Bind "s-<f2>" to "slock", a simple X display locker.
+						 ([s-f2] . (lambda ()
+												 (interactive)
+												 (start-process "" nil "/usr/bin/slock")))))
 
-	 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
+		 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
+		 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
 
-	 (setq exwm-input-simulation-keys
-		   '(
-			 ;; movement
-			 ([?\C-b] . [left])
-			 ([?\M-b] . [C-left])
-			 ([?\C-f] . [right])
-			 ([?\M-f] . [C-right])
-			 ([?\C-p] . [up])
-			 ([?\C-n] . [down])
-			 ([?\C-a] . [home])
-			 ([?\C-e] . [end])
-			 ([?\M-v] . [prior])
-			 ([?\C-v] . [next])
-			 ([?\C-d] . [delete])
-			 ([?\C-k] . [S-end delete])
-			 ;; cut/paste.
-			 ([?\C-w] . [?\C-x])
-			 ([?\M-w] . [?\C-c])
-			 ([?\C-y] . [?\C-v])
-			 ;; search
-			 ([?\C-s] . [?\C-f])))
+		 (evil-set-initial-state 'exwm-mode 'emacs)
+		 (setq exwm-input-simulation-keys
+					 '(
+						 ;; movement
+						 ([?\C-b] . [left])
+						 ([?\M-b] . [C-left])
+						 ([?\C-f] . [right])
+						 ([?\M-f] . [C-right])
+						 ([?\C-p] . [up])
+						 ([?\C-n] . [down])
+						 ([?\C-a] . [home])
+						 ([?\C-e] . [end])
+						 ([?\C-u] . [prior])
+						 ([?\C-d] . [next])
+						 ([?\C-k] . [S-end delete])
+						 ;; cut/paste.
+						 ([?\C-w] . [?\C-x])
+						 ([?\M-w] . [?\C-c])
+						 ([?\C-y] . [?\C-v])
+						 ;; search
+						 ([?\C-s] . [?\C-f])))
 
-	 (exwm-enable)
+		 (defun exwm-passthrough (orig-fun keymap on-exit &optional foreign-keys)
+			 (setq exwm-input-line-mode-passthrough t)
+			 (let ((on-exit (lexical-let ((on-exit on-exit))
+																	 (lambda ()
+																		 (setq exwm-input-line-mode-passthrough nil)
+																		 (when on-exit (funcall on-exit))))))
+				 (apply orig-fun keymap on-exit (list foreign-keys))))
+
+		 (advice-add 'hydra-set-transient-map :around #'exwm-passthrough)
+
+		 (exwm-enable)
    #+end_src
 
 ** COMMENT My/Battery Echo

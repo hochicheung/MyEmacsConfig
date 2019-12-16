@@ -1,6 +1,5 @@
-* To Do
+* COMMENT To Do
   - Rework modeline
-  - Spell checking or grammar checking
   - Keepassxc-cli frontend
   - Rclone frontend
   - Oxtwbs keybinds
@@ -686,23 +685,8 @@
 		 (setq exwm-input-simulation-keys
 					 '(
 						 ;; movement
-						 ([?\C-b] . [left])
-						 ([?\M-b] . [C-left])
-						 ([?\C-f] . [right])
-						 ([?\M-f] . [C-right])
-						 ([?\C-p] . [up])
-						 ([?\C-n] . [down])
-						 ([?\C-a] . [home])
-						 ([?\C-e] . [end])
 						 ([?\C-u] . [prior])
-						 ([?\C-d] . [next])
-						 ([?\C-k] . [S-end delete])
-						 ;; cut/paste.
-						 ([?\C-w] . [?\C-x])
-						 ([?\M-w] . [?\C-c])
-						 ([?\C-y] . [?\C-v])
-						 ;; search
-						 ([?\C-s] . [?\C-f])))
+						 ([?\C-d] . [next])))
 
 		 (defun exwm-passthrough (orig-fun keymap on-exit &optional foreign-keys)
 			 (setq exwm-input-line-mode-passthrough t)

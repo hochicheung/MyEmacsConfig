@@ -154,15 +154,20 @@
 				 (dired-hide-details-mode)))
    #+end_src
 
+** Undo-Tree
+	 #+begin_src emacs-lisp
+		 (global-undo-tree-mode)
+	 #+end_src
+
 ** W3M
    #+begin_src emacs-lisp
-	 (straight-use-package 'w3m)
+		 (straight-use-package 'w3m)
 
-	 (require 'w3m)
-	 (w3m-display-mode 'plain)
-	 (setq w3m-use-title-buffer-name t)
-	 (setq w3m-default-display-inline-images t)
-	 (setq w3m-idle-images-show-interval 0)
+		 (require 'w3m)
+		 (w3m-display-mode 'plain)
+		 (setq w3m-use-title-buffer-name t)
+		 (setq w3m-default-display-inline-images t)
+		 (setq w3m-idle-images-show-interval 0)
    #+end_src
 
 ** Mu4e

@@ -356,27 +356,11 @@
 
 ** Colorschemes
 
-*** Gruvbox Theme
-    #+begin_src emacs-lisp
-      (straight-use-package 'gruvbox-theme)
-    #+end_src
-
 *** Spacemacs Theme
     #+begin_src emacs-lisp
       (straight-use-package 'spacemacs-theme)
     #+end_src
    
-*** Ample Theme
-	#+begin_src emacs-lisp
-	  (straight-use-package 'ample-theme)
-	#+end_src
-
-*** Doom Theme
-	#+begin_src emacs-lisp
-	  (straight-use-package 'doom-themes)
-	  ;;(doom-themes-org-config)
-	#+end_src
-
 *** Load Scheme
     #+begin_src emacs-lisp
       (load-theme 'spacemacs-dark t)

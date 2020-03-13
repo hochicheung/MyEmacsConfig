@@ -365,7 +365,14 @@
     #+begin_src emacs-lisp
       (load-theme 'spacemacs-dark t)
     #+end_src
-
+		
+** Org-brain
+	 #+begin_src emacs-lisp
+		 (straight-use-package 'org-brain)
+		 (with-eval-after-load 'evil
+			 (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+		 (global-set-key (kbd "s-b") 'org-brain-visualize)
+	 #+end_src
 ** Code Completion
 *** Yasnippet
 	#+begin_src emacs-lisp

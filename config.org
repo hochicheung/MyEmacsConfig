@@ -704,6 +704,9 @@
 												 (start-process "" nil "/usr/bin/slock")))))
 
 		 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
+		 (define-key exwm-mode-map [?\C-w C-w] #'evil-window-next)
+		 (define-key exwm-mode-map [?\C-w C-v] #'evil-window-split)
+		 (define-key exwm-mode-map [?\C-w C-s] #'evil-window-vsplit)
 		 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
 
 		 (evil-set-initial-state 'exwm-mode 'emacs)

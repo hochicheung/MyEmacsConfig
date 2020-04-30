@@ -198,6 +198,10 @@
 (straight-use-package 'spacemacs-theme)
 (load-theme 'spacemacs-dark t)
 
+;;;; Outshine
+(straight-use-package 'outshine)
+(add-hook 'emacs-lisp-mode-hook 'outshine-mode)
+
 ;;;; Org-brain
 (straight-use-package 'org-brain)
 (global-set-key (kbd "s-b") 'org-brain-visualize)

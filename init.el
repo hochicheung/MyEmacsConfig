@@ -1,3 +1,5 @@
+;; TODO
+;; Modeline(wifi, battery, time n date, timezone?, git, filestatus, file location, cursor location, file name)
 ;;; Emacs Settings
 ;;;; Keyboard Layout
 (shell-command
@@ -205,6 +207,9 @@
 ;;;; Org-brain
 (straight-use-package 'org-brain)
 (global-set-key (kbd "s-b") 'org-brain-visualize)
+(with-eval-after-load 'evil
+	(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+(add-hook 'org-brain-visualize-text-hook 'org-toggle-latex-fragment)
 
 ;;;;; Keybinds
 ;; (require 'evil)

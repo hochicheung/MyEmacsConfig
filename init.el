@@ -3,7 +3,7 @@
 ;;; Emacs Settings
 ;;;; Keyboard Layout
 (shell-command
- "setxkbmap -layout us -cariant altgr-intl -option caps:escape")
+ "setxkbmap -layout us -variant altgr-intl -option caps:escape")
 
 ;;;; Emacs UI
 (menu-bar-mode -1)
@@ -518,3 +518,8 @@
 
 ;;;; Pulseaudio-control
 (straight-use-package 'pulseaudio-control)
+
+;;;; ENWC
+(straight-use-package 'enwc)
+(setq enwc-default-backend 'nm)
+(evil-set-initial-state 'enwc-mode 'emacs)

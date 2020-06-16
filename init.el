@@ -1,5 +1,3 @@
-;; TODO
-;; Modeline(wifi, battery, time n date, timezone?, git, filestatus, file location, cursor location, file name)
 ;;; Emacs Settings
 ;;;; Keyboard Layout
 (shell-command

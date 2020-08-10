@@ -3,7 +3,7 @@
 ;;; Emacs Settings
 ;;;; Keyboard Layout
 (shell-command
- "setxkbmap -layout us -cariant altgr-intl -option caps:escape")
+ "setxkbmap -layout us -variant altgr-intl -option caps:escape")
 
 ;;;; Emacs UI
 (menu-bar-mode -1)
@@ -171,10 +171,15 @@
 ;;;; Ivy
 (straight-use-package 'ivy)
 (ivy-mode)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
 
 ;;;;; Counsel
 (straight-use-package 'counsel)
+(counsel-mode)
 (global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x d") 'counsel-dired)
+(global-set-key (kbd "C-x b") 'counsel-switch-buffer)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)

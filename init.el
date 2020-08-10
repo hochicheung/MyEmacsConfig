@@ -1,5 +1,3 @@
-;; TODO
-;; Modeline(wifi, battery, time n date, timezone?, git, filestatus, file location, cursor location, file name)
 ;;; Emacs Settings
 ;;;; Keyboard Layout
 (shell-command
@@ -474,12 +472,14 @@
 				([?\s-&] . (lambda (command)
 										 (interactive (list (read-shell-command "$ ")))
 										 (start-process-shell-command command nil command)))
-				;; Bind "s-<f2>" to "slock", a simple X display locker.
+				;; Bind "s-<f2>" to start mupdf on this pdf file
 				([s-f2] . (lambda ()
 										(interactive)
-										(start-process "" nil "/usr/bin/slock")))))
+										(start-process "" nil "/usr/bin/mupdf" (f-this-file))))))
 
 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
+(define-key exwm-mode-map [?\s-c] #'exwm-input-release-keyboard)
+(define-key exwm-mode-map [?\s-f] #'exwm-layout-toggle-fullscreen)
 (define-key exwm-mode-map [?\C-w ?\C-w] #'evil-window-next)
 (define-key exwm-mode-map [?\C-w ?\C-s] #'evil-window-split)
 (define-key exwm-mode-map [?\C-w ?\C-v] #'evil-window-vsplit)
@@ -523,3 +523,8 @@
 
 ;;;; Pulseaudio-control
 (straight-use-package 'pulseaudio-control)
+
+;;;; ENWC
+(straight-use-package 'enwc)
+(setq enwc-default-backend 'nm)
+(evil-set-initial-state 'enwc-mode 'emacs)

@@ -123,8 +123,8 @@
 						(dired-hide-details-mode)))
 
 ;;;; Undo-Tree
-(straight-use-package 'undo-tree)
-(global-undo-tree-mode)
+;;(straight-use-package 'undo-tree)
+;;(global-undo-tree-mode)
 
 ;;;; Hydra
 (straight-use-package 'hydra)
@@ -168,7 +168,6 @@
 
 ;;;; Ivy
 (straight-use-package 'ivy)
-(ivy-mode)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 
@@ -210,8 +209,8 @@
 ;;;; Org-brain
 (straight-use-package 'org-brain)
 (global-set-key (kbd "s-b") 'org-brain-visualize)
-(with-eval-after-load 'evil
-	(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+;;(with-eval-after-load 'evil
+;;(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
 (add-hook 'org-brain-visualize-text-hook 'org-toggle-latex-fragment)
 
 ;;;;; Keybinds
@@ -270,13 +269,13 @@
 (setq company-lsp-enable-snippet t)
 
 ;;;; ESS
-(straight-use-package 'ess)
-(require 'ess-r-mode)
+;;(straight-use-package 'ess)
+;;(require 'ess-r-mode)
 
 ;;;; Org-babel
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((R . t)))
+;;(org-babel-do-load-languages
+;;'org-babel-load-languages
+;;'((R . t)))
 
 ;;;; Magit
 (straight-use-package 'magit)
@@ -374,11 +373,11 @@
 ;;;; LSP-mode
 (straight-use-package 'lsp-mode)
 (require 'lsp-mode)
+(add-hook 'lsp-mode-hook #'lsp)
 (add-hook 'c++-mode-hook #'lsp)
 (add-hook 'c-mode-hook #'lsp)
 (add-hook 'java-mode-hook #'lsp)
-(add-hook 'lsp-mode-hook #'lsp)
-(add-hook 'haskell-mode-hook #'lsp)
+;;(add-hook 'haskell-mode-hook #'lsp)
 (add-hook 'python-mode-hook #'lsp)
 
 ;;;;; Dap-mode
@@ -394,7 +393,6 @@
 	(require 'ccls)
 	(setq ccls-executable "/usr/bin/ccls")
 	(add-hook 'c-mode-hook #'lsp)
-	(add-hook 'objc-mode-hook #'lsp)
 	(add-hook 'c++-mode-hook #'lsp))
 
 ;;;;; LSP-java
@@ -404,29 +402,29 @@
 	(require 'lsp-java))
 
 ;;;;; LSP-haskell
-(with-eval-after-load 'lsp
-	(straight-use-package 'lsp-haskell)
-	(require 'lsp-haskell))
+;;(with-eval-after-load 'lsp
+;;(straight-use-package 'lsp-haskell)
+;;(require 'lsp-haskell))
 
 ;;;;; LSP-tex
-(with-eval-after-load 'lsp
-(lsp-register-client
- (make-lsp-client :new-connection (lsp-stdio-connection "digestif")
-									:major-modes '(latex-mode plain-tex-mode)
-									:server-id 'digestif))
-(add-to-list 'lsp-language-id-configuration '(latex-mode . "latex"))
-(add-to-list 'lsp-language-id-configuration '(plain-tex-mode . "plaintex"))
-
-(require 'company-lsp)
-(add-to-list 'company-lsp-filter-candidates '(digestif . nil)))
+;;(with-eval-after-load 'lsp
+;;(lsp-register-client
+;;(make-lsp-client :new-connection (lsp-stdio-connection "digestif")
+;;:major-modes '(latex-mode plain-tex-mode)
+;;:server-id 'digestif))
+;;(add-to-list 'lsp-language-id-configuration '(latex-mode . "latex"))
+;;(add-to-list 'lsp-language-id-configuration '(plain-tex-mode . "plaintex"))
+;;
+;;(require 'company-lsp)
+;;(add-to-list 'company-lsp-filter-candidates '(digestif . nil)))
 
 ;;;;; LSP-r
-(with-eval-after-load 'lsp
-	(lsp-register-client
-	 (make-lsp-client :new-connection
-										(lsp-stdio-connection '("R" "--slave" "-e" "languageserver::run()"))
-										:major-modes '(ess-r-mode inferior-ess-r-mode)
-										:server-id 'lsp-R)))
+;;(with-eval-after-load 'lsp
+;;(lsp-register-client
+;;(make-lsp-client :new-connection
+;;(lsp-stdio-connection '("R" "--slave" "-e" "languageserver::run()"))
+;;:major-modes '(ess-r-mode inferior-ess-r-mode)
+;;:server-id 'lsp-R)))
 
 ;;;;; LSP-python
 (with-eval-after-load 'lsp
@@ -523,8 +521,3 @@
 
 ;;;; Pulseaudio-control
 (straight-use-package 'pulseaudio-control)
-
-;;;; ENWC
-(straight-use-package 'enwc)
-(setq enwc-default-backend 'nm)
-(evil-set-initial-state 'enwc-mode 'emacs)

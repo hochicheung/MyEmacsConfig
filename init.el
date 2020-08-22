@@ -121,6 +121,13 @@
 (add-hook 'dired-mode-hook
 					(lambda ()
 						(dired-hide-details-mode)))
+;; Human readable memory listing
+(setq dired-listing-switches "-alh")
+
+;;;; Dired-du
+(straight-use-package 'dired-du)
+(dired-du-mode)
+(setq dired-du-size-format t)
 
 ;;;; Undo-Tree
 ;;(straight-use-package 'undo-tree)

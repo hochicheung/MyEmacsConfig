@@ -126,7 +126,6 @@
 
 ;;;; Dired-du
 (straight-use-package 'dired-du)
-(dired-du-mode)
 (setq dired-du-size-format t)
 
 ;;;; Undo-Tree

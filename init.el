@@ -174,7 +174,7 @@
 
 ;;;; Ivy
 (straight-use-package 'ivy)
-(ivy-mode t)
+(ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 
@@ -215,44 +215,17 @@
 
 ;;;; Org-brain
 (straight-use-package 'org-brain)
+(setq org-brain-path "~/Documents/OrgBrain")
 (global-set-key (kbd "s-b") 'org-brain-visualize)
-;;(with-eval-after-load 'evil
-;;(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
-(add-hook 'org-brain-visualize-text-hook 'org-toggle-latex-fragment)
+(with-eval-after-load 'evil
+	(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+(setq org-id-track-globally t)
+(setq org-id-locations-file "~/.emacs.d/.org-id-locations")
+(add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
 
-;;;;; Keybinds
-;; (require 'evil)
-;; (evil-define-key 'normal 'org-brain-visualize-mode-map
-;; 	(kbd "m") 'org-brain-visualize-mind-map
-;; 	(kbd "j") 'forward-button
-;; 	(kbd "k") 'backward-button
-;; 	(kbd "H") 'org-brain-visualize-back
-;; 	(kbd "c") 'org-brain-add-child
-;; 	(kbd "C") 'org-brain-remove-child
-;; 	(kbd "e") 'org-brain-annotate-edge
-;; 	(kbd "p") 'org-brain-add-parent
-;; 	(kbd "P") 'org-brain-remove-parent
-;; 	(kbd "f") 'org-brain-add-friendship
-;; 	(kbd "F") 'org-brain-remove-friendship
-;; 	(kbd "b") 'org-brain-pin
-;; 	(kbd "s") 'org-brain-select-dwim
-;; 	(kbd "S") 'org-brain-select-map
-;; 	(kbd "t") 'org-brain-set-title
-;; 	(kbd "T") 'org-brain-set-tags
-;; 	(kbd "d") 'org-brain-delete-entry
-;; 	(kbd "l") 'org-brain-visualize-add-resource
-;; 	(kbd "r") 'org-brain-open-resource
-;; 	(kbd "L") 'org-brain-visualize-paste-resource
-;; 	(kbd "o") 'org-brain-goto-current
-;; 	(kbd "O") 'org-brain-goto
-;; 	(kbd "v") 'org-brain-visualize
-;; 	(kbd "V") 'org-brain-visualize-follow
-;; 	(kbd "R") 'org-brain-refile
-;; 	(kbd "M") 'org-brain-change-local-parent
-;; 	(kbd "-") 'org-brain-show-descendant-level
-;; 	(kbd "=") 'org-brain-hide-descendant-level
-;; 	(kbd "_") 'org-brain-show-ancestor-level
-;; 	(kbd "+") 'org-brain-hide-ancestor-level)
+(setq org-brain-visualize-default-choices 'all)
+(setq org-brain-scan-for-header-entries nil)
+(add-hook 'org-brain-visualize-text-hook 'org-toggle-latex-fragment)
 
 ;;;; Code Completion Engines
 
@@ -274,15 +247,6 @@
 (setq company-lsp-cache-candidates t)
 (setq company-lsp-async t)
 (setq company-lsp-enable-snippet t)
-
-;;;; ESS
-;;(straight-use-package 'ess)
-;;(require 'ess-r-mode)
-
-;;;; Org-babel
-;;(org-babel-do-load-languages
-;;'org-babel-load-languages
-;;'((R . t)))
 
 ;;;; Magit
 (straight-use-package 'magit)
@@ -408,31 +372,6 @@
 	(require 'dap-java)
 	(require 'lsp-java))
 
-;;;;; LSP-haskell
-;;(with-eval-after-load 'lsp
-;;(straight-use-package 'lsp-haskell)
-;;(require 'lsp-haskell))
-
-;;;;; LSP-tex
-;;(with-eval-after-load 'lsp
-;;(lsp-register-client
-;;(make-lsp-client :new-connection (lsp-stdio-connection "digestif")
-;;:major-modes '(latex-mode plain-tex-mode)
-;;:server-id 'digestif))
-;;(add-to-list 'lsp-language-id-configuration '(latex-mode . "latex"))
-;;(add-to-list 'lsp-language-id-configuration '(plain-tex-mode . "plaintex"))
-;;
-;;(require 'company-lsp)
-;;(add-to-list 'company-lsp-filter-candidates '(digestif . nil)))
-
-;;;;; LSP-r
-;;(with-eval-after-load 'lsp
-;;(lsp-register-client
-;;(make-lsp-client :new-connection
-;;(lsp-stdio-connection '("R" "--slave" "-e" "languageserver::run()"))
-;;:major-modes '(ess-r-mode inferior-ess-r-mode)
-;;:server-id 'lsp-R)))
-
 ;;;;; LSP-python
 (with-eval-after-load 'lsp
 	(require 'dap-python))
@@ -498,6 +437,7 @@
 				([?\C-u] . [prior])
 				([?\C-d] . [next])))
 
+;; xrandr multiple monitor
 (defun exwm-passthrough (orig-fun keymap on-exit &optional foreign-keys)
 	(setq exwm-input-line-mode-passthrough t)
 	(let ((on-exit (lexical-let ((on-exit on-exit))
@@ -507,6 +447,14 @@
 		(apply orig-fun keymap on-exit (list foreign-keys))))
 
 (advice-add 'hydra-set-transient-map :around #'exwm-passthrough)
+
+(require 'exwm-randr)
+(setq exwm-randr-workspace-output-plist '(1 "DP-1" 2 "DP-2"))
+(add-hook 'exwm-randr-screen-change-hook
+          (lambda ()
+            (start-process-shell-command
+             "xrandr" nil "xrandr --output DP-1 --right-of LVDS1 --auto")))
+(exwm-randr-enable)
 
 (exwm-enable)
 

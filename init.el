@@ -42,6 +42,10 @@
 (setq browse-url-browser-function 'browse-url-generic
 			browse-url-generic-program "qutebrowser")
 
+;;;; Battery
+(require 'battery)
+(setq battery-mode-line-format "%th - %p")
+
 ;;;; Modeline
 (defun modeline-alignment (left right)
 	(let* ((available-width (-(window-width)(length left) 2)))

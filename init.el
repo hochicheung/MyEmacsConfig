@@ -172,6 +172,9 @@
 	("b" hydra-menu/body "back" :exit t)
 	("s-SPC" nil "quit" :exit t))
 
+;;;; Ido
+(ido-mode -1)
+
 ;;;; Ivy
 (straight-use-package 'ivy)
 (ivy-mode 1)
@@ -183,7 +186,7 @@
 (counsel-mode)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x d") 'counsel-dired)
-(global-set-key (kbd "C-x b") 'counsel-switch-buffer)
+(global-set-key (kbd "C-x b") 'switch-to-buffer)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)

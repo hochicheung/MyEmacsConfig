@@ -47,7 +47,7 @@
 	(let* ((available-width (-(window-width)(length left) 2)))
 		(format (format "%%s %%%ds " available-width) left right)))
 
-(setq battery-mode-line-format "[%p%%]")
+(setq battery-mode-line-format "%p%%")
 (setq-default mode-line-format
 							'((:eval (modeline-alignment
 												;;left
@@ -125,8 +125,8 @@
 (setq dired-listing-switches "-alh")
 
 ;;;; Dired-du
-(straight-use-package 'dired-du)
-(setq dired-du-size-format t)
+;;(straight-use-package 'dired-du)
+;;(setq dired-du-size-format t)
 
 ;;;; Undo-Tree
 ;;(straight-use-package 'undo-tree)
@@ -171,9 +171,6 @@
 	("+" pulseaudio-control-toggle-current-sink-mute "mute sink")
 	("b" hydra-menu/body "back" :exit t)
 	("s-SPC" nil "quit" :exit t))
-
-;;;; Ido
-(ido-mode -1)
 
 ;;;; Ivy
 (straight-use-package 'ivy)
@@ -236,7 +233,6 @@
 (straight-use-package 'yasnippet)
 (add-to-list 'load-path
 						 "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
 (yas-global-mode 1)
 
 ;;;;; Company
@@ -348,11 +344,8 @@
 (straight-use-package 'lsp-mode)
 (require 'lsp-mode)
 (add-hook 'lsp-mode-hook #'lsp)
-(add-hook 'c++-mode-hook #'lsp)
 (add-hook 'c-mode-hook #'lsp)
 (add-hook 'java-mode-hook #'lsp)
-;;(add-hook 'haskell-mode-hook #'lsp)
-(add-hook 'python-mode-hook #'lsp)
 
 ;;;;; Dap-mode
 (straight-use-package 'dap-mode)
@@ -366,21 +359,13 @@
 	(straight-use-package 'ccls)
 	(require 'ccls)
 	(setq ccls-executable "/usr/bin/ccls")
-	(add-hook 'c-mode-hook #'lsp)
-	(add-hook 'c++-mode-hook #'lsp))
+	(add-hook 'c-mode-hook #'lsp))
 
 ;;;;; LSP-java
 (with-eval-after-load 'lsp
 	(straight-use-package 'lsp-java)
 	(require 'dap-java)
 	(require 'lsp-java))
-
-;;;;; LSP-python
-(with-eval-after-load 'lsp
-	(require 'dap-python))
-
-;;;; Common Lisp
-(require 'cl)
 
 ;;;; EXWM
 (straight-use-package 'exwm)

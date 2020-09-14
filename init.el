@@ -201,6 +201,10 @@
 ;;;; Avy
 (straight-use-package 'avy)
 
+;;;; Vterm
+(straight-use-package 'vterm)
+(require 'vterm)
+
 ;;;; Which Key
 (straight-use-package 'which-key)
 (which-key-mode)

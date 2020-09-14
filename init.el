@@ -202,7 +202,7 @@
 (straight-use-package 'avy)
 
 ;;;; Vterm
-(straight-use-package 'vterm)
+;;(straight-use-package 'vterm)
 
 ;;;; Which Key
 (straight-use-package 'which-key)

@@ -132,6 +132,9 @@
 ;;(straight-use-package 'undo-tree)
 ;;(global-undo-tree-mode)
 
+;;;; Common-lisp
+(require 'cl)
+
 ;;;; Hydra
 (straight-use-package 'hydra)
 
@@ -464,3 +467,6 @@
 
 ;;;; Pulseaudio-control
 (straight-use-package 'pulseaudio-control)
+
+;;;; Ido-mode
+(ido-mode -1)

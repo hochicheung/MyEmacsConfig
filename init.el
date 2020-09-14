@@ -129,8 +129,8 @@
 ;;(setq dired-du-size-format t)
 
 ;;;; Undo-Tree
-;;(straight-use-package 'undo-tree)
-;;(global-undo-tree-mode)
+(straight-use-package 'undo-tree)
+(global-undo-tree-mode)
 
 ;;;; Common-lisp
 (require 'cl)
@@ -203,7 +203,6 @@
 
 ;;;; Vterm
 (straight-use-package 'vterm)
-(require 'vterm)
 
 ;;;; Which Key
 (straight-use-package 'which-key)
@@ -473,4 +472,4 @@
 (straight-use-package 'pulseaudio-control)
 
 ;;;; Ido-mode
-(ido-mode -1)
+(ido-mode nil)

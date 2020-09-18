@@ -177,7 +177,7 @@
 
 ;;;; Ivy
 (straight-use-package 'ivy)
-(ivy-mode 1)
+(add-hook 'after-init-hook 'ivy-mode)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 
@@ -185,9 +185,9 @@
 (straight-use-package 'counsel)
 (counsel-mode)
 (global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x d") 'counsel-dired)
-(global-set-key (kbd "C-x b") 'switch-to-buffer)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;;(global-set-key (kbd "C-x d") 'counsel-dired)
+;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
+(global-set-key (kbd "C-x d") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
@@ -472,4 +472,10 @@
 (straight-use-package 'pulseaudio-control)
 
 ;;;; Ido-mode
-(ido-mode nil)
+(ido-mode -1)
+(defun ido-mode (&optional rest)
+	())
+
+;;;; Libvterm
+	(setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
+(load-library "vterm-autoloads")

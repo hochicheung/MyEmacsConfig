@@ -471,6 +471,16 @@
 ;;;; Pulseaudio-control
 (straight-use-package 'pulseaudio-control)
 
+;;;; ScreenShot
+(straight-use-package 'screenshot)
+(setq screenshot-schemes
+			'(
+				("local"
+				 :dir "~/Media/Screenshots")
+				("current-dir"
+				 :dir default-directory)))
+(setq screenshot-default-scheme "local")
+
 ;;;; Ido-mode
 (ido-mode -1)
 (defun ido-mode (&optional rest)

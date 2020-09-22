@@ -222,16 +222,24 @@
 ;;;; Org-brain
 (straight-use-package 'org-brain)
 (setq org-brain-path "~/Documents/OrgBrain")
+(setq org-brain-show-history nil)
+(setq org-brain-show-resources nil)
+(setq org-brain-open-same-window t)
+
 (global-set-key (kbd "s-b") 'org-brain-visualize)
+
 (with-eval-after-load 'evil
 	(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
-(setq org-id-track-globally t)
-(setq org-id-locations-file "~/.emacs.d/.org-id-locations")
+
 (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
 
-(setq org-brain-visualize-default-choices 'all)
-(setq org-brain-scan-for-header-entries nil)
+(setq org-brain-completion-system 'ivy)
+
+(with-eval-after-load 'org
+	(require 'org-brain))
+
 (add-hook 'org-brain-visualize-text-hook 'org-toggle-latex-fragment)
+(add-hook 'org-brain-visualize-text-hook 'org-toggle-inline-images)
 
 ;;;; Code Completion Engines
 

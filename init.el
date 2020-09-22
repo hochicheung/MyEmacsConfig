@@ -83,6 +83,7 @@
 
 ;;;; Org-settings
 (setq org-src-window-setup 'current-window)
+(setq org-image-actual-width (* 15 (/ (window-width) 3)))
 
 ;;; Packages
 ;;;; Straight

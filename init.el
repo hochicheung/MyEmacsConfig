@@ -482,13 +482,13 @@
 
 ;;;; ScreenShot
 (straight-use-package 'screenshot)
+(global-set-key (kbd "s-p") 'screenshot)
 (setq screenshot-schemes
 			'(
 				("local"
 				 :dir "~/Media/Screenshots")
 				("current-dir"
 				 :dir default-directory)))
-(setq screenshot-default-scheme "local")
 
 ;;;; Ido-mode
 (ido-mode -1)

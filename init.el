@@ -382,7 +382,8 @@
 	(require 'dap-java)
 	(require 'lsp-java))
 
-;;;; EXWM
+
+;;;; Exwm
 (straight-use-package 'exwm)
 (server-start)
 (require 'exwm)
@@ -440,7 +441,6 @@
 				([?\C-u] . [prior])
 				([?\C-d] . [next])))
 
-;; xrandr multiple monitor
 (defun exwm-passthrough (orig-fun keymap on-exit &optional foreign-keys)
 	(setq exwm-input-line-mode-passthrough t)
 	(let ((on-exit (lexical-let ((on-exit on-exit))
@@ -452,13 +452,7 @@
 (advice-add 'hydra-set-transient-map :around #'exwm-passthrough)
 
 (require 'exwm-randr)
-(setq exwm-randr-workspace-output-plist '(1 "DP-1" 2 "DP-2"))
-(add-hook 'exwm-randr-screen-change-hook
-          (lambda ()
-            (start-process-shell-command
-             "xrandr" nil "xrandr --output DP-1 --right-of LVDS1 --auto")))
 (exwm-randr-enable)
-
 (exwm-enable)
 
 ;;;; My/set-brightness
@@ -489,6 +483,62 @@
 				 :dir "~/Media/Screenshots")
 				("current-dir"
 				 :dir default-directory)))
+
+;;;; Randr-config
+(defun generate-randr-config (primary secondary)
+  (-flatten `(,(-map (lambda (n) (list n primary)) (number-sequence 1 7))
+              (0 secondary)
+              ,(-map (lambda (n) (list n secondary)) (number-sequence 8 9)))))
+
+(defun randr-layout-dp1-extend ()
+	"Extend the screen to Display Port"
+
+  (interactive)
+  (setq exwm-randr-workspace-monitor-plist (generate-randr-config "DP-1" "eDP-1"))
+  (exwm-randr-refresh)
+	(randr-layout-single)
+  (shell-command "xrandr --output DP-1 --left-of eDP-1 --auto --primary"))
+
+(defun randr-layout-hdmi1-extend ()
+	"Extend the screen to HDMI"
+
+  (interactive)
+  (setq exwm-randr-workspace-monitor-plist (generate-randr-config "HDMI-1" "eDP-1"))
+  (exwm-randr-refresh)
+	(randr-layout-single)
+	(shell-command "xrandr --output HDMI-1 --auto --left-of eDP-1 --auto --primary"))
+
+(defun randr-layout-hdmi1-only ()
+	"Only HDMI is shown"
+
+	(interactive)
+	(exwm-randr-refresh)
+	(shell-command "xrandr --output HDMI-1 --auto --primary")
+	(shell-command "xrandr --output eDP-1 --off"))
+
+(defun randr-layout-dp1-only ()
+	"Only HDMI is shown"
+
+	(interactive)
+	(exwm-randr-refresh)
+	(shell-command "xrandr --output DP-1 --auto --primary")
+	(shell-command "xrandr --output eDP-1 --off"))
+
+(defun randr-layout-single ()
+	"Laptop screen only!"
+
+	(interactive)
+	(exwm-randr-refresh)
+	(shell-command "xrandr --output eDP-1 --auto --primary")
+	(shell-command "xrandr --output HDMI-1 --off")
+	(shell-command "xrandr --output DP-1 --off"))
+
+;; xrandr multiple monitor
+;;(setq exwm-randr-workspace-output-plist '(1 "DP-1" 2 "DP-2"))
+;;(add-hook 'exwm-randr-screen-change-hook
+;;(lambda ()
+;;(start-process-shell-command
+;;"xrandr" nil "xrandr --output DP-1 --right-of LVDS1 --auto")))
 
 ;;;; Ido-mode
 (ido-mode -1)

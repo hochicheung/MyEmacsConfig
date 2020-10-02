@@ -48,7 +48,8 @@
 		(format (format "%%s %%%ds " available-width) left right)))
 
 (setq battery-mode-line-format "%p%%")
-(setq-default mode-line-format
+(setq-default mode-line-format 'nil)
+(setq-default header-line-format
 							'((:eval (modeline-alignment
 												;;left
 												(format-mode-line
@@ -81,10 +82,6 @@
 ;;;; Line Numbers
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
-;;;; Org-settings
-(setq org-src-window-setup 'current-window)
-(setq org-image-actual-width (* 15 (/ (window-width) 3)))
-
 ;;; Packages
 ;;;; Straight
 (defvar bootstrap-version)
@@ -99,6 +96,13 @@
 			(goto-char (point-max))
 			(eval-print-last-sexp)))
 	(load bootstrap-file nil 'nomessage))
+
+;;;; Org-mode
+(setq org-src-window-setup 'current-window)
+(setq org-image-actual-width (* 15 (/ (window-width) 3)))
+
+;;;;; Org-agenda
+(global-set-key (kbd "s-a") 'org-agenda)
 
 ;;;; Evil
 (straight-use-package 'evil)
@@ -548,3 +552,15 @@
 ;;;; Libvterm
 	(setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
 (load-library "vterm-autoloads")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files '("~/Documents/Todo/todolist.org")))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

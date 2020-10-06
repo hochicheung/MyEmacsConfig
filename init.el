@@ -103,6 +103,8 @@
 
 ;;;;; Org-agenda
 (global-set-key (kbd "s-a") 'org-agenda)
+(setq org-agenda-start-on-weekday nil)
+(setq org-agenda-span 30)
 
 ;;;; Evil
 (straight-use-package 'evil)
@@ -243,16 +245,16 @@
 (global-set-key (kbd "s-b") 'org-brain-visualize)
 
 ;;(with-eval-after-load 'evil
-	;;(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+;;(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
 
 ;; headline entries only
-;;(add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
 ;;(setq org-brain-include-file-entries nil
 ;;org-brain-file-entries-use-title nil
 ;;org-brain-headline-entry-name-format-string "%2$s")
+;;(add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
 
 ;; file entries only
-(setq org-brain-scan-for-header-entries nil)
+;;(setq org-brain-scan-for-header-entries nil)
 
 
 (setq org-brain-completion-system 'ivy)
@@ -356,6 +358,8 @@
 (straight-use-package 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
+;;;; Gnuplot
+(straight-use-package 'gnuplot)
 ;;;; Ox-twbs
 (straight-use-package 'ox-twbs)
 

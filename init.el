@@ -152,34 +152,43 @@
 (require 'cl)
 
 ;;;; Hydra
+;; https://github.com/abo-abo/hydra
+
 (straight-use-package 'hydra)
+
+;; | red      |                            |
+;; | blue     | :exit t                    |
+;; | amaranth | :foreign-keys warn         |
+;; | teal     | :foreign-keys warn :exit t |
+;; | pink     | :foreign-keys run          |
 
 ;;;;; Hydra-menu
 (defhydra hydra-menu ()
 	"Hydra Menu"
-	("w" hydra-window/body "hydra-window" :exit t)
+	("b" my/set-brightness "set-brightness" :exit t)
 	("e" hydra-pulseaudio/body "hydra-pulseaudio" :exit t)
-	("s-SPC" nil "quit"))
+	("s-SPC" nil "quit" :exit t))
 
 (global-set-key (kbd "s-SPC") 'hydra-menu/body)
 
 ;;;;; Hydra-window
 (defhydra hydra-window ()
-	"window-menu"
 	("w" other-window "toggle")
 	("c" delete-window "delete")
 	("x" delete-other-windows "xor")
-	("TAB" previous-buffer "prev")
+	("b" previous-buffer "prev")
 	("s" split-window-below "split-below")
 	("v" split-window-right "split-right")
 	("0" balance-windows "balance")
 	(")" balance-windows-area "area")
-	("l" enlarge-window-horizontally "hor+")
-	("h" shrink-window-horizontally "hor-")
-	("k" enlarge-window "hor+")
-	("j" shrink-window "hor-")
-	("b" hydra-menu/body "back" :exit t)
-	("s-SPC" nil "quit"))
+	("l" (enlarge-window-horizontally 5) "hor+")
+	("h" (shrink-window-horizontally 5) "hor-")
+	("k" (enlarge-window 5) "hor+")
+	("j" (shrink-window 5) "hor-")
+	("q" nil "quit" :exit t))
+
+(global-set-key (kbd "s-w") 'hydra-window/body)
+;;(evil-define-key 'normal 'evil-normal-state-map (kbd "s-w") 'hydra-window/body)
 
 ;;;;; Hydra-pulseaudio
 (defhydra hydra-pulseaudio ()
@@ -483,7 +492,6 @@
 ;;;; My/set-brightness
 (defun my/set-brightness()
 	(interactive)
-
 	(setq my/max-brightness-file "/sys/class/backlight/intel_backlight/max_brightness")
 	(setq my/brightness-file "/sys/class/backlight/intel_backlight/brightness")
 

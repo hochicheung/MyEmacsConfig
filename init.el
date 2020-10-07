@@ -47,7 +47,7 @@
 	(let* ((available-width (-(window-width)(length left) 2)))
 		(format (format "%%s %%%ds " available-width) left right)))
 
-(setq battery-mode-line-format "%p%%")
+(setq battery-mode-line-format "%L %p %t")
 (setq-default mode-line-format 'nil)
 (setq-default header-line-format
 							'((:eval (modeline-alignment
@@ -105,6 +105,8 @@
 (global-set-key (kbd "s-a") 'org-agenda)
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
+
+;;(org-agenda-files '("~/Documents/Todo/todolist.org"))
 
 ;;;; Evil
 (straight-use-package 'evil)
@@ -581,15 +583,3 @@
 ;;;; Libvterm
 	(setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
 (load-library "vterm-autoloads")
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files '("~/Documents/Todo/todolist.org")))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

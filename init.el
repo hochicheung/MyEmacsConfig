@@ -105,8 +105,7 @@
 (global-set-key (kbd "s-a") 'org-agenda)
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
-
-;;(org-agenda-files '("~/Documents/Todo/todolist.org"))
+(org-agenda-files '("~/Documents/Todo/todolist.org"))
 
 ;;;; Evil
 (straight-use-package 'evil)
@@ -175,22 +174,27 @@
 
 ;;;;; Hydra-window
 (defhydra hydra-window ()
-	("w" other-window "toggle")
-	("c" delete-window "delete")
-	("x" delete-other-windows "xor")
-	("b" previous-buffer "prev")
+	("C-w" other-window "toggle" :exit t)
+	("c" delete-window "delete":exit t)
+	("x" delete-other-windows "xor" :exit t)
+	("b" previous-buffer "prev":exit t)
+	("r" evil-window-rotate-downwards "rotate")
 	("s" split-window-below "split-below")
 	("v" split-window-right "split-right")
-	("0" balance-windows "balance")
-	(")" balance-windows-area "area")
-	("l" (enlarge-window-horizontally 5) "hor+")
-	("h" (shrink-window-horizontally 5) "hor-")
-	("k" (enlarge-window 5) "hor+")
-	("j" (shrink-window 5) "hor-")
+	("0" balance-windows "balance" :exit t)
+	(")" balance-windows-area "area" :exit t)
+	("=" (enlarge-window-horizontally 5) "hor+")
+	("-" (shrink-window-horizontally 5) "hor-")
+	("+" (enlarge-window 5) "hor+")
+	("_" (shrink-window 5) "hor-")
+	("h" evil-window-left "left" :exit t)
+	("j" evil-window-down "down" :exit t)
+	("k" evil-window-up "up" :exit t)
+	("l" evil-window-right "right" :exit t)
 	("q" nil "quit" :exit t))
 
-(global-set-key (kbd "s-w") 'hydra-window/body)
-;;(evil-define-key 'normal 'evil-normal-state-map (kbd "s-w") 'hydra-window/body)
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-w") 'hydra-window/body)
+;;(global-set-key (kbd "s-q") 'hydra-window/body)
 
 ;;;;; Hydra-pulseaudio
 (defhydra hydra-pulseaudio ()
@@ -464,10 +468,7 @@
 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
 (define-key exwm-mode-map [?\s-c] #'exwm-input-release-keyboard)
 (define-key exwm-mode-map [?\s-f] #'exwm-layout-toggle-fullscreen)
-(define-key exwm-mode-map [?\C-w ?\C-w] #'evil-window-next)
-(define-key exwm-mode-map [?\C-w ?\C-s] #'evil-window-split)
-(define-key exwm-mode-map [?\C-w ?\C-v] #'evil-window-vsplit)
-(define-key exwm-mode-map [?\C-w ?\C-c] #'evil-window-delete)
+(define-key exwm-mode-map [?\C-w] #'hydra-window/body)
 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
 
 (evil-set-initial-state 'exwm-mode 'emacs)

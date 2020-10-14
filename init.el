@@ -53,7 +53,10 @@
 												;;left
 												(format-mode-line
 												 (list
-													"   "
+													"  "
+													;; Evil state
+													evil-mode-line-tag
+													"  "
 													;; Filestatus -:---
 													mode-line-mule-info
 													mode-line-modified
@@ -291,6 +294,9 @@ _l_:   right     _r_: rotate
 
 (add-hook 'org-brain-visualize-text-hook 'org-toggle-latex-fragment)
 (add-hook 'org-brain-visualize-text-hook 'org-toggle-inline-images)
+
+
+;;;; Image-mode
 
 ;;;; Code Completion Engines
 

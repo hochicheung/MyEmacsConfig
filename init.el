@@ -48,8 +48,7 @@
 		(format (format "%%s %%%ds " available-width) left right)))
 
 (setq battery-mode-line-format "%L %p %t")
-(setq-default mode-line-format 'nil)
-(setq-default header-line-format
+(setq-default mode-line-format
 							'((:eval (modeline-alignment
 												;;left
 												(format-mode-line
@@ -105,7 +104,7 @@
 (global-set-key (kbd "s-a") 'org-agenda)
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
-(org-agenda-files '("~/Documents/Todo/todolist.org"))
+(setq org-agenda-files '("~/Documents/Todo/todolist.org"))
 
 ;;;; Evil
 (straight-use-package 'evil)
@@ -173,25 +172,38 @@
 (global-set-key (kbd "s-SPC") 'hydra-menu/body)
 
 ;;;;; Hydra-window
-(defhydra hydra-window ()
-	("C-w" other-window "toggle" :exit t)
-	("c" delete-window "delete":exit t)
-	("x" delete-other-windows "xor" :exit t)
-	("b" previous-buffer "prev":exit t)
-	("r" evil-window-rotate-downwards "rotate")
-	("s" split-window-below "split-below")
-	("v" split-window-right "split-right")
-	("0" balance-windows "balance" :exit t)
-	(")" balance-windows-area "area" :exit t)
-	("=" (enlarge-window-horizontally 5) "hor+")
-	("-" (shrink-window-horizontally 5) "hor-")
-	("+" (enlarge-window 5) "hor+")
-	("_" (shrink-window 5) "hor-")
-	("h" evil-window-left "left" :exit t)
-	("j" evil-window-down "down" :exit t)
-	("k" evil-window-up "up" :exit t)
-	("l" evil-window-right "right" :exit t)
-	("q" nil "quit" :exit t))
+(defhydra hydra-window (:hint nil)
+	"
+Navigation     ^^Edit                               ^^^^Resize
+_C-w_: toggle    _c_: delete         _H_: move-left     _-_: hor-    _0_: balance
+_h_:   left      _x_: xor						 _J_: move-down     _=_: hor+    _)_: area
+_j_:   down      _s_: split-below    _K_: move-up       ___: ver-    
+_k_:   up        _v_: split-right    _L_: move-right    _+_: ver+
+_l_:   right     _r_: rotate
+"
+	("C-w" other-window :exit t)
+	("c" delete-window :exit t)
+	("x" delete-other-windows :exit t)
+	;;("b" previous-buffer)
+	;;("n" next-buffer)
+	("r" evil-window-rotate-downwards)
+	("s" split-window-below :exit t)
+	("v" split-window-right :exit t)
+	("0" balance-windows :exit t)
+	(")" balance-windows-area :exit t)
+	("=" (enlarge-window-horizontally 5))
+	("-" (shrink-window-horizontally 5))
+	("+" (enlarge-window 5))
+	("_" (shrink-window 5))
+	("h" evil-window-left :exit t)
+	("j" evil-window-down :exit t)
+	("k" evil-window-up :exit t)
+	("l" evil-window-right :exit t)
+	("H" evil-window-move-far-left :exit t)
+	("J" evil-window-move-far-down :exit t)
+	("K" evil-window-move-far-up :exit t)
+	("L" evil-window-move-far-right :exit t)
+	("q" nil  :exit t))
 
 (evil-define-key 'normal 'evil-normal-state-map (kbd "C-w") 'hydra-window/body)
 ;;(global-set-key (kbd "s-q") 'hydra-window/body)
@@ -584,3 +596,16 @@
 ;;;; Libvterm
 	(setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
 (load-library "vterm-autoloads")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+	 '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

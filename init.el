@@ -297,6 +297,14 @@ _l_:   right     _r_: rotate
 
 
 ;;;; Image-mode
+(setq image-auto-resize 'fit-width)
+(evil-set-initial-state 'image-mode 'normal)
+(evil-define-key 'normal image-mode-map
+	(kbd "w") 'image-transform-fit-to-width
+	(kbd "j") 'image-scroll-up
+	(kbd "k") 'image-scroll-down
+	(kbd "l") 'image-next-file
+	(kbd "h") 'image-previous-file)
 
 ;;;; Code Completion Engines
 
@@ -602,16 +610,4 @@ _l_:   right     _r_: rotate
 ;;;; Libvterm
 	(setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
 (load-library "vterm-autoloads")
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-	 '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+

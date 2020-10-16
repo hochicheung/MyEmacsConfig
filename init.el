@@ -109,6 +109,10 @@
 (setq org-agenda-span 30)
 (setq org-agenda-files '("~/Documents/Todo/todolist.org"))
 
+
+;;;; Flyspell
+(add-hook 'org-mode-hook 'flyspell-mode)
+
 ;;;; Evil
 (straight-use-package 'evil)
 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
@@ -126,6 +130,11 @@
 (define-key evil-normal-state-map (kbd "Q") (lambda ()
 																							(interactive)
 																							(quit-window)))
+
+;;;; Evil-magit
+;; https://github.com/emacs-evil/evil-magit
+(straight-use-package 'evil-magit)
+(require 'evil-magit)
 
 ;;;; Mouse-clicks
 (dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]  

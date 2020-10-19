@@ -186,12 +186,12 @@
 ;;;;; Hydra-window
 (defhydra hydra-window (:hint nil)
 	"
-Navigation     ^^Edit                               ^^^^Resize
-_C-w_: toggle    _c_: delete         _H_: move-left     _-_: hor-    _0_: balance
-_h_:   left      _x_: xor						 _J_: move-down     _=_: hor+    _)_: area
-_j_:   down      _s_: split-below    _K_: move-up       ___: ver-    
-_k_:   up        _v_: split-right    _L_: move-right    _+_: ver+
-_l_:   right     _r_: rotate
+Navigation                           ^^Edit                               ^^^^Resize
+_C-w_: toggle    _n_: bottom-right   _c_: delete         _H_: move-left     _-_: hor-    _0_: balance
+_h_:   left      _y_: top-left       _x_: xor						 _J_: move-down     _=_: hor+    _)_: area
+_j_:   down                        _s_: split-below    _K_: move-up       ___: ver-    
+_k_:   up                          _v_: split-right    _L_: move-right    _+_: ver+
+_l_:   right                       _r_: rotate
 "
 	("C-w" other-window :exit t)
 	("c" delete-window :exit t)
@@ -211,6 +211,8 @@ _l_:   right     _r_: rotate
 	("j" evil-window-down :exit t)
 	("k" evil-window-up :exit t)
 	("l" evil-window-right :exit t)
+	("n" evil-window-bottom-right :exit t)
+	("y" evil-window-top-left :exit t)
 	("H" evil-window-move-far-left :exit t)
 	("J" evil-window-move-far-down :exit t)
 	("K" evil-window-move-far-up :exit t)
@@ -277,18 +279,27 @@ _l_:   right     _r_: rotate
 ;;;; Org-brain
 (straight-use-package 'org-brain)
 (setq org-brain-path "~/Documents/OrgBrain")
+(setq org-id-locations-file "~/.emacs.d/.org-id-locations")
 (setq org-brain-show-history nil)
 (setq org-brain-show-resources nil)
 (setq org-brain-open-same-window t)
 
 (global-set-key (kbd "s-b") 'org-brain-visualize)
+(global-set-key (kbd "s-B") 'org-brain-switch-brain)
+(evil-define-key 'normal org-mode-map (kbd "s-t") 'org-brain-get-id)
 
 ;;(with-eval-after-load 'evil
 ;;(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
 
+;; combined healine-file entries
+(setq org-brain-scan-for-header-entries t
+			org-id-track-globally t
+			org-brain-include-file-entries t)
+
 ;; headline entries only
 ;;(setq org-brain-include-file-entries nil
 ;;org-brain-file-entries-use-title nil
+;;org-id-track-globally t
 ;;org-brain-headline-entry-name-format-string "%2$s")
 ;;(add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
 
@@ -457,6 +468,8 @@ _l_:   right     _r_: rotate
 	(require 'dap-java)
 	(require 'lsp-java))
 
+;;;; Auctex
+(straight-use-package 'auctex)
 
 ;;;; Exwm
 (straight-use-package 'exwm)

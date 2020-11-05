@@ -84,6 +84,10 @@
 ;;;; Line Numbers
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
+;;;; NixOS
+;; Load emacs packages from nixOS directory
+(setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
+
 ;;; Packages
 ;;;; Straight
 (defvar bootstrap-version)
@@ -284,9 +288,9 @@ _l_:   right                       _r_: rotate
 (setq org-brain-show-resources nil)
 (setq org-brain-open-same-window t)
 
-(global-set-key (kbd "s-b") 'org-brain-visualize)
-(global-set-key (kbd "s-B") 'org-brain-switch-brain)
-(evil-define-key 'normal org-mode-map (kbd "s-t") 'org-brain-get-id)
+;;(global-set-key (kbd "s-b") 'org-brain-visualize)
+;;(global-set-key (kbd "s-B") 'org-brain-switch-brain)
+;;(evil-define-key 'normal org-mode-map (kbd "s-t") 'org-brain-get-id)
 
 ;;(with-eval-after-load 'evil
 ;;(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
@@ -315,12 +319,21 @@ _l_:   right                       _r_: rotate
 (add-hook 'org-brain-visualize-text-hook 'org-toggle-latex-fragment)
 (add-hook 'org-brain-visualize-text-hook 'org-toggle-inline-images)
 
+;;;; Org-roam
+(straight-use-package 'org-roam)
+(setq org-roam-directory "~/Documents/org-roam/")
+;;(global-set-key (kbd "C-c n l") 'org-roam)
+;;(global-set-key (kbd "C-c n f") 'org-roam-find-file)
+;;(global-set-key (kbd "C-c n g") 'org-roam-graph)
+;;(define-key org-mode-map (kbd "C-c n i") 'org-roam-insert)
+;;(define-key org-mode-map (kbd "C-c n I") 'org-roam-insert-immediate)
 
 ;;;; Image-mode
-(setq image-auto-resize 'fit-width)
+(setq image-auto-resize 'fit-height)
 (evil-set-initial-state 'image-mode 'normal)
 (evil-define-key 'normal image-mode-map
-	(kbd "w") 'image-transform-fit-to-width
+	(kbd "W") 'image-transform-fit-to-width
+	(kbd "H") 'image-transform-fit-to-height
 	(kbd "j") 'image-scroll-up
 	(kbd "k") 'image-scroll-down
 	(kbd "l") 'image-next-file
@@ -386,7 +399,8 @@ _l_:   right                       _r_: rotate
 
 ;;;; Pdf-tools
 (straight-use-package 'pdf-tools)
-(pdf-tools-install)
+(load-library "pdf-tools-autoloads")
+;;(pdf-tools-install)
 (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
 
 ;;;;; Keybinds
@@ -518,6 +532,7 @@ _l_:   right                       _r_: rotate
 (define-key exwm-mode-map [?\s-f] #'exwm-layout-toggle-fullscreen)
 (define-key exwm-mode-map [?\C-w] #'hydra-window/body)
 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
+(define-key exwm-mode-map [?\s-b ] #'org-brain-visualize)
 
 (evil-set-initial-state 'exwm-mode 'emacs)
 (setq exwm-input-simulation-keys
@@ -630,6 +645,6 @@ _l_:   right                       _r_: rotate
 	())
 
 ;;;; Libvterm
-	(setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
 (load-library "vterm-autoloads")
+
 

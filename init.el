@@ -218,8 +218,8 @@ _l_:   right                       _r_: rotate
 	("n" evil-window-bottom-right :exit t)
 	("y" evil-window-top-left :exit t)
 	("H" evil-window-move-far-left :exit t)
-	("J" evil-window-move-far-down :exit t)
-	("K" evil-window-move-far-up :exit t)
+	("J" evil-window-move-very-bottom :exit t)
+	("K" evil-window-move-very-top :exit t)
 	("L" evil-window-move-far-right :exit t)
 	("q" nil  :exit t))
 
@@ -321,12 +321,13 @@ _l_:   right                       _r_: rotate
 
 ;;;; Org-roam
 (straight-use-package 'org-roam)
+(add-hook 'after-init-hook 'org-roam-mode)
 (setq org-roam-directory "~/Documents/org-roam/")
-;;(global-set-key (kbd "C-c n l") 'org-roam)
-;;(global-set-key (kbd "C-c n f") 'org-roam-find-file)
-;;(global-set-key (kbd "C-c n g") 'org-roam-graph)
-;;(define-key org-mode-map (kbd "C-c n i") 'org-roam-insert)
-;;(define-key org-mode-map (kbd "C-c n I") 'org-roam-insert-immediate)
+
+;;;; Org-ref
+(straight-use-package 'org-ref)
+(setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
+(setq org-ref-default-bibliography "~/Syncthing/bibliography/references.bib")
 
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)
@@ -446,6 +447,8 @@ _l_:   right                       _r_: rotate
 ;;(sp-local-pair 'c-mode "'" nil :actions :rem)
 ;;(sp-local-pair 'c-mode "'" "'")
 (sp-local-pair 'emacs-lisp-mode "`" "'")
+
+;;(sp-local-pair 'org-mode "=" nil :actions :rem)
 (setq-default sp-escape-quotes-after-insert nil)
 ;;Symbol's function definition is void: sp-local-pair
 

@@ -325,9 +325,9 @@ _l_:   right                       _r_: rotate
 (setq org-roam-directory "~/Documents/org-roam/")
 
 ;;;; Org-ref
-(straight-use-package 'org-ref)
-(setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
-(setq org-ref-default-bibliography "~/Syncthing/bibliography/references.bib")
+;;(straight-use-package 'org-ref)
+;;(setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
+;;(setq org-ref-default-bibliography "~/Syncthing/bibliography/references.bib")
 
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)

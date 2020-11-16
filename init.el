@@ -323,6 +323,13 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'org-roam)
 (add-hook 'after-init-hook 'org-roam-mode)
 (setq org-roam-directory "~/Documents/org-roam/")
+(evil-define-key 'normal 'org-roam-mode-map
+	(kbd "C-c n l") 'org-roam
+	(kbd "C-c n f") 'org-roam-find-file
+	(kbd "C-c n g") 'org-roam-graph)
+(evil-define-key 'normal 'org-mode-map
+	(kbd "C-C n i") 'org-roam-insert
+	(kbd "C-C n I") 'org-roam-insert-immediate)
 
 ;;;; Org-ref
 ;;(straight-use-package 'org-ref)
@@ -399,9 +406,8 @@ _l_:   right                       _r_: rotate
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 
 ;;;; Pdf-tools
-(straight-use-package 'pdf-tools)
 (load-library "pdf-tools-autoloads")
-;;(pdf-tools-install)
+(pdf-tools-install)
 (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
 
 ;;;;; Keybinds

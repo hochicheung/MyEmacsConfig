@@ -322,7 +322,17 @@ _l_:   right                       _r_: rotate
 ;;;; Org-roam
 (straight-use-package 'org-roam)
 (add-hook 'after-init-hook 'org-roam-mode)
+
 (setq org-roam-directory "~/Documents/org-roam/")
+(setq org-roam-dailies-directory "dailies/")
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "dailies/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n\n")))
+
 (evil-define-key 'normal 'org-roam-mode-map
 	(kbd "C-c n l") 'org-roam
 	(kbd "C-c n f") 'org-roam-find-file

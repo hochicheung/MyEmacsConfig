@@ -715,7 +715,7 @@ _l_:   right                       _r_: rotate
  ;;org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
  org-ref-default-bibliography (list my/bibliography-file)
  org-ref-bibliography-notes (concat org-roam-directory "bibnotes.org")
- org-ref-note-title-format "* TODO %y - %t\n :PROPERTIES:\n :Custom_ID: %k\n :NOTER_DOCUMENT: %F/n :ROAM_KEY: cite:%k\n :AUTHOR: %9a\n :JOURNAL: %j\n :YEAR: %y\n :VOLUME: %v\n :PAGES: %p\n :DOI: %D\n :URL: %U\n :END:\n\n"
+ org-ref-note-title-format "* TODO %y - %t\n :PROPERTIES:\n :Custom_ID: %k\n :ROAM_KEY: cite:%k\n :AUTHOR: %9a\n :JOURNAL: %j\n :YEAR: %y\n :VOLUME: %v\n :PAGES: %p\n :DOI: %D\n :URL: %U\n :END:\n\n"
  org-ref-notes-directory org-roam-directory
  org-ref-notes-function 'orb-edit-notes)
 
@@ -726,7 +726,7 @@ _l_:   right                       _r_: rotate
 ;;;; Org-roam-bibtex
 (straight-use-package 'org-roam-bibtex)
 (with-eval-after-load 'org-roam
-	(add-hook 'org-roam-mode-hook org-roam-bibtex-mode)
+	(add-hook 'org-roam-mode-hook 'org-roam-bibtex-mode)
 	(setq org-roam-bibtex-preformat-keywords
 				'("=key=" "title" "url" "file" "author-or-editor" "keywords"))
 	(setq orb-templates
@@ -734,19 +734,20 @@ _l_:   right                       _r_: rotate
 					 ""
 					 :file-name "${slug}"
 					 :head "#+TITLE: ${=key=}: ${title}\n#+ROAM_KEY: ${ref}
-
+	
 - tags ::
 - keywords :: ${keywords}
-
+	
 \n* ${title}\n :PROPERTIES:\n :Custom_ID: ${=key=}\n :URL: ${url}\n :AUTHOR: ${author-or-editor}\n :NOTER_DOCUMENT: %(orb-process-file-field \"${=key=}\")\n :NOTER_PAGE: \n :END:\n\n"
-
+					 
 					 :unnarrowed t))))
 
 ;;;; Org-Noter
 (straight-use-package 'org-noter)
-;;(with-eval-after-load (or 'org 'pdf-view)
-	;;(setq
-	 ;;org-noter-notes-window-location 'other-frame
-	 ;;org-noter-always-create-frame nil
-	 ;;org-noter-hide-other nil
-	 ;;org-noter-notes-search-path (list org_notes)))
+(with-eval-after-load (or 'org 'pdf-view)
+	(setq
+	 org-noter-notes-window-location 'other-frame
+	 org-noter-always-create-frame nil
+	 org-noter-hide-other nil
+	 ;;org-noter-notes-search-path (list org_notes)
+	 ))

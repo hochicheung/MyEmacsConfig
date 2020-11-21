@@ -342,16 +342,6 @@ _l_:   right                       _r_: rotate
 	(kbd "C-C n i") 'org-roam-insert
 	(kbd "C-C n I") 'org-roam-insert-immediate)
 
-;;;; Ivy-bibtex
-;;(straight-use-package 'ivy-bibtex)
-;;(setq bibtex-completion-bibliography
-;;'("~/Syncthing/bibliography/references.bib"))
-
-;;;; Org-roam-bibtex
-(straight-use-package 'org-roam-bibtex)
-(require 'org-roam-bibtex)
-(add-hook 'after-init-hook #'org-roam-mode)
-
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)
 (evil-set-initial-state 'image-mode 'normal)

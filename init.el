@@ -66,6 +66,7 @@
 													;; Buffername
 													"%b"
 													;; VC/Git
+													;;projectile--mode-line
 													'(vc-mode vc-mode)))
 												;;right
 												(format-mode-line
@@ -341,10 +342,15 @@ _l_:   right                       _r_: rotate
 	(kbd "C-C n i") 'org-roam-insert
 	(kbd "C-C n I") 'org-roam-insert-immediate)
 
-;;;; Org-ref
-;;(straight-use-package 'org-ref)
-;;(setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
-;;(setq org-ref-default-bibliography "~/Syncthing/bibliography/references.bib")
+;;;; Ivy-bibtex
+;;(straight-use-package 'ivy-bibtex)
+;;(setq bibtex-completion-bibliography
+;;'("~/Syncthing/bibliography/references.bib"))
+
+;;;; Org-roam-bibtex
+(straight-use-package 'org-roam-bibtex)
+(require 'org-roam-bibtex)
+(add-hook 'after-init-hook #'org-roam-mode)
 
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)
@@ -594,7 +600,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; ScreenShot
 (straight-use-package 'screenshot)
-(global-set-key (kbd "s-p") 'screenshot)
+(global-set-key (kbd "s-s") 'screenshot)
 (setq screenshot-schemes
 			'(
 				("local"
@@ -667,3 +673,8 @@ _l_:   right                       _r_: rotate
 (load-library "vterm-autoloads")
 
 
+;;;; Projectile
+(straight-use-package 'projectile)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(setq projectile-completion-system 'ivy)

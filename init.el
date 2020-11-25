@@ -118,13 +118,18 @@
 ;;;; Flyspell
 (add-hook 'org-mode-hook 'flyspell-mode)
 
+;;;; Undo-Tree
+(straight-use-package 'undo-tree)
+(global-undo-tree-mode 1)
+(setq evil-undo-system 'undo-tree)
+
 ;;;; Evil
 (straight-use-package 'evil)
 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
 (evil-mode)
-(setq evil-emacs-state-modes nil)
-(setq evil-insert-state-modes nil)
-(setq evil-motion-state-modes nil)
+(setq evil-emacs-state-modes nil
+			evil-insert-state-modes nil
+			evil-motion-state-modes nil)
 
 (define-key evil-normal-state-map (kbd "C-u") (lambda ()
 																								(interactive)
@@ -160,10 +165,6 @@
 ;;;; Dired-du
 ;;(straight-use-package 'dired-du)
 ;;(setq dired-du-size-format t)
-
-;;;; Undo-Tree
-(straight-use-package 'undo-tree)
-(global-undo-tree-mode)
 
 ;;;; Common-lisp
 (require 'cl)
@@ -258,10 +259,12 @@ _l_:   right                       _r_: rotate
 
 ;;;;; Swiper
 (straight-use-package 'swiper)
-(global-set-key (kbd "\C-s") 'swiper)
+(global-set-key (kbd "C-s") 'swiper)
 
 ;;;; Avy
 (straight-use-package 'avy)
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-a a") 'evil-avy-goto-char-2
+	(kbd "C-a s") 'evil-avy-goto-char-timer)
 
 ;;;; Vterm
 ;;(straight-use-package 'vterm)

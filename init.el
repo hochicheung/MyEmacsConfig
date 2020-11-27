@@ -349,6 +349,8 @@ _l_:   right                       _r_: rotate
 	(kbd "C-C n I") 'org-roam-insert-immediate)
 (add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
 
+(setq org-roam-completion-everywhere t)
+
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)
 (evil-set-initial-state 'image-mode 'normal)
@@ -373,9 +375,9 @@ _l_:   right                       _r_: rotate
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;;;;; Company-org-roam
-(straight-use-package 'company-org-roam)
-(with-eval-after-load 'org-roam
-	(push 'company-org-roam company-backends))
+;;(straight-use-package 'company-org-roam)
+;;(require 'company-org-roam)
+;;(push 'company-org-roam company-backends)
 
 ;;;;; Company-lsp
 (straight-use-package 'company-lsp)
@@ -712,21 +714,23 @@ _l_:   right                       _r_: rotate
 ;; - One notes file per pdf (bibtex-completion-notes-template-multiple-files)
 
 ;;;; Org-ref
+(setq reftex-default-bibliography '(my/bibliography-file))
 (straight-use-package 'org-ref)
-(setq
- org-ref-completion-library 'org-ref-ivy-cite
- ;;org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
- org-ref-default-bibliography (list my/bibliography-file)
- org-ref-bibliography-notes (concat org-roam-directory "bibnotes.org")
- org-ref-note-title-format "* TODO %y - %t\n :PROPERTIES:\n :Custom_ID: %k\n :ROAM_KEY: cite:%k\n :AUTHOR: %9a\n :JOURNAL: %j\n :YEAR: %y\n :VOLUME: %v\n :PAGES: %p\n :DOI: %D\n :URL: %U\n :END:\n\n"
- org-ref-notes-directory org-roam-directory
- org-ref-notes-function 'orb-edit-notes)
+(setq org-ref-completion-library 'org-ref-ivy-cite
+			org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex
+			org-ref-default-bibliography (concat my/bibliography-file "")
+			org-ref-bibliography-notes (concat org-roam-directory "bibnotes.org")
+			org-ref-note-title-format "* TODO %y - %t\n :PROPERTIES:\n :Custom_ID: %k\n :ROAM_KEY: cite:%k\n :AUTHOR: %9a\n :JOURNAL: %j\n :YEAR: %y\n :VOLUME: %v\n :PAGES: %p\n :DOI: %D\n :URL: %U\n :END:\n\n"
+			org-ref-notes-directory org-roam-directory
+			org-ref-notes-function 'orb-edit-notes)
+(require 'org-ref)
 
 ;; org-ref-get-pdf-filename-function uses helm-bibtex to find the pdf
 ;; default bibliography andbibliograp notes are set to same location as org-roam files
 ;; org-ref-notes-function ensures, like helm-bibtex setting; that one file per pdf. And preference for org-roam template instead of org-ref or helm-bibtex.
 
 ;;;; Org-roam-bibtex
+(setq orb-insert-frontend 'ivy-bibtex)
 (straight-use-package 'org-roam-bibtex)
 (with-eval-after-load 'org-roam
 	(add-hook 'org-roam-mode-hook 'org-roam-bibtex-mode)
@@ -748,9 +752,8 @@ _l_:   right                       _r_: rotate
 ;;;; Org-Noter
 (straight-use-package 'org-noter)
 (with-eval-after-load (or 'org 'pdf-view)
-	(setq
-	 org-noter-notes-window-location 'other-frame
-	 org-noter-always-create-frame nil
-	 org-noter-hide-other nil
-	 ;;org-noter-notes-search-path (list org_notes)
-	 ))
+	(setq org-noter-notes-window-location 'other-frame
+				org-noter-always-create-frame nil
+				org-noter-hide-other nil
+				;;org-noter-notes-search-path (list org_notes)
+				))

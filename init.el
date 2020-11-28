@@ -112,7 +112,7 @@
 (global-set-key (kbd "s-a") 'org-agenda)
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
-(setq org-agenda-files '("~/Documents/Todo/todolist.org"))
+(setq org-agenda-files '("~/Syncthing/Org-folder/Agenda/agenda.org"))
 
 
 ;;;; Flyspell
@@ -247,10 +247,9 @@ _l_:   right                       _r_: rotate
 ;;;;; Counsel
 (straight-use-package 'counsel)
 (counsel-mode)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-;;(global-set-key (kbd "C-x d") 'counsel-dired)
+;;(global-set-key (kbd "M-x") 'counsel-M-x)
 ;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
-(global-set-key (kbd "C-x d") 'counsel-find-file)
+;;(global-set-key (kbd "C-x d") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
@@ -266,8 +265,15 @@ _l_:   right                       _r_: rotate
 (evil-define-key 'normal 'evil-normal-state-map (kbd "C-a a") 'evil-avy-goto-char-2
 	(kbd "C-a s") 'evil-avy-goto-char-timer)
 
-;;;; Vterm
-;;(straight-use-package 'vterm)
+;;;; Helm
+(straight-use-package 'helm)
+;; ensures helm always splits down and don't toggle off other buffers
+(setq helm-always-two-windows nil
+			helm-default-display-buffer-functions '(display-buffer-in-side-window))
+
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x d") 'helm-find-files)
 
 ;;;; Which Key
 (straight-use-package 'which-key)
@@ -330,7 +336,7 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'org-roam)
 (add-hook 'after-init-hook 'org-roam-mode)
 
-(setq org-roam-directory "/home/samcheung/Syncthing/Org-roam/")
+(setq org-roam-directory "/home/samcheung/Syncthing/Org-folder/Roam/")
 (setq org-roam-dailies-directory (concat org-roam-directory "dailies/"))
 
 (setq org-roam-dailies-capture-templates
@@ -682,4 +688,21 @@ _l_:   right                       _r_: rotate
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (setq projectile-completion-system 'ivy)
 
+;;;; Org-noter
+(straight-use-package 'org-noter)
+
 ;;; Bibliography
+
+;;;; Org-ref
+
+(straight-use-package 'org-ref)
+(setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
+
+(setq org-ref-bibliography-notes "~/Syncthing/bibliography/notes.org"
+			org-ref-default-bibliography '("~/Syncthing/bibliography/references.bib")
+			org-ref-pdf-directory "~/Syncthing/bibliography/bib-pdf/")
+
+(setq bibtex-completion-bibliography "~/Syncthing/bibliography/references.bib"
+			bibtex-completion-library-path "~/Syncthing/bibliography/bib-pdf"
+			bibtex-completion-notes-path "~/Syncthing/bibliography/helm-bibtex-notes")
+(require 'org-ref)

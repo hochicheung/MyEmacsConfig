@@ -1,1 +1,1 @@
-init.el
+/home/samcheung/.emacs.d/init.el

@@ -107,6 +107,7 @@
 ;;;; Org-mode
 (setq org-src-window-setup 'current-window)
 (setq org-image-actual-width (* 15 (/ (window-width) 3)))
+(setq org-src-window-setup 'split-window-below)
 
 ;;;;; Org-agenda
 (global-set-key (kbd "s-a") 'org-agenda)
@@ -525,7 +526,7 @@ _l_:   right                       _r_: rotate
 (server-start)
 (require 'exwm)
 
-(setq exwm-workspace-number 4)
+(setq exwm-workspace-number 1)
 (setq ediff-window-setup-function 'ediff-setup-window-plain)
 
 (add-hook 'exwm-update-class-hook

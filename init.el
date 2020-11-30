@@ -275,20 +275,22 @@ _l_:   right                       _r_: rotate
 (setq helm-always-two-windows nil
 			helm-default-display-buffer-functions '(display-buffer-in-side-window))
 
+(setq helm-ff-auto-update-initial-value t)
 (setq helm-move-to-line-cycle-in-source t)
 
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
 
-(define-key helm-map (kbd "<tab>")'helm-execute-persistent-action)
-(define-key helm-map (kbd "C-z")'helm-select-action)
+;;(define-key helm-map (kbd "<tab>")'helm-execute-persistent-action)
+;;(define-key helm-map (kbd "C-z")'helm-select-action)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x d") 'helm-find-files)
+(define-key helm-command-map (kbd "<menu>") 'helm-resume)
 
 ;;(setq helm-autoresize-max-height 0
-			;;helm-autoresize-min-height 20)
+;;helm-autoresize-min-height 20)
 ;;(helm-autoresize-mode 1)
 
 (helm-mode 1)
@@ -712,7 +714,6 @@ _l_:   right                       _r_: rotate
 ;;; Bibliography
 
 ;;;; Org-ref
-
 (straight-use-package 'org-ref)
 (setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
 
@@ -720,7 +721,35 @@ _l_:   right                       _r_: rotate
 			org-ref-default-bibliography '("~/Syncthing/bibliography/references.bib")
 			org-ref-pdf-directory "~/Syncthing/bibliography/bib-pdf/")
 
-(setq bibtex-completion-bibliography "~/Syncthing/bibliography/references.bib"
-			bibtex-completion-library-path "~/Syncthing/bibliography/bib-pdf"
-			bibtex-completion-notes-path "~/Syncthing/bibliography/helm-bibtex-notes")
 (require 'org-ref)
+
+;;;; Helm-bibtex
+(straight-use-package 'helm-bibtex)
+(define-key helm-command-map "b" 'helm-bibtex)
+
+(setq bibtex-completion-bibliography "~/Syncthing/bibliography/references.bib")
+
+;; pdf locations
+(setq bibtex-completion-library-path "~/Syncthing/bibliography/bib-pdf")
+
+;; note location, full path for one file and directory for several
+(setq bibtex-completion-notes-path "~/Syncthing/bibliography/helm-bibtex-notes.org")
+
+;; JabRef and Zotero store location of PDFs in a field called "File"
+;;(setq bibtex-completion-pdf-field "File")
+
+;; Custom layout of search results
+;;(setq bibtex-completion-display-formats
+;;'((article       . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} ${journal:40}")
+;;(inbook        . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+;;(incollection  . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+;;(inproceedings . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+;;(t             . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*}")))
+
+;;;; Org-roam-bibtex
+(straight-use-package 'org-roam-bibtex)
+(require 'org-roam-bibtex)
+(with-eval-after-load 'org-roam
+	(add-hook 'org-roam-mode-hook #'org-roam-bibtex-mode))
+
+;; templates

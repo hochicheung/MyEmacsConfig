@@ -105,15 +105,33 @@
 	(load bootstrap-file nil 'nomessage))
 
 ;;;; Org-mode
-(setq org-src-window-setup 'current-window)
-(setq org-image-actual-width (* 15 (/ (window-width) 3)))
 (setq org-src-window-setup 'split-window-below)
+(setq org-link-frame-setup 
+			'((vm . vm-visit-folder-other-frame)
+				(vm-imap . vm-visit-imap-folder-other-frame)
+				(gnus . org-gnus-no-new-news)
+				(file . find-file-other-window)
+				(wl . wl-other-frame)))
+
+;;(setq org-image-actual-width (* 15 (/ (window-width) 3)))
+(setq org-log-done 'time)
+
+;; persistent clock
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
+
+(setq org-clock-idle-time 15)
 
 ;;;;; Org-agenda
 (global-set-key (kbd "s-a") 'org-agenda)
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
 (setq org-agenda-files '("~/Syncthing/Org-folder/Agenda/agenda.org"))
+(setq org-default-notes-file "~/Syncthing/Org-folder/Agenda/notes.org")
+
+(add-to-list 'display-buffer-alist
+             `(,(rx string-start "*Calendar*" string-end)
+               (display-buffer-at-bottom)))
 
 (setq org-capture-templates
       '(("t" "todo" entry (file org-default-notes-file)
@@ -122,6 +140,9 @@
 				 "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
 				("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
 				 "** NEXT %? \nDEADLINE: %t") ))
+
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 9))))
 
 ;;;; Flyspell
 (add-hook 'org-mode-hook 'flyspell-mode)
@@ -148,6 +169,10 @@
 (define-key evil-normal-state-map (kbd "Q") (lambda ()
 																							(interactive)
 																							(quit-window)))
+
+;;;; Evil-surround
+(straight-use-package 'evil-surround)
+(global-evil-surround-mode 1)
 
 ;;;; Evil-magit
 ;; https://github.com/emacs-evil/evil-magit
@@ -389,7 +414,7 @@ _l_:   right                       _r_: rotate
 (evil-define-key 'normal 'org-mode-map
 	(kbd "C-C n i") 'org-roam-insert
 	(kbd "C-C n I") 'org-roam-insert-immediate)
-(add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
+;;(add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
 
 (setq org-roam-completion-everywhere t)
 
@@ -775,11 +800,11 @@ _l_:   right                       _r_: rotate
 (setq orb-templates
       '(("r" "ref" plain (function org-roam-capture--get-point) ""
 				 :file-name "${citekey}"
-				 :head "#+title: ${title}\n #+roam_key: ${ref}\n"
+				 :head "#+TITLE: ${citekey} - ${title}\n#+ROAM_KEY: ${ref}\n"
 				 :unnarrowed t)
 				("n" "ref+noter" plain (function org-roam-capture--get-point) ""
          :file-name "${citekey}"
-         :head "#+TITLE: ${citekey}: ${title}\n #+ROAM_KEY: ${ref}
+         :head "#+TITLE: ${citekey} - ${title}\n#+ROAM_KEY: ${ref}
 
 - keywords :: ${keywords}
 
@@ -791,3 +816,16 @@ _l_:   right                       _r_: rotate
 :NOTER_DOCUMENT: ${file}
 :NOTER_PAGE:
 :END:")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+	 '("~/Syncthing/Org-folder/org-mode-testfile.org" "~/Syncthing/Org-folder/Agenda/agenda.org")))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

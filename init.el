@@ -51,13 +51,16 @@
 	(let* ((available-width (-(window-width)(length left) 2)))
 		(format (format "%%s %%%ds " available-width) left right)))
 
-(setq battery-mode-line-format "[%p%%]")
+(setq battery-mode-line-format "%L %p %t")
 (setq-default mode-line-format
 							'((:eval (modeline-alignment
 												;;left
 												(format-mode-line
 												 (list
-													"   "
+													"  "
+													;; Evil state
+													evil-mode-line-tag
+													"  "
 													;; Filestatus -:---
 													mode-line-mule-info
 													mode-line-modified
@@ -67,6 +70,7 @@
 													;; Buffername
 													"%b"
 													;; VC/Git
+													;;projectile--mode-line
 													'(vc-mode vc-mode)))
 												;;right
 												(format-mode-line
@@ -85,8 +89,9 @@
 ;;;; Line Numbers
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
-;;;; Org-settings
-(setq org-src-window-setup 'current-window)
+;;;; NixOS
+;; Load emacs packages from nixOS directory
+(setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
 
 ;;; Packages
 ;;;; Straight
@@ -103,13 +108,32 @@
 			(eval-print-last-sexp)))
 	(load bootstrap-file nil 'nomessage))
 
+;;;; Org-mode
+(setq org-src-window-setup 'current-window)
+(setq org-image-actual-width (* 15 (/ (window-width) 3)))
+
+;;;;; Org-agenda
+(global-set-key (kbd "s-a") 'org-agenda)
+(setq org-agenda-start-on-weekday nil)
+(setq org-agenda-span 30)
+(setq org-agenda-files '("~/Syncthing/Org-folder/Agenda/agenda.org"))
+
+
+;;;; Flyspell
+(add-hook 'org-mode-hook 'flyspell-mode)
+
+;;;; Undo-Tree
+(straight-use-package 'undo-tree)
+(global-undo-tree-mode 1)
+(setq evil-undo-system 'undo-tree)
+
 ;;;; Evil
 (straight-use-package 'evil)
 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
 (evil-mode)
-(setq evil-emacs-state-modes nil)
-(setq evil-insert-state-modes nil)
-(setq evil-motion-state-modes nil)
+(setq evil-emacs-state-modes nil
+			evil-insert-state-modes nil
+			evil-motion-state-modes nil)
 
 (define-key evil-normal-state-map (kbd "C-u") (lambda ()
 																								(interactive)
@@ -121,6 +145,20 @@
 																							(interactive)
 																							(quit-window)))
 
+;;;; Evil-magit
+;; https://github.com/emacs-evil/evil-magit
+(straight-use-package 'evil-magit)
+(require 'evil-magit)
+
+;;;; Mouse-clicks
+(dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]  
+														[mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
+														[mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]
+														[mouse-4] [down-mouse-4] [drag-mouse-4] [double-mouse-4] [triple-mouse-4]
+														[mouse-5] [down-mouse-5] [drag-mouse-5] [double-mouse-5] [triple-mouse-5]))
+  (global-unset-key mouseclicks-kill))
+(define-key evil-motion-state-map [down-mouse-1] nil)
+
 ;;;; Dired
 (add-hook 'dired-mode-hook
 					(lambda ()
@@ -129,42 +167,70 @@
 (setq dired-listing-switches "-alh")
 
 ;;;; Dired-du
-(straight-use-package 'dired-du)
-(setq dired-du-size-format t)
+;;(straight-use-package 'dired-du)
+;;(setq dired-du-size-format t)
 
-;;;; Undo-Tree
-;;(straight-use-package 'undo-tree)
-;;(global-undo-tree-mode)
+;;;; Common-lisp
+(require 'cl)
 
 ;;;; Hydra
+;; https://github.com/abo-abo/hydra
+
 (straight-use-package 'hydra)
+
+;; | red      |                            |
+;; | blue     | :exit t                    |
+;; | amaranth | :foreign-keys warn         |
+;; | teal     | :foreign-keys warn :exit t |
+;; | pink     | :foreign-keys run          |
 
 ;;;;; Hydra-menu
 (defhydra hydra-menu ()
 	"Hydra Menu"
-	("w" hydra-window/body "hydra-window" :exit t)
+	("b" my/set-brightness "set-brightness" :exit t)
 	("e" hydra-pulseaudio/body "hydra-pulseaudio" :exit t)
-	("s-SPC" nil "quit"))
+	("s-SPC" nil "quit" :exit t))
 
 (global-set-key (kbd "s-SPC") 'hydra-menu/body)
 
 ;;;;; Hydra-window
-(defhydra hydra-window ()
-	"window-menu"
-	("w" other-window "toggle")
-	("c" delete-window "delete")
-	("x" delete-other-windows "xor")
-	("TAB" previous-buffer "prev")
-	("s" split-window-below "split-below")
-	("v" split-window-right "split-right")
-	("0" balance-windows "balance")
-	(")" balance-windows-area "area")
-	("l" enlarge-window-horizontally "hor+")
-	("h" shrink-window-horizontally "hor-")
-	("k" enlarge-window "hor+")
-	("j" shrink-window "hor-")
-	("b" hydra-menu/body "back" :exit t)
-	("s-SPC" nil "quit"))
+(defhydra hydra-window (:hint nil)
+	"
+Navigation                           ^^Edit                               ^^^^Resize
+_C-w_: toggle    _n_: bottom-right   _c_: delete         _H_: move-left     _-_: hor-    _0_: balance
+_h_:   left      _y_: top-left       _x_: xor						 _J_: move-down     _=_: hor+    _)_: area
+_j_:   down                        _s_: split-below    _K_: move-up       ___: ver-    
+_k_:   up                          _v_: split-right    _L_: move-right    _+_: ver+
+_l_:   right                       _r_: rotate
+"
+	("C-w" other-window :exit t)
+	("c" delete-window :exit t)
+	("x" delete-other-windows :exit t)
+	;;("b" previous-buffer)
+	;;("n" next-buffer)
+	("r" evil-window-rotate-downwards)
+	("s" split-window-below :exit t)
+	("v" split-window-right :exit t)
+	("0" balance-windows :exit t)
+	(")" balance-windows-area :exit t)
+	("=" (enlarge-window-horizontally 5))
+	("-" (shrink-window-horizontally 5))
+	("+" (enlarge-window 5))
+	("_" (shrink-window 5))
+	("h" evil-window-left :exit t)
+	("j" evil-window-down :exit t)
+	("k" evil-window-up :exit t)
+	("l" evil-window-right :exit t)
+	("n" evil-window-bottom-right :exit t)
+	("y" evil-window-top-left :exit t)
+	("H" evil-window-move-far-left :exit t)
+	("J" evil-window-move-very-bottom :exit t)
+	("K" evil-window-move-very-top :exit t)
+	("L" evil-window-move-far-right :exit t)
+	("q" nil  :exit t))
+
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-w") 'hydra-window/body)
+;;(global-set-key (kbd "s-q") 'hydra-window/body)
 
 ;;;;; Hydra-pulseaudio
 (defhydra hydra-pulseaudio ()
@@ -176,22 +242,18 @@
 	("b" hydra-menu/body "back" :exit t)
 	("s-SPC" nil "quit" :exit t))
 
-;;;; Ido
-(ido-mode -1)
-
 ;;;; Ivy
 (straight-use-package 'ivy)
-(ivy-mode 1)
+(add-hook 'after-init-hook 'ivy-mode)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 
 ;;;;; Counsel
 (straight-use-package 'counsel)
 (counsel-mode)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x d") 'counsel-dired)
-(global-set-key (kbd "C-x b") 'switch-to-buffer)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;;(global-set-key (kbd "M-x") 'counsel-M-x)
+;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
+;;(global-set-key (kbd "C-x d") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
@@ -200,10 +262,22 @@
 
 ;;;;; Swiper
 (straight-use-package 'swiper)
-(global-set-key (kbd "\C-s") 'swiper)
+(global-set-key (kbd "C-s") 'swiper)
 
 ;;;; Avy
 (straight-use-package 'avy)
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-a a") 'evil-avy-goto-char-2
+	(kbd "C-a s") 'evil-avy-goto-char-timer)
+
+;;;; Helm
+(straight-use-package 'helm)
+;; ensures helm always splits down and don't toggle off other buffers
+(setq helm-always-two-windows nil
+			helm-default-display-buffer-functions '(display-buffer-in-side-window))
+
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x d") 'helm-find-files)
 
 ;;;; Which Key
 (straight-use-package 'which-key)
@@ -223,16 +297,80 @@
 ;;;; Org-brain
 (straight-use-package 'org-brain)
 (setq org-brain-path "~/Documents/OrgBrain")
-(global-set-key (kbd "s-b") 'org-brain-visualize)
-(with-eval-after-load 'evil
-	(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
-(setq org-id-track-globally t)
 (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
-(add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
+(setq org-brain-show-history nil)
+(setq org-brain-show-resources nil)
+(setq org-brain-open-same-window t)
 
-(setq org-brain-visualize-default-choices 'all)
-(setq org-brain-scan-for-header-entries nil)
+;;(global-set-key (kbd "s-b") 'org-brain-visualize)
+;;(global-set-key (kbd "s-B") 'org-brain-switch-brain)
+;;(evil-define-key 'normal org-mode-map (kbd "s-t") 'org-brain-get-id)
+
+;;(with-eval-after-load 'evil
+;;(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+
+;; combined healine-file entries
+(setq org-brain-scan-for-header-entries t
+			org-id-track-globally t
+			org-brain-include-file-entries t)
+
+;; headline entries only
+;;(setq org-brain-include-file-entries nil
+;;org-brain-file-entries-use-title nil
+;;org-id-track-globally t
+;;org-brain-headline-entry-name-format-string "%2$s")
+;;(add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
+
+;; file entries only
+;;(setq org-brain-scan-for-header-entries nil)
+
+
+(setq org-brain-completion-system 'ivy)
+
+(with-eval-after-load 'org
+	(require 'org-brain))
+
 (add-hook 'org-brain-visualize-text-hook 'org-toggle-latex-fragment)
+(add-hook 'org-brain-visualize-text-hook 'org-toggle-inline-images)
+
+;;;; Hide-mode-line
+(straight-use-package 'hide-mode-line)
+
+;;;; Org-roam
+(straight-use-package 'org-roam)
+(add-hook 'after-init-hook 'org-roam-mode)
+
+(setq org-roam-directory "/home/samcheung/Syncthing/Org-folder/Roam/")
+(setq org-roam-dailies-directory (concat org-roam-directory "dailies/"))
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "dailies/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n\n")))
+
+(evil-define-key 'normal 'org-roam-mode-map
+	(kbd "C-c n t") 'org-roam-buffer-toggle-display
+	(kbd "C-c n f") 'org-roam-find-file
+	(kbd "C-c n g") 'org-roam-graph)
+(evil-define-key 'normal 'org-mode-map
+	(kbd "C-C n i") 'org-roam-insert
+	(kbd "C-C n I") 'org-roam-insert-immediate)
+(add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
+
+(setq org-roam-completion-everywhere t)
+
+;;;; Image-mode
+(setq image-auto-resize 'fit-height)
+(evil-set-initial-state 'image-mode 'normal)
+(evil-define-key 'normal image-mode-map
+	(kbd "W") 'image-transform-fit-to-width
+	(kbd "H") 'image-transform-fit-to-height
+	(kbd "j") 'image-scroll-up
+	(kbd "k") 'image-scroll-down
+	(kbd "l") 'image-next-file
+	(kbd "h") 'image-previous-file)
 
 ;;;; Code Completion Engines
 
@@ -240,12 +378,16 @@
 (straight-use-package 'yasnippet)
 (add-to-list 'load-path
 						 "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
 (yas-global-mode 1)
 
 ;;;;; Company
 (straight-use-package 'company)
 (add-hook 'after-init-hook 'global-company-mode)
+
+;;;;; Company-org-roam
+;;(straight-use-package 'company-org-roam)
+;;(require 'company-org-roam)
+;;(push 'company-org-roam company-backends)
 
 ;;;;; Company-lsp
 (straight-use-package 'company-lsp)
@@ -294,7 +436,7 @@
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 
 ;;;; Pdf-tools
-(straight-use-package 'pdf-tools)
+(load-library "pdf-tools-autoloads")
 (pdf-tools-install)
 (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
 
@@ -328,6 +470,8 @@
 (straight-use-package 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
+;;;; Gnuplot
+(straight-use-package 'gnuplot)
 ;;;; Ox-twbs
 (straight-use-package 'ox-twbs)
 
@@ -339,6 +483,8 @@
 ;;(sp-local-pair 'c-mode "'" nil :actions :rem)
 ;;(sp-local-pair 'c-mode "'" "'")
 (sp-local-pair 'emacs-lisp-mode "`" "'")
+
+;;(sp-local-pair 'org-mode "=" nil :actions :rem)
 (setq-default sp-escape-quotes-after-insert nil)
 ;;Symbol's function definition is void: sp-local-pair
 
@@ -352,11 +498,8 @@
 (straight-use-package 'lsp-mode)
 (require 'lsp-mode)
 (add-hook 'lsp-mode-hook #'lsp)
-(add-hook 'c++-mode-hook #'lsp)
 (add-hook 'c-mode-hook #'lsp)
 (add-hook 'java-mode-hook #'lsp)
-;;(add-hook 'haskell-mode-hook #'lsp)
-(add-hook 'python-mode-hook #'lsp)
 
 ;;;;; Dap-mode
 (straight-use-package 'dap-mode)
@@ -370,8 +513,7 @@
 	(straight-use-package 'ccls)
 	(require 'ccls)
 	(setq ccls-executable "/usr/bin/ccls")
-	(add-hook 'c-mode-hook #'lsp)
-	(add-hook 'c++-mode-hook #'lsp))
+	(add-hook 'c-mode-hook #'lsp))
 
 ;;;;; LSP-java
 (with-eval-after-load 'lsp
@@ -379,14 +521,10 @@
 	(require 'dap-java)
 	(require 'lsp-java))
 
-;;;;; LSP-python
-(with-eval-after-load 'lsp
-	(require 'dap-python))
+;;;; Auctex
+(straight-use-package 'auctex)
 
-;;;; Common Lisp
-(require 'cl)
-
-;;;; EXWM
+;;;; Exwm
 (straight-use-package 'exwm)
 (server-start)
 (require 'exwm)
@@ -431,11 +569,9 @@
 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
 (define-key exwm-mode-map [?\s-c] #'exwm-input-release-keyboard)
 (define-key exwm-mode-map [?\s-f] #'exwm-layout-toggle-fullscreen)
-(define-key exwm-mode-map [?\C-w ?\C-w] #'evil-window-next)
-(define-key exwm-mode-map [?\C-w ?\C-s] #'evil-window-split)
-(define-key exwm-mode-map [?\C-w ?\C-v] #'evil-window-vsplit)
-(define-key exwm-mode-map [?\C-w ?\C-c] #'evil-window-delete)
+(define-key exwm-mode-map [?\C-w] #'hydra-window/body)
 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
+(define-key exwm-mode-map [?\s-b ] #'org-brain-visualize)
 
 (evil-set-initial-state 'exwm-mode 'emacs)
 (setq exwm-input-simulation-keys
@@ -444,7 +580,6 @@
 				([?\C-u] . [prior])
 				([?\C-d] . [next])))
 
-;; xrandr multiple monitor
 (defun exwm-passthrough (orig-fun keymap on-exit &optional foreign-keys)
 	(setq exwm-input-line-mode-passthrough t)
 	(let ((on-exit (lexical-let ((on-exit on-exit))
@@ -456,19 +591,12 @@
 (advice-add 'hydra-set-transient-map :around #'exwm-passthrough)
 
 (require 'exwm-randr)
-(setq exwm-randr-workspace-output-plist '(1 "DP-1" 2 "DP-2"))
-(add-hook 'exwm-randr-screen-change-hook
-          (lambda ()
-            (start-process-shell-command
-             "xrandr" nil "xrandr --output DP-1 --right-of LVDS1 --auto")))
 (exwm-randr-enable)
-
 (exwm-enable)
 
 ;;;; My/set-brightness
 (defun my/set-brightness()
 	(interactive)
-
 	(setq my/max-brightness-file "/sys/class/backlight/intel_backlight/max_brightness")
 	(setq my/brightness-file "/sys/class/backlight/intel_backlight/brightness")
 
@@ -483,3 +611,102 @@
 
 ;;;; Pulseaudio-control
 (straight-use-package 'pulseaudio-control)
+
+;;;; ScreenShot
+(straight-use-package 'screenshot)
+(global-set-key (kbd "s-s") 'screenshot)
+(setq screenshot-schemes
+			'(
+				("local"
+				 :dir "~/Media/Screenshots")
+				("current-dir"
+				 :dir default-directory)))
+
+;;;; Randr-config
+(defun generate-randr-config (primary secondary)
+  (-flatten `(,(-map (lambda (n) (list n primary)) (number-sequence 1 7))
+              (0 secondary)
+              ,(-map (lambda (n) (list n secondary)) (number-sequence 8 9)))))
+
+(defun randr-layout-dp1-extend ()
+	"Extend the screen to Display Port"
+
+  (interactive)
+  (setq exwm-randr-workspace-monitor-plist (generate-randr-config "DP-1" "eDP-1"))
+  (exwm-randr-refresh)
+	(randr-layout-single)
+  (shell-command "xrandr --output DP-1 --left-of eDP-1 --auto --primary"))
+
+(defun randr-layout-hdmi1-extend ()
+	"Extend the screen to HDMI"
+
+  (interactive)
+  (setq exwm-randr-workspace-monitor-plist (generate-randr-config "HDMI-1" "eDP-1"))
+  (exwm-randr-refresh)
+	(randr-layout-single)
+	(shell-command "xrandr --output HDMI-1 --auto --left-of eDP-1 --auto --primary"))
+
+(defun randr-layout-hdmi1-only ()
+	"Only HDMI is shown"
+
+	(interactive)
+	(exwm-randr-refresh)
+	(shell-command "xrandr --output HDMI-1 --auto --primary")
+	(shell-command "xrandr --output eDP-1 --off"))
+
+(defun randr-layout-dp1-only ()
+	"Only HDMI is shown"
+
+	(interactive)
+	(exwm-randr-refresh)
+	(shell-command "xrandr --output DP-1 --auto --primary")
+	(shell-command "xrandr --output eDP-1 --off"))
+
+(defun randr-layout-single ()
+	"Laptop screen only!"
+
+	(interactive)
+	(exwm-randr-refresh)
+	(shell-command "xrandr --output eDP-1 --auto --primary")
+	(shell-command "xrandr --output HDMI-1 --off")
+	(shell-command "xrandr --output DP-1 --off"))
+
+;; xrandr multiple monitor
+;;(setq exwm-randr-workspace-output-plist '(1 "DP-1" 2 "DP-2"))
+;;(add-hook 'exwm-randr-screen-change-hook
+;;(lambda ()
+;;(start-process-shell-command
+;;"xrandr" nil "xrandr --output DP-1 --right-of LVDS1 --auto")))
+
+;;;; Ido-mode
+(ido-mode -1)
+(defun ido-mode (&optional rest)
+	())
+
+;;;; Libvterm
+(load-library "vterm-autoloads")
+
+;;;; Projectile
+(straight-use-package 'projectile)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(setq projectile-completion-system 'ivy)
+
+;;;; Org-noter
+(straight-use-package 'org-noter)
+
+;;; Bibliography
+
+;;;; Org-ref
+
+(straight-use-package 'org-ref)
+(setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
+
+(setq org-ref-bibliography-notes "~/Syncthing/bibliography/notes.org"
+			org-ref-default-bibliography '("~/Syncthing/bibliography/references.bib")
+			org-ref-pdf-directory "~/Syncthing/bibliography/bib-pdf/")
+
+(setq bibtex-completion-bibliography "~/Syncthing/bibliography/references.bib"
+			bibtex-completion-library-path "~/Syncthing/bibliography/bib-pdf"
+			bibtex-completion-notes-path "~/Syncthing/bibliography/helm-bibtex-notes")
+(require 'org-ref)

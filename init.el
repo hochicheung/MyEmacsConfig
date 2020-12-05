@@ -109,15 +109,38 @@
 	(load bootstrap-file nil 'nomessage))
 
 ;;;; Org-mode
-(setq org-src-window-setup 'current-window)
-(setq org-image-actual-width (* 15 (/ (window-width) 3)))
+(setq org-src-window-setup 'split-window-below)
+
+;;(setq org-image-actual-width (* 15 (/ (window-width) 3)))
+(setq org-log-done 'time)
+
+;; persistent clock
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
+
+(setq org-clock-idle-time 15)
 
 ;;;;; Org-agenda
 (global-set-key (kbd "s-a") 'org-agenda)
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
 (setq org-agenda-files '("~/Syncthing/Org-folder/Agenda/agenda.org"))
+(setq org-default-notes-file "~/Syncthing/Org-folder/Agenda/notes.org")
 
+(add-to-list 'display-buffer-alist
+             `(,(rx string-start "*Calendar*" string-end)
+               (display-buffer-at-bottom)))
+
+(setq org-capture-templates
+      '(("t" "todo" entry (file org-default-notes-file)
+				 "* TODO %?\n%u\n%a\n" :clock-in t :clock-resume t)
+				("m" "Meeting" entry (file org-default-notes-file)
+				 "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
+				("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
+				 "** NEXT %? \nDEADLINE: %t") ))
+
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 9))))
 
 ;;;; Flyspell
 (add-hook 'org-mode-hook 'flyspell-mode)
@@ -144,6 +167,10 @@
 (define-key evil-normal-state-map (kbd "Q") (lambda ()
 																							(interactive)
 																							(quit-window)))
+
+;;;; Evil-surround
+(straight-use-package 'evil-surround)
+(global-evil-surround-mode 1)
 
 ;;;; Evil-magit
 ;; https://github.com/emacs-evil/evil-magit
@@ -271,13 +298,32 @@ _l_:   right                       _r_: rotate
 
 ;;;; Helm
 (straight-use-package 'helm)
+(require 'helm)
+(require 'helm-config)
+
 ;; ensures helm always splits down and don't toggle off other buffers
 (setq helm-always-two-windows nil
 			helm-default-display-buffer-functions '(display-buffer-in-side-window))
 
+;;(setq helm-ff-auto-update-initial-value t)
+(setq helm-move-to-line-cycle-in-source nil)
+
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+
+;;(define-key helm-map (kbd "<tab>")'helm-execute-persistent-action)
+;;(define-key helm-map (kbd "C-z")'helm-select-action)
+
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x d") 'helm-find-files)
+(define-key helm-command-map (kbd "<menu>") 'helm-resume)
+
+;;(setq helm-autoresize-max-height 0
+;;helm-autoresize-min-height 20)
+;;(helm-autoresize-mode 1)
+
+(helm-mode 1)
 
 ;;;; Which Key
 (straight-use-package 'which-key)
@@ -343,6 +389,15 @@ _l_:   right                       _r_: rotate
 (setq org-roam-directory "/home/samcheung/Syncthing/Org-folder/Roam/")
 (setq org-roam-dailies-directory (concat org-roam-directory "dailies/"))
 
+;; the slug tag are what are passed down from my search
+(setq org-roam-capture-templates
+			'(("d" "default" plain
+				 (function org-roam--capture-get-point)
+				 "%?"
+				 :file-name "%<%Y%m%d%H%M%S>-${slug}"
+				 :head "#+title: ${title}\n"
+				 :unnarrowed t)))
+
 (setq org-roam-dailies-capture-templates
       '(("d" "default" entry
          #'org-roam-capture--get-point
@@ -357,7 +412,7 @@ _l_:   right                       _r_: rotate
 (evil-define-key 'normal 'org-mode-map
 	(kbd "C-C n i") 'org-roam-insert
 	(kbd "C-C n I") 'org-roam-insert-immediate)
-(add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
+;;(add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
 
 (setq org-roam-completion-everywhere t)
 
@@ -383,11 +438,6 @@ _l_:   right                       _r_: rotate
 ;;;;; Company
 (straight-use-package 'company)
 (add-hook 'after-init-hook 'global-company-mode)
-
-;;;;; Company-org-roam
-;;(straight-use-package 'company-org-roam)
-;;(require 'company-org-roam)
-;;(push 'company-org-roam company-backends)
 
 ;;;;; Company-lsp
 (straight-use-package 'company-lsp)
@@ -529,7 +579,7 @@ _l_:   right                       _r_: rotate
 (server-start)
 (require 'exwm)
 
-(setq exwm-workspace-number 4)
+(setq exwm-workspace-number 1)
 (setq ediff-window-setup-function 'ediff-setup-window-plain)
 
 (add-hook 'exwm-update-class-hook
@@ -698,7 +748,6 @@ _l_:   right                       _r_: rotate
 ;;; Bibliography
 
 ;;;; Org-ref
-
 (straight-use-package 'org-ref)
 (setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
 
@@ -706,7 +755,75 @@ _l_:   right                       _r_: rotate
 			org-ref-default-bibliography '("~/Syncthing/bibliography/references.bib")
 			org-ref-pdf-directory "~/Syncthing/bibliography/bib-pdf/")
 
-(setq bibtex-completion-bibliography "~/Syncthing/bibliography/references.bib"
-			bibtex-completion-library-path "~/Syncthing/bibliography/bib-pdf"
-			bibtex-completion-notes-path "~/Syncthing/bibliography/helm-bibtex-notes")
 (require 'org-ref)
+
+;;;; Helm-bibtex
+(straight-use-package 'helm-bibtex)
+(define-key helm-command-map "b" 'helm-bibtex)
+
+(setq bibtex-completion-bibliography "~/Syncthing/bibliography/references.bib")
+
+;; pdf locations
+(setq bibtex-completion-library-path "~/Syncthing/bibliography/bib-pdf")
+
+;; note location, full path for one file and directory for several
+(setq bibtex-completion-notes-path "~/Syncthing/bibliography/helm-bibtex-notes.org")
+
+;; JabRef and Zotero store location of PDFs in a field called "File"
+;;(setq bibtex-completion-pdf-field "File")
+
+;; Custom layout of search results
+;;(setq bibtex-completion-display-formats
+;;'((article       . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} ${journal:40}")
+;;(inbook        . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+;;(incollection  . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+;;(inproceedings . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+;;(t             . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*}")))
+
+;;;; Org-roam-bibtex
+(straight-use-package 'org-roam-bibtex)
+(require 'org-roam-bibtex)
+(with-eval-after-load 'org-roam
+	(add-hook 'org-roam-mode-hook #'org-roam-bibtex-mode))
+
+(setq orb-insert-interface 'helm-bibtex)
+(setq orb-insert-link-description 'citation)
+
+;; templates
+(setq orb-preformat-keywords
+      '("citekey" "title" "url" "author-or-editor" "keywords" "file")
+      orb-process-file-field t
+      orb-file-field-extensions "pdf")
+
+(setq orb-templates
+      '(("r" "ref" plain (function org-roam-capture--get-point) ""
+				 :file-name "${citekey}"
+				 :head "#+TITLE: ${citekey} - ${title}\n#+ROAM_KEY: ${ref}\n"
+				 :unnarrowed t)
+				("n" "ref+noter" plain (function org-roam-capture--get-point) ""
+         :file-name "${citekey}"
+         :head "#+TITLE: ${citekey} - ${title}\n#+ROAM_KEY: ${ref}
+
+- keywords :: ${keywords}
+
+* ${title}
+:PROPERTIES:
+:Custom_ID: ${citekey}
+:URL: ${url}
+:AUTHOR: ${author-or-editor}
+:NOTER_DOCUMENT: ${file}
+:NOTER_PAGE:
+:END:")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+	 '("~/Syncthing/Org-folder/org-mode-testfile.org" "~/Syncthing/Org-folder/Agenda/agenda.org")))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

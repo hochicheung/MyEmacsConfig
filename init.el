@@ -106,12 +106,6 @@
 
 ;;;; Org-mode
 (setq org-src-window-setup 'split-window-below)
-(setq org-link-frame-setup 
-			'((vm . vm-visit-folder-other-frame)
-				(vm-imap . vm-visit-imap-folder-other-frame)
-				(gnus . org-gnus-no-new-news)
-				(file . find-file-other-window)
-				(wl . wl-other-frame)))
 
 ;;(setq org-image-actual-width (* 15 (/ (window-width) 3)))
 (setq org-log-done 'time)
@@ -307,7 +301,7 @@ _l_:   right                       _r_: rotate
 (setq helm-always-two-windows nil
 			helm-default-display-buffer-functions '(display-buffer-in-side-window))
 
-(setq helm-ff-auto-update-initial-value t)
+;;(setq helm-ff-auto-update-initial-value t)
 (setq helm-move-to-line-cycle-in-source nil)
 
 (global-set-key (kbd "C-c h") 'helm-command-prefix)

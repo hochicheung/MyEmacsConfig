@@ -121,6 +121,7 @@
 (setq org-clock-idle-time 15)
 
 ;;;;; Org-agenda
+(require 'org)
 (global-set-key (kbd "s-a") 'org-agenda)
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
@@ -280,7 +281,7 @@ _l_:   right                       _r_: rotate
 (counsel-mode)
 ;;(global-set-key (kbd "M-x") 'counsel-M-x)
 ;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
-;;(global-set-key (kbd "C-x d") 'counsel-find-file)
+(global-set-key (kbd "C-x d") 'counsel-find-file)
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 (global-set-key (kbd "<f1> l") 'counsel-find-library)
@@ -814,16 +815,3 @@ _l_:   right                       _r_: rotate
 :NOTER_DOCUMENT: ${file}
 :NOTER_PAGE:
 :END:")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files
-	 '("~/Syncthing/Org-folder/org-mode-testfile.org" "~/Syncthing/Org-folder/Agenda/agenda.org")))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

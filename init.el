@@ -573,7 +573,12 @@ _l_:   right                       _r_: rotate
 	(require 'lsp-java))
 
 ;;;; Auctex
-(straight-use-package 'auctex)
+;;(straight-use-package 'auctex)
+;;(setq-default TeX-engine 'default)
+;;(setq-default TeX-PDF-mode t)
+;;
+;;;;; Company Auctex
+;;(straight-use-package 'company-auctex)
 
 ;;;; Exwm
 (straight-use-package 'exwm)

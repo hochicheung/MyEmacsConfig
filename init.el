@@ -34,6 +34,20 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;;;; Straight
+(defvar bootstrap-version)
+(let ((bootstrap-file
+			 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+			(bootstrap-version 5))
+	(unless (file-exists-p bootstrap-file)
+		(with-current-buffer
+				(url-retrieve-synchronously
+				 "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+				 'silent 'inhibit-cookies)
+			(goto-char (point-max))
+			(eval-print-last-sexp)))
+	(load bootstrap-file nil 'nomessage))
+
 ;;;; Font
 (set-face-attribute 'default nil :font "deja vu sans mono 12")
 (set-frame-font "deja vu sans mono 12" nil t)
@@ -94,21 +108,9 @@
 (setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
 
 ;;; Packages
-;;;; Straight
-(defvar bootstrap-version)
-(let ((bootstrap-file
-			 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-			(bootstrap-version 5))
-	(unless (file-exists-p bootstrap-file)
-		(with-current-buffer
-				(url-retrieve-synchronously
-				 "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-				 'silent 'inhibit-cookies)
-			(goto-char (point-max))
-			(eval-print-last-sexp)))
-	(load bootstrap-file nil 'nomessage))
 
 ;;;; Org-mode
+(straight-use-package 'org)
 (setq org-src-window-setup 'split-window-below)
 
 ;;(setq org-image-actual-width (* 15 (/ (window-width) 3)))
@@ -121,7 +123,6 @@
 (setq org-clock-idle-time 15)
 
 ;;;;; Org-agenda
-(require 'org)
 (global-set-key (kbd "s-a") 'org-agenda)
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
@@ -492,7 +493,6 @@ _l_:   right                       _r_: rotate
 (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
 
 ;;;;; Keybinds
-(require 'evil)
 (evil-define-key 'normal pdf-view-mode-map
 	(kbd "j") 'pdf-view-scroll-up-or-next-page
 	(kbd "k") 'pdf-view-scroll-down-or-previous-page

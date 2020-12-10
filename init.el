@@ -107,6 +107,15 @@
 ;; Load emacs packages from nixOS directory
 (setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
 
+;;;; Timestamps
+(setq time-stamp-active t     ; enable time-stamps
+			time-stamp-line-limit 5 ;check first 5 lines for Time-stamp:
+			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
+(add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
+
+;;;; Initial-buffer
+(setq initial-buffer-choice t)
+
 ;;; Packages
 
 ;;;; Org-mode
@@ -147,7 +156,7 @@
 ;;;; Flyspell
 (add-hook 'org-mode-hook 'flyspell-mode)
 
-;;;; Undo-Tree
+;;;; Undo-tree
 (straight-use-package 'undo-tree)
 (global-undo-tree-mode 1)
 (setq evil-undo-system 'undo-tree)
@@ -187,6 +196,7 @@
 														[mouse-5] [down-mouse-5] [drag-mouse-5] [double-mouse-5] [triple-mouse-5]))
   (global-unset-key mouseclicks-kill))
 (define-key evil-motion-state-map [down-mouse-1] nil)
+(define-key evil-normal-state-map [down-mouse-1] nil)
 
 ;;;; Dired
 (add-hook 'dired-mode-hook
@@ -313,8 +323,8 @@ _l_:   right                       _r_: rotate
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
 
-;;(define-key helm-map (kbd "<tab>")'helm-execute-persistent-action)
-;;(define-key helm-map (kbd "C-z")'helm-select-action)
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(define-key helm-map (kbd "C-z") 'helm-select-action)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)

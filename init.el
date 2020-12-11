@@ -136,7 +136,7 @@
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
 (setq org-agenda-files '("~/Syncthing/Org-folder/Agenda/agenda.org"))
-(setq org-default-notes-file "~/Syncthing/Org-folder/Agenda/notes.org")
+(setq org-default-notes-file "~/Syncthing/Org-folder/Agenda/agenda.org")
 
 (add-to-list 'display-buffer-alist
              `(,(rx string-start "*Calendar*" string-end)
@@ -144,7 +144,7 @@
 
 (setq org-capture-templates
       '(("t" "todo" entry (file org-default-notes-file)
-				 "* TODO %?\n%u\n%a\n" :clock-in t :clock-resume t)
+				 "* TODO %?\n%u\n%a\n")
 				("m" "Meeting" entry (file org-default-notes-file)
 				 "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
 				("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
@@ -765,52 +765,52 @@ _l_:   right                       _r_: rotate
 
 ;;;; Org-ref
 (straight-use-package 'org-ref)
-(setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
-
-(setq org-ref-bibliography-notes "~/Syncthing/bibliography/notes.org"
-			org-ref-default-bibliography '("~/Syncthing/bibliography/references.bib")
-			org-ref-pdf-directory "~/Syncthing/bibliography/bib-pdf/")
-
 (require 'org-ref)
 
+;; Bibliography file
+(setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
+
+;; Bibliography file
+(setq org-ref-default-bibliography '("~/Syncthing/bibliography/references.bib")
+			;; Source pdf locations
+			org-ref-pdf-directory "~/Syncthing/bibliography/bib-pdf/")
+
+
 ;;;; Helm-bibtex
+;; Change to ivy-bibtex for ivy front-end
 (straight-use-package 'helm-bibtex)
 (define-key helm-command-map "b" 'helm-bibtex)
 
+;; Tell where bibtex-completion to find bibliography file
 (setq bibtex-completion-bibliography "~/Syncthing/bibliography/references.bib")
 
-;; pdf locations
+;; Source pdf locations
+;; https://github.com/tmalsburg/helm-bibtex#pdf-files
 (setq bibtex-completion-library-path "~/Syncthing/bibliography/bib-pdf")
-
-;; note location, full path for one file and directory for several
-(setq bibtex-completion-notes-path "~/Syncthing/bibliography/helm-bibtex-notes.org")
-
-;; JabRef and Zotero store location of PDFs in a field called "File"
-;;(setq bibtex-completion-pdf-field "File")
-
-;; Custom layout of search results
-;;(setq bibtex-completion-display-formats
-;;'((article       . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} ${journal:40}")
-;;(inbook        . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
-;;(incollection  . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-;;(inproceedings . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
-;;(t             . "${=has-pdf=:1}${=has-note=:1} ${=type=:3} ${year:4} ${author:36} ${title:*}")))
+(setq bibtex-completion-pdf-field "File")
 
 ;;;; Org-roam-bibtex
 (straight-use-package 'org-roam-bibtex)
 (require 'org-roam-bibtex)
+
 (with-eval-after-load 'org-roam
 	(add-hook 'org-roam-mode-hook #'org-roam-bibtex-mode))
 
+;; Choose which front-end to use (ivy-bibtex, helm-bibtex or generic)
 (setq orb-insert-interface 'helm-bibtex)
+
+;; Set citation style
 (setq orb-insert-link-description 'citation)
 
-;; templates
+;; Which bibtex fields to grab to use by orb-templates
+;; Additional fields defined by helm bibtex:
+;; https://github.com/tmalsburg/helm-bibtex/blob/master/bibtex-completion.el#L1147-L1205
 (setq orb-preformat-keywords
       '("citekey" "title" "url" "author-or-editor" "keywords" "file")
-      orb-process-file-field t
+			orb-process-file-field t
       orb-file-field-extensions "pdf")
 
+;; Templates to use when creating a new bibliographical note
 (setq orb-templates
       '(("r" "ref" plain (function org-roam-capture--get-point) ""
 				 :file-name "${citekey}"

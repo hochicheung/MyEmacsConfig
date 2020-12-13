@@ -162,6 +162,12 @@
 (setq evil-undo-system 'undo-tree)
 
 ;;;; Evil
+(setq evil-want-keybinding nil)
+(setq evil-want-integration t)
+(require 'evil)
+(when (require 'evil-collection nil t)
+	(evil-collection-init))
+
 (straight-use-package 'evil)
 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
 (evil-mode)
@@ -183,10 +189,10 @@
 (straight-use-package 'evil-surround)
 (global-evil-surround-mode 1)
 
-;;;; Evil-magit
-;; https://github.com/emacs-evil/evil-magit
-(straight-use-package 'evil-magit)
-(require 'evil-magit)
+;;;; Evil-collection
+;; https://github.com/emacs-evil/evil-collection
+(straight-use-package 'evil-collection)
+(setq evil-collection-setup-minibuffer t)
 
 ;;;; Mouse-clicks
 (dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]  
@@ -320,16 +326,16 @@ _l_:   right                       _r_: rotate
 ;;(setq helm-ff-auto-update-initial-value t)
 (setq helm-move-to-line-cycle-in-source nil)
 
-(global-set-key (kbd "C-c h") 'helm-command-prefix)
-(global-unset-key (kbd "C-x c"))
-
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-(define-key helm-map (kbd "C-z") 'helm-select-action)
-
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-x d") 'helm-find-files)
-(define-key helm-command-map (kbd "<menu>") 'helm-resume)
+;;(global-set-key (kbd "C-c h") 'helm-command-prefix)
+;;(global-unset-key (kbd "C-x c"))
+;;
+;;(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+;;(define-key helm-map (kbd "C-z") 'helm-select-action)
+;;
+;;(global-set-key (kbd "M-x") 'helm-M-x)
+;;(global-set-key (kbd "C-x b") 'helm-buffers-list)
+;;(global-set-key (kbd "C-x d") 'helm-find-files)
+;;(define-key helm-command-map (kbd "<menu>") 'helm-resume)
 
 ;;(setq helm-autoresize-max-height 0
 ;;helm-autoresize-min-height 20)
@@ -438,12 +444,12 @@ _l_:   right                       _r_: rotate
 (setq image-auto-resize 'fit-height)
 (evil-set-initial-state 'image-mode 'normal)
 (evil-define-key 'normal image-mode-map
-	(kbd "W") 'image-transform-fit-to-width
-	(kbd "H") 'image-transform-fit-to-height
-	(kbd "j") 'image-scroll-up
-	(kbd "k") 'image-scroll-down
-	(kbd "l") 'image-next-file
-	(kbd "h") 'image-previous-file)
+	;;(kbd "W") 'image-transform-fit-to-width
+	;;(kbd "H") 'image-transform-fit-to-height
+	;;(kbd "j") 'image-scroll-up
+	;;(kbd "k") 'image-scroll-down
+	;;(kbd "l") 'image-next-file
+	;;(kbd "h") 'image-previous-file)
 
 ;;;; Code Completion Engines
 
@@ -469,29 +475,28 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'magit)
 
 ;;;;; Keybinds
-(require 'evil)
 (evil-define-key 'normal 'evil-normal-state-map
 	(kbd "C-x g") 'magit-status)
-(evil-define-key 'normal magit-mode-map
-	(kbd "j") 'magit-section-forward
-	(kbd "k") 'magit-section-backward
-	(kbd "p") 'magit-pull
-	(kbd "s") 'magit-stage-file
-	(kbd "u") 'magit-unstage-file
-	(kbd "c") 'magit-commit
-	(kbd "m") 'magit-merge
-	(kbd "P") 'magit-push
-	(kbd "f") 'magit-fetch
-	(kbd "l") 'magit-log
-	(kbd "i") 'magit-gitignore
-	(kbd "r") 'magit-refresh
-	(kbd "g") 'beginning-of-buffer
-	(kbd "G") 'end-of-buffer
-	(kbd "M") 'magit-remote
-	(kbd "d") 'magit-diff
-	(kbd "b") 'magit-branch
-	(kbd "R") 'magit-reset
-	(kbd "Q") 'magit-mode-bury-buffer)
+;;(evil-define-key 'normal magit-mode-map
+	;;(kbd "j") 'magit-section-forward
+	;;(kbd "k") 'magit-section-backward
+	;;(kbd "p") 'magit-pull
+	;;(kbd "s") 'magit-stage-file
+	;;(kbd "u") 'magit-unstage-file
+	;;(kbd "c") 'magit-commit
+	;;(kbd "m") 'magit-merge
+	;;(kbd "P") 'magit-push
+	;;(kbd "f") 'magit-fetch
+	;;(kbd "l") 'magit-log
+	;;(kbd "i") 'magit-gitignore
+	;;(kbd "r") 'magit-refresh
+	;;(kbd "g") 'beginning-of-buffer
+	;;(kbd "G") 'end-of-buffer
+	;;(kbd "M") 'magit-remote
+	;;(kbd "d") 'magit-diff
+	;;(kbd "b") 'magit-branch
+	;;(kbd "R") 'magit-reset
+	;;(kbd "Q") 'magit-mode-bury-buffer)
 
 ;;;; Org-bullets
 (straight-use-package 'org-bullets)
@@ -509,29 +514,29 @@ _l_:   right                       _r_: rotate
 (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
 
 ;;;;; Keybinds
-(evil-define-key 'normal pdf-view-mode-map
-	(kbd "j") 'pdf-view-scroll-up-or-next-page
-	(kbd "k") 'pdf-view-scroll-down-or-previous-page
-	(kbd "C-j") 'pdf-view-next-line-or-next-page
-	(kbd "C-k") 'pdf-view-previous-line-or-previous-page
-	(kbd "J") 'pdf-view-next-page-command
-	(kbd "K") 'pdf-view-previous-page-command
-	(kbd "h") 'image-backward-hscroll
-	(kbd "l") 'image-forward-hscroll
-	(kbd "f") 'pdf-view-goto-page
-	(kbd "r") 'pdf-view-revert-buffer
-	(kbd "=") 'pdf-view-enlarge
-	(kbd "+") 'pdf-view-enlarge
-	(kbd "-") 'pdf-view-shrink
-	(kbd "0") 'pdf-view-scale-reset
-	(kbd "H") 'pdf-view-fit-height-to-window
-	(kbd "W") 'pdf-view-fit-width-to-window
-	(kbd "P") 'pdf-view-fit-page-to-window
-	(kbd "/") 'isearch-forward-word
-	(kbd "n") 'isearch-repeat-forward
-	(kbd "N") 'isearch-repeat-backward
-	(kbd "G") 'pdf-view-first-page
-	(kbd "o") 'pdf-outline)
+;;(evil-define-key 'normal pdf-view-mode-map
+;;(kbd "j") 'pdf-view-scroll-up-or-next-page
+;;(kbd "k") 'pdf-view-scroll-down-or-previous-page
+;;(kbd "C-j") 'pdf-view-next-line-or-next-page
+;;(kbd "C-k") 'pdf-view-previous-line-or-previous-page
+;;(kbd "J") 'pdf-view-next-page-command
+;;(kbd "K") 'pdf-view-previous-page-command
+;;(kbd "h") 'image-backward-hscroll
+;;(kbd "l") 'image-forward-hscroll
+;;(kbd "f") 'pdf-view-goto-page
+;;(kbd "r") 'pdf-view-revert-buffer
+;;(kbd "=") 'pdf-view-enlarge
+;;(kbd "+") 'pdf-view-enlarge
+;;(kbd "-") 'pdf-view-shrink
+;;(kbd "0") 'pdf-view-scale-reset
+;;(kbd "H") 'pdf-view-fit-height-to-window
+;;(kbd "W") 'pdf-view-fit-width-to-window
+;;(kbd "P") 'pdf-view-fit-page-to-window
+;;(kbd "/") 'isearch-forward-word
+;;(kbd "n") 'isearch-repeat-forward
+;;(kbd "N") 'isearch-repeat-backward
+;;(kbd "G") 'pdf-view-first-page
+;;(kbd "o") 'pdf-outline)
 
 ;;;; Rainbow Delimiters
 (straight-use-package 'rainbow-delimiters)

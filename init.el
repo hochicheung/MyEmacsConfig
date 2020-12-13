@@ -164,9 +164,6 @@
 ;;;; Evil
 (setq evil-want-keybinding nil)
 (setq evil-want-integration t)
-(require 'evil)
-(when (require 'evil-collection nil t)
-	(evil-collection-init))
 
 (straight-use-package 'evil)
 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
@@ -193,6 +190,8 @@
 ;; https://github.com/emacs-evil/evil-collection
 (straight-use-package 'evil-collection)
 (setq evil-collection-setup-minibuffer t)
+(when (require 'evil-collection nil t)
+	(evil-collection-init))
 
 ;;;; Mouse-clicks
 (dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]  
@@ -332,9 +331,9 @@ _l_:   right                       _r_: rotate
 ;;(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 ;;(define-key helm-map (kbd "C-z") 'helm-select-action)
 ;;
-;;(global-set-key (kbd "M-x") 'helm-M-x)
-;;(global-set-key (kbd "C-x b") 'helm-buffers-list)
-;;(global-set-key (kbd "C-x d") 'helm-find-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x d") 'helm-find-files)
 ;;(define-key helm-command-map (kbd "<menu>") 'helm-resume)
 
 ;;(setq helm-autoresize-max-height 0
@@ -345,9 +344,9 @@ _l_:   right                       _r_: rotate
 
 
 ;;;; Ediff
-(custom-set-variables ediff-window-setup-function 'ediff-setup-windows-plain)
-(custom-set-variables ediff-split-window-function 'split-window-horizontally)
-(custom-set-variables ediff-diff-options "-w")
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-diff-options "-w")
 
 ;;;; Which Key
 (straight-use-package 'which-key)
@@ -443,7 +442,7 @@ _l_:   right                       _r_: rotate
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)
 (evil-set-initial-state 'image-mode 'normal)
-(evil-define-key 'normal image-mode-map
+;;(evil-define-key 'normal image-mode-map
 	;;(kbd "W") 'image-transform-fit-to-width
 	;;(kbd "H") 'image-transform-fit-to-height
 	;;(kbd "j") 'image-scroll-up

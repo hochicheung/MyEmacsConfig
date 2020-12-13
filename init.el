@@ -337,6 +337,12 @@ _l_:   right                       _r_: rotate
 
 (helm-mode 1)
 
+
+;;;; Ediff
+(custom-set-variables ediff-window-setup-function 'ediff-setup-windows-plain)
+(custom-set-variables ediff-split-window-function 'split-window-horizontally)
+(custom-set-variables ediff-diff-options "-w")
+
 ;;;; Which Key
 (straight-use-package 'which-key)
 (which-key-mode)
@@ -596,7 +602,6 @@ _l_:   right                       _r_: rotate
 (require 'exwm)
 
 (setq exwm-workspace-number 1)
-(setq ediff-window-setup-function 'ediff-setup-window-plain)
 
 (add-hook 'exwm-update-class-hook
 					(lambda ()

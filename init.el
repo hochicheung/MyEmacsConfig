@@ -49,8 +49,26 @@
 	(load bootstrap-file nil 'nomessage))
 
 ;;;; Font
-(set-face-attribute 'default nil :font "deja vu sans mono 12")
-(set-frame-font "deja vu sans mono 12" nil t)
+;; Font attributes
+(set-face-attribute 'default nil :family "deja vu sans mono" :height 120)
+;; Set font
+(set-frame-font "deja vu sans mono" nil t)
+
+;;;;; Mode specific fonts
+(defun my/buffer-face-mode-variable ()
+	"Set font to a variable width (proportional) fonts in current buffer"
+	(interactive)
+	(setq buffer-face-mode-face '(:family "noto serif" :height 120 :width semicondensed :weight regular))
+	(buffer-face-mode))
+
+(defun my/buffer-face-mode-fixed ()
+	"Sets a fixed width (monospace) font in current buffer"
+	(interactive)
+	(setq buffer-face-mode-face '(:family "deja vu sans mono" :height 120))
+	(buffer-face-mode))
+
+;; Set mode specific fonts
+(add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
 
 ;;;; Prefered Webbrowser
 (setq browse-url-browser-function 'browse-url-generic

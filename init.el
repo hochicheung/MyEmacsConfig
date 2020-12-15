@@ -141,6 +141,11 @@
 ;;;; Initial-buffer
 (setq initial-buffer-choice t)
 
+;;;; Mark-ring
+(setq mark-ring-max 8)
+(setq global-mark-ring-max 8)
+(global-set-key (kbd "C-x C-2") 'pop-global-mark)
+
 ;;; Packages
 
 ;;;; Org-mode
@@ -313,7 +318,8 @@ _l_:   right                       _r_: rotate
 
 ;;;; Ivy
 (straight-use-package 'ivy)
-(add-hook 'after-init-hook 'ivy-mode)
+(with-eval-after-load 'helm
+	(add-hook 'after-init-hook 'ivy-mode))
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 
@@ -340,6 +346,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Helm
 (straight-use-package 'helm)
+(add-hook 'after-init-hook 'helm-mode)
 (require 'helm)
 (require 'helm-config)
 
@@ -364,9 +371,6 @@ _l_:   right                       _r_: rotate
 ;;(setq helm-autoresize-max-height 0
 ;;helm-autoresize-min-height 20)
 ;;(helm-autoresize-mode 1)
-
-(helm-mode 1)
-
 
 ;;;; Ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)

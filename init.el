@@ -57,18 +57,25 @@
 ;;;;; Mode specific fonts
 (defun my/buffer-face-mode-variable ()
 	"Set font to a variable width (proportional) fonts in current buffer"
-	(interactive)
 	(setq buffer-face-mode-face '(:family "noto serif" :height 120 :width semicondensed :weight regular))
 	(buffer-face-mode))
 
 (defun my/buffer-face-mode-fixed ()
 	"Sets a fixed width (monospace) font in current buffer"
-	(interactive)
 	(setq buffer-face-mode-face '(:family "deja vu sans mono" :height 120))
 	(buffer-face-mode))
 
 ;; Set mode specific fonts
 (add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
+
+;;;; Margins
+;; set window margins
+(defun my/set-margins ()
+	"Set margins in current buffer"
+	(setq left-margin-width 18)
+	(setq right-margin-width 18))
+
+(add-hook 'org-mode-hook 'my/set-margins)
 
 ;;;; Prefered Webbrowser
 (setq browse-url-browser-function 'browse-url-generic

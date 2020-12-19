@@ -70,14 +70,29 @@
 
 ;;;; Margins
 ;; set window margins
-(defun my/set-margins ()
+(defun my/toggle-margins ()
+	"toggle between margins and non-margins in current buffer"
 	(interactive)
+	(if (or (> left-margin-width 0) (> right-margin-width 0))
+			(progn
+				(setq left-margin-width 0)
+				(setq right-margin-width 0)
+				(set-window-buffer (selected-window) (current-buffer)))
+		(setq left-margin-width (round (* (window-width) 0.132)))
+		(setq right-margin-width (round (* (window-width) 0.132)))
+		(set-window-buffer (selected-window) (current-buffer))))
+
+(defun my/set-margins ()
 	"Set margins in current buffer"
-	(setq left-margin-width (round (* (window-width) 0.132)))
-	(setq right-margin-width (round (* (window-width) 0.132))))
+	(interactive)
+	(if (or (= left-margin-width (round (* (window-width) 0.13))) (= right-margin-width (round (* (window-width) 0.13))))
+			(print "No change in buffer size")
+		(progn
+			(setq left-margin-width (round (* (window-width) 0.13)))
+			(setq right-margin-width (round (* (window-width) 0.13)))
+			(set-window-buffer (selected-window) (current-buffer)))))
 
 (add-hook 'org-mode-hook 'my/set-margins)
-;;(add-hook 'window-configuration-change-hook '(add-hook 'org-mode-hook 'my/set-margins))
 
 ;;;; Prefered Webbrowser
 (setq browse-url-browser-function 'browse-url-generic
@@ -164,7 +179,8 @@
 (setq org-clock-idle-time 15)
 
 ;;;;; Org-agenda
-(global-set-key (kbd "s-a") 'org-agenda)
+(global-set-key (kbd "s-a a") 'org-agenda)
+(global-set-key (kbd "s-a f") 'org-cycle-agenda-files)
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-span 30)
 (setq org-agenda-files '("~/Syncthing/Org-folder/Agenda/agenda.org"))

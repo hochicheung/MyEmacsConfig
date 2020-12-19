@@ -71,11 +71,13 @@
 ;;;; Margins
 ;; set window margins
 (defun my/set-margins ()
+	(interactive)
 	"Set margins in current buffer"
-	(setq left-margin-width 18)
-	(setq right-margin-width 18))
+	(setq left-margin-width (round (* (window-width) 0.132)))
+	(setq right-margin-width (round (* (window-width) 0.132))))
 
 (add-hook 'org-mode-hook 'my/set-margins)
+;;(add-hook 'window-configuration-change-hook '(add-hook 'org-mode-hook 'my/set-margins))
 
 ;;;; Prefered Webbrowser
 (setq browse-url-browser-function 'browse-url-generic

@@ -48,26 +48,6 @@
 			(eval-print-last-sexp)))
 	(load bootstrap-file nil 'nomessage))
 
-;;;; Font
-;; Font attributes
-(set-face-attribute 'default nil :family "deja vu sans mono" :height 120)
-;; Set font
-(set-frame-font "deja vu sans mono" nil t)
-
-;;;;; Mode specific fonts
-(defun my/buffer-face-mode-variable ()
-	"Set font to a variable width (proportional) fonts in current buffer"
-	(setq buffer-face-mode-face '(:family "noto serif" :height 120 :width semicondensed :weight regular))
-	(buffer-face-mode))
-
-(defun my/buffer-face-mode-fixed ()
-	"Sets a fixed width (monospace) font in current buffer"
-	(setq buffer-face-mode-face '(:family "deja vu sans mono" :height 120))
-	(buffer-face-mode))
-
-;; Set mode specific fonts
-(add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
-
 ;;;; Margins
 ;; set window margins
 (defun my/toggle-margins ()
@@ -178,6 +158,8 @@
 
 (setq org-clock-idle-time 15)
 
+(define-key org-mode-map (kbd "C-c l") 'org-store-link)
+
 ;;;;; Org-agenda
 (global-set-key (kbd "s-a a") 'org-agenda)
 (global-set-key (kbd "s-a f") 'org-cycle-agenda-files)
@@ -240,6 +222,51 @@
 (setq evil-collection-setup-minibuffer t)
 (when (require 'evil-collection nil t)
 	(evil-collection-init))
+
+;;;; Colorschemes
+
+;;;;; Spacemacs-theme
+(straight-use-package 'spacemacs-theme)
+
+;;;;; Gruvbox-theme
+(straight-use-package 'gruvbox-theme)
+
+;;;;; Dracula-theme
+(straight-use-package 'dracula-theme)
+
+;;;;; Doom-theme
+(straight-use-package 'doom-themes)
+
+;; Set theme
+(load-theme 'spacemacs-dark t)
+
+;;;; Font
+
+;;;;; Default-face
+(set-face-attribute 'default nil
+										:family "deja vu sans mono"
+										:height 120)
+
+;;;;; Mode specific font
+(defun my/buffer-face-mode-variable ()
+	"Set font to a variable width (proportional) fonts in current buffer"
+	(setq buffer-face-mode-face '(:family "noto serif" :height 120 :width semicondensed :weight regular))
+	(set-face-attribute 'org-table nil :family "deja vu sans mono" :height 120)
+	(buffer-face-mode))
+
+(defun my/buffer-face-mode-fixed ()
+	"Sets a fixed width (monospace) font in current buffer"
+	(setq buffer-face-mode-face '(:family "deja vu sans mono" :height 120))
+	(buffer-face-mode))
+
+;; Mode specific fonts
+;;(add-hook 'text-mode-hook 'variable-pitch-mode)
+(add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
+
+;;;;; my/org-table-face
+(defun my/org-table-face ()
+	(set-face-attribute 'org-table nil :inherit 'default))
+
 
 ;;;; Mouse-clicks
 (dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]  
@@ -399,12 +426,6 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'which-key)
 (which-key-mode)
 (setq which-key-show-prefix 'left)
-
-;;;; Colorschemes
-
-;;;;; Spacemacs Theme
-(straight-use-package 'spacemacs-theme)
-(load-theme 'spacemacs-dark t)
 
 ;;;; Outshine
 (straight-use-package 'outshine)

@@ -131,7 +131,7 @@
 
 ;;;; Timestamps
 (setq time-stamp-active t     ; enable time-stamps
-			time-stamp-line-limit 5 ;check first 5 lines for Time-stamp:
+			time-stamp-line-limit 5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "
 			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
@@ -472,29 +472,6 @@ _l_:   right                       _r_: rotate
 
 ;;;; Hide-mode-line
 (straight-use-package 'hide-mode-line)
-
-;;;; Org-roam
-(straight-use-package 'org-roam)
-(add-hook 'after-init-hook 'org-roam-mode)
-
-(setq org-roam-directory "/home/samcheung/Syncthing/Org-folder/Roam/")
-(setq org-roam-dailies-directory (concat org-roam-directory "dailies/"))
-
-;; the slug tag are what are passed down from my search
-(setq org-roam-capture-templates
-			'(("d" "default" plain
-				 (function org-roam--capture-get-point)
-				 "%?"
-				 :file-name "%<%Y%m%d%H%M%S>-${slug}"
-				 :head "#+title: ${title}\n"
-				 :unnarrowed t)))
-
-(setq org-roam-dailies-capture-templates
-      '(("d" "default" entry
-         #'org-roam-capture--get-point
-         "* %?"
-         :file-name "dailies/%<%Y-%m-%d>"
-         :head "#+title: %<%Y-%m-%d>\n\n")))
 
 (evil-define-key 'normal 'org-roam-mode-map
 	(kbd "C-c n t") 'org-roam-buffer-toggle-display
@@ -838,9 +815,31 @@ _l_:   right                       _r_: rotate
 ;;;; Org-noter
 (straight-use-package 'org-noter)
 
-;;; Bibliography
+;;;; Org-roam
+(straight-use-package 'org-roam)
+(add-hook 'after-init-hook 'org-roam-mode)
 
-;;;; Org-ref
+(setq org-roam-directory "/home/samcheung/Syncthing/Org-folder/Roam/")
+(setq org-roam-dailies-directory (concat org-roam-directory "dailies/"))
+
+;; the slug tag are what are passed down from my search
+(setq org-roam-capture-templates
+			'(("d" "default" plain
+				 (function org-roam--capture-get-point)
+				 "%?"
+				 :file-name "%<%Y%m%d%H%M%S>-${slug}"
+				 :head "#+title: ${title}\n"
+				 :unnarrowed t)))
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "dailies/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n\n")))
+
+
+;;;;; Org-ref
 (straight-use-package 'org-ref)
 (require 'org-ref)
 
@@ -853,7 +852,7 @@ _l_:   right                       _r_: rotate
 			org-ref-pdf-directory "~/Syncthing/bibliography/bib-pdf/")
 
 
-;;;; Helm-bibtex
+;;;;; Helm-bibtex
 ;; Change to ivy-bibtex for ivy front-end
 (straight-use-package 'helm-bibtex)
 (define-key helm-command-map "b" 'helm-bibtex)
@@ -866,7 +865,7 @@ _l_:   right                       _r_: rotate
 (setq bibtex-completion-library-path "~/Syncthing/bibliography/bib-pdf")
 (setq bibtex-completion-pdf-field "File")
 
-;;;; Org-roam-bibtex
+;;;;; Org-roam-bibtex
 (straight-use-package 'org-roam-bibtex)
 (require 'org-roam-bibtex)
 

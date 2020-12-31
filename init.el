@@ -82,58 +82,12 @@
 (require 'battery)
 (setq battery-mode-line-format "%th - %p")
 
-;;;; Modeline
-(defun modeline-alignment (left right)
-	(let* ((available-width (-(window-width)(length left) 2)))
-		(format (format "%%s %%%ds " available-width) left right)))
-
-(setq battery-mode-line-format "%L %p %t")
-(setq-default mode-line-format
-							'((:eval (modeline-alignment
-												;;left
-												(format-mode-line
-												 (list
-													"  "
-													;; Evil state
-													evil-mode-line-tag
-													"  "
-													;; Filestatus -:---
-													mode-line-mule-info
-													mode-line-modified
-													mode-line-client
-													mode-line-remote
-													mode-line-front-space
-													;; Buffername
-													"%b"
-													;; VC/Git
-													;;projectile--mode-line
-													'(vc-mode vc-mode)))
-												;;right
-												(format-mode-line
-												 (list
-													"%p%%"
-													"  "
-													;; Date (Week Year-Month-Day)
-													'(:eval(propertize(format-time-string "w%V %a %d/%h")))
-													;; Time (Hour:Minutes:Seconds)
-													'(:eval(propertize(format-time-string "  %H:%M  ")))
-													;; Battery Life
-													;;(my/battery-modeline)
-													battery-mode-line-string
-													))))))
-
 ;;;; Line Numbers
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 ;;;; NixOS
 ;; Load emacs packages from nixOS directory
 (setq load-path (append load-path (file-expand-wildcards (expand-file-name "~/.nix-profile/share/emacs/site-lisp/elpa/*"))))
-
-;;;; Timestamps
-(setq time-stamp-active t     ; enable time-stamps
-			time-stamp-line-limit 5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "
-			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
-(add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
 ;;;; Initial-buffer
 (setq initial-buffer-choice t)
@@ -142,6 +96,10 @@
 (setq mark-ring-max 8)
 (setq global-mark-ring-max 8)
 (global-set-key (kbd "C-x C-2") 'pop-global-mark)
+
+;;;; Split-threshold
+(setq split-height-threshold nil)
+(setq split-width-threshold 60)
 
 ;;; Packages
 
@@ -159,6 +117,12 @@
 (setq org-clock-idle-time 15)
 
 (define-key org-mode-map (kbd "C-c l") 'org-store-link)
+
+;;;;; Timestamps
+(setq time-stamp-active t     ; enable time-stamps
+			time-stamp-line-limit 5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "
+			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
+(add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
 ;;;;; Org-agenda
 (global-set-key (kbd "s-a a") 'org-agenda)
@@ -828,7 +792,7 @@ _l_:   right                       _r_: rotate
 				 (function org-roam--capture-get-point)
 				 "%?"
 				 :file-name "%<%Y%m%d%H%M%S>-${slug}"
-				 :head "#+title: ${title}\n"
+				 :head "#+title: ${title}\nTime-stamp: <>\n"
 				 :unnarrowed t)))
 
 (setq org-roam-dailies-capture-templates
@@ -906,3 +870,42 @@ _l_:   right                       _r_: rotate
 :NOTER_DOCUMENT: ${file}
 :NOTER_PAGE:
 :END:")))
+;;; Modeline
+(defun modeline-alignment (left right)
+	(let* ((available-width (-(window-width)(length left) 2)))
+		(format (format "%%s %%%ds " available-width) left right)))
+
+(setq battery-mode-line-format "%L %p %t")
+(setq-default mode-line-format
+							'((:eval (modeline-alignment
+												;;left
+												(format-mode-line
+												 (list
+													"  "
+													;; Evil state
+													evil-mode-line-tag
+													"  "
+													;; Filestatus -:---
+													mode-line-mule-info
+													mode-line-modified
+													mode-line-client
+													mode-line-remote
+													mode-line-front-space
+													;; Buffername
+													"%b"
+													;; VC/Git
+													;;projectile--mode-line
+													'(vc-mode vc-mode)))
+												;;right
+												(format-mode-line
+												 (list
+													"%p%%"
+													"  "
+													;; Date (Week Year-Month-Day)
+													'(:eval(propertize(format-time-string "w%V %a %d/%h")))
+													;; Time (Hour:Minutes:Seconds)
+													'(:eval(propertize(format-time-string "  %H:%M  ")))
+													;; Battery Life
+													;;(my/battery-modeline)
+													battery-mode-line-string
+													))))))

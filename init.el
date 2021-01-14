@@ -48,32 +48,6 @@
 			(eval-print-last-sexp)))
 	(load bootstrap-file nil 'nomessage))
 
-;;;; Margins
-;; set window margins
-(defun my/toggle-margins ()
-	"toggle between margins and non-margins in current buffer"
-	(interactive)
-	(if (or (> left-margin-width 0) (> right-margin-width 0))
-			(progn
-				(setq left-margin-width 0)
-				(setq right-margin-width 0)
-				(set-window-buffer (selected-window) (current-buffer)))
-		(setq left-margin-width (round (* (window-width) 0.132)))
-		(setq right-margin-width (round (* (window-width) 0.132)))
-		(set-window-buffer (selected-window) (current-buffer))))
-
-(defun my/set-margins ()
-	"Set margins in current buffer"
-	(interactive)
-	(if (or (= left-margin-width (round (* (window-width) 0.13))) (= right-margin-width (round (* (window-width) 0.13))))
-			(print "No change in buffer size")
-		(progn
-			(setq left-margin-width (round (* (window-width) 0.13)))
-			(setq right-margin-width (round (* (window-width) 0.13)))
-			(set-window-buffer (selected-window) (current-buffer)))))
-
-(add-hook 'org-mode-hook 'my/set-margins)
-
 ;;;; Prefered Webbrowser
 (setq browse-url-browser-function 'browse-url-generic
 			browse-url-generic-program "qutebrowser")
@@ -232,6 +206,9 @@
 (set-face-attribute 'org-block nil :family "deja vu sans mono")
 (set-face-attribute 'org-code nil :family "deja vu sans mono" :foreground "#696969")
 
+;;;; Olivetti
+(straight-use-package 'olivetti)
+(add-hook 'text-mode-hook 'olivetti-mode)
 
 ;;;; Mouse-clicks
 (dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]  

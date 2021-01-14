@@ -92,6 +92,10 @@
 
 (define-key org-mode-map (kbd "C-c l") 'org-store-link)
 
+;;;;; Structured Templates
+;; Templates are defined in ~org-structure-template-alist~
+(require 'org-tempo)
+
 ;;;;; Timestamps
 (setq time-stamp-active t     ; enable time-stamps
 			time-stamp-line-limit 5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "

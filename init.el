@@ -227,9 +227,10 @@
 ;;(add-hook 'text-mode-hook 'variable-pitch-mode)
 (add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
 
-;;;;; my/org-table-face
-(defun my/org-table-face ()
-	(set-face-attribute 'org-table nil :inherit 'default))
+;;;;; Org-mode faces
+(set-face-attribute 'org-table nil :family "deja vu sans mono")
+(set-face-attribute 'org-block nil :family "deja vu sans mono")
+(set-face-attribute 'org-code nil :family "deja vu sans mono" :foreground "#696969")
 
 
 ;;;; Mouse-clicks

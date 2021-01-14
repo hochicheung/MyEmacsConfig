@@ -205,6 +205,7 @@
 (set-face-attribute 'org-table nil :family "deja vu sans mono")
 (set-face-attribute 'org-block nil :family "deja vu sans mono")
 (set-face-attribute 'org-code nil :family "deja vu sans mono" :foreground "#696969")
+(set-face-attribute 'org-verbatim nil :family "deja vu sans mono")
 
 ;;;; Olivetti
 (straight-use-package 'olivetti)

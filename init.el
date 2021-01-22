@@ -454,14 +454,6 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
-;;;;; Company-lsp
-(straight-use-package 'company-lsp)
-(require 'company-lsp)
-(push 'company-lsp company-backends)
-(setq company-lsp-cache-candidates t)
-(setq company-lsp-async t)
-(setq company-lsp-enable-snippet t)
-
 ;;;; Magit
 (straight-use-package 'magit)
 

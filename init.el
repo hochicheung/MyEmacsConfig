@@ -846,46 +846,6 @@ _l_:   right                       _r_: rotate
 :NOTER_PAGE:
 :END:")))
 
-;;; Modeline
-;;(defun modeline-alignment (left right)
-;;(let* ((available-width (-(window-width)(length left) 2)))
-;;(format (format "%%s %%%ds " available-width) left right)))
-;;
-;;(setq battery-mode-line-format "%L %p %t")
-;;(setq-default mode-line-format
-;;'((:eval (modeline-alignment
-												;;;;left
-;;(format-mode-line
-;;(list
-;;"  "
-													;;;; Evil state
-;;evil-mode-line-tag
-;;"  "
-													;;;; Filestatus -:---
-;;mode-line-mule-info
-;;mode-line-modified
-;;mode-line-client
-;;mode-line-remote
-;;mode-line-front-space
-													;;;; Buffername
-;;"%b"
-													;;;; VC/Git
-													;;;;projectile--mode-line
-;;'(vc-mode vc-mode)))
-												;;;;right
-;;(format-mode-line
-;;(list
-;;"%p%%"
-;;"  "
-													;;;; Date (Week Year-Month-Day)
-;;'(:eval(propertize(format-time-string "w%V %a %d/%h")))
-													;;;; Time (Hour:Minutes:Seconds)
-;;'(:eval(propertize(format-time-string "  %H:%M  ")))
-													;;;; Battery Life
-													;;;;(my/battery-modeline)
-;;battery-mode-line-string
-;;))))))
-
 ;;; Doom-modeline
 (straight-use-package 'doom-modeline)
 (require 'doom-modeline)

@@ -555,6 +555,7 @@ _l_:   right                       _r_: rotate
 (add-hook 'lsp-mode-hook #'lsp)
 (add-hook 'c-mode-hook #'lsp)
 (add-hook 'java-mode-hook #'lsp)
+(add-hook 'lsp-mode-hook #'lsp)
 
 ;;;;; Dap-mode
 (straight-use-package 'dap-mode)
@@ -564,17 +565,21 @@ _l_:   right                       _r_: rotate
 (tooltip-mode 1)
 
 ;;;;; CCLS
+(straight-use-package 'ccls)
 (with-eval-after-load 'lsp
-	(straight-use-package 'ccls)
 	(require 'ccls)
 	(setq ccls-executable "/usr/bin/ccls")
 	(add-hook 'c-mode-hook #'lsp))
 
 ;;;;; LSP-java
+(straight-use-package 'lsp-java)
 (with-eval-after-load 'lsp
-	(straight-use-package 'lsp-java)
 	(require 'dap-java)
 	(require 'lsp-java))
+
+
+;;;; Lua-mode
+(straight-use-package 'lua-mode)
 
 ;;;; Auctex
 ;;(straight-use-package 'auctex)

@@ -73,7 +73,7 @@
 
 ;;;; Split-threshold
 (setq split-height-threshold nil)
-(setq split-width-threshold 60)
+(setq split-width-threshold 100)
 
 ;;; Packages
 
@@ -556,6 +556,7 @@ _l_:   right                       _r_: rotate
 (add-hook 'c-mode-hook #'lsp)
 (add-hook 'java-mode-hook #'lsp)
 (add-hook 'lsp-mode-hook #'lsp)
+(add-hook 'nxml-mode-hook #'lsp)
 
 ;;;;; Dap-mode
 (straight-use-package 'dap-mode)
@@ -577,17 +578,11 @@ _l_:   right                       _r_: rotate
 	(require 'dap-java)
 	(require 'lsp-java))
 
-
 ;;;; Lua-mode
 (straight-use-package 'lua-mode)
 
-;;;; Auctex
-;;(straight-use-package 'auctex)
-;;(setq-default TeX-engine 'default)
-;;(setq-default TeX-PDF-mode t)
-;;
-;;;;; Company Auctex
-;;(straight-use-package 'company-auctex)
+;;;; Nxml-mode
+(add-hook 'nxml-mode-hook 'line-number-mode)
 
 ;;;; Exwm
 (straight-use-package 'exwm)

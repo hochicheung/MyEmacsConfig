@@ -349,6 +349,9 @@ _l_:   right                       _r_: rotate
 ;;(setq helm-ff-auto-update-initial-value t)
 (setq helm-move-to-line-cycle-in-source nil)
 
+;; remove helm header
+(setq helm-display-header-line nil)
+
 ;;(global-set-key (kbd "C-c h") 'helm-command-prefix)
 ;;(global-unset-key (kbd "C-x c"))
 ;;
@@ -362,7 +365,7 @@ _l_:   right                       _r_: rotate
 
 ;;(setq helm-autoresize-max-height 0
 ;;helm-autoresize-min-height 20)
-;;(helm-autoresize-mode 1)
+(helm-autoresize-mode 1)
 
 ;;;; Ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -584,6 +587,10 @@ _l_:   right                       _r_: rotate
 ;;;; Nxml-mode
 (add-hook 'nxml-mode-hook 'line-number-mode)
 
+;;;; Org-babel
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((shell . t)
+														 (C . t)))
 ;;;; Exwm
 (straight-use-package 'exwm)
 (server-start)

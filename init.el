@@ -765,7 +765,7 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'org-roam)
 (add-hook 'after-init-hook 'org-roam-mode)
 
-(setq org-roam-directory "/home/samcheung/Syncthing/Org-folder/Roam/")
+(setq org-roam-directory "/home/samcheung/Org/roam-repo/")
 (setq org-roam-dailies-directory (concat org-roam-directory "dailies/"))
 
 ;; the slug tag are what are passed down from my search

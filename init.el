@@ -207,6 +207,7 @@
 
 ;;;;; Modeline face
 (set-face-attribute 'mode-line nil :family "deja vu sans mono" :height 80)
+(set-face-attribute 'mode-line-inactive nil :family "deja vu sans mono" :height 80)
 
 ;;;;; Org-mode faces
 (set-face-attribute 'org-table nil :family "deja vu sans mono")

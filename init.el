@@ -205,6 +205,9 @@
 ;;(add-hook 'text-mode-hook 'variable-pitch-mode)
 (add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
 
+;;;;; Modeline face
+(set-face-attribute 'mode-line nil :family "deja vu sans mono" :height 80)
+
 ;;;;; Org-mode faces
 (set-face-attribute 'org-table nil :family "deja vu sans mono")
 (set-face-attribute 'org-block nil :family "deja vu sans mono")

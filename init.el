@@ -861,3 +861,4 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'doom-modeline)
 (require 'doom-modeline)
 (doom-modeline-mode 1)
+(add-hook 'after-init-hook #'doom-modeline-mode)

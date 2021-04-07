@@ -459,6 +459,8 @@ _l_:   right                       _r_: rotate
 ;;;;; Company
 (straight-use-package 'company)
 (add-hook 'after-init-hook 'global-company-mode)
+(setq company-dabbrev-other-buffers t
+			company-dabbrev-code-other-buffers t)
 
 ;;;; Magit
 (straight-use-package 'magit)
@@ -554,6 +556,10 @@ _l_:   right                       _r_: rotate
 (global-flycheck-mode)
 (with-eval-after-load 'flycheck
 	(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+
+;;;; Elpy
+(straight-use-package 'elpy)
+(elpy-enable)
 
 ;;;; LSP-mode
 (straight-use-package 'lsp-mode)

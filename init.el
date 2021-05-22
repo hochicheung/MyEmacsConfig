@@ -80,7 +80,8 @@
 (straight-use-package 'org)
 (setq org-src-window-setup 'split-window-below)
 
-;;(setq org-image-actual-width (* 15 (/ (window-width) 3)))
+(setq org-image-actual-width nil)
+
 (setq org-log-done 'time)
 
 ;; persistent clock

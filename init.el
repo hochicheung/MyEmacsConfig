@@ -102,27 +102,40 @@
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
 ;;;;; Org-agenda
-(global-set-key (kbd "s-a a") 'org-agenda)
-(global-set-key (kbd "s-a f") 'org-cycle-agenda-files)
-(setq org-agenda-start-on-weekday nil)
-(setq org-agenda-span 30)
-(setq org-agenda-files '("~/Syncthing/Org-folder/Agenda/agenda.org"))
-(setq org-default-notes-file "~/Syncthing/Org-folder/Agenda/agenda.org")
+(setq org-agenda-files '("~/gtd/inbox.org"
+												 "~/gtd/gtd.org"
+												 "~/gtd/tickler.org"))
 
-(add-to-list 'display-buffer-alist
-             `(,(rx string-start "*Calendar*" string-end)
-               (display-buffer-at-bottom)))
+(setq org-capture-templates '(("t" "Todo [inbox]" entry
+															 (file+headline "~/gtd/inbox.org" "Tasks")
+															 "* Todo %i%?")
+															("T" "Tickler" entry
+															 (file+headline "~/gtd/tickler.org" "Tickler")
+															 "* %i%? \n %U")))
 
-(setq org-capture-templates
-      '(("t" "todo" entry (file org-default-notes-file)
-				 "* TODO %?\n%u\n%a\n")
-				("m" "Meeting" entry (file org-default-notes-file)
-				 "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
-				("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
-				 "** NEXT %? \nDEADLINE: %t") ))
+(setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
+													 ("~/gtd/someday.org" :level . 1)
+													 ("~/gtd/tickler.org" :maxlevel . 2)))
 
-(setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                 (org-agenda-files :maxlevel . 9))))
+(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+
+(setq org-agenda-custom-commands
+			'(("o" "At the office" tags-todo "@office"
+				 ((org-agenda-overriding-header "Office")
+					(org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+
+(defun my-org-agenda-skip-all-but-first ()
+	"Skip all but the first non-done entry."
+	(let (should-skip-entry)
+		(unless (org-current-is-todo)
+			(setq should-skip-entry t))
+		(save-excursion
+			(while (and (not should-skip-entry) (org-goto-sibling t))
+				(when (org-current-is-todo)
+					(setq should-skip-entry t))))
+		(when should-skip-entry
+			(or (outline-next-heading)
+					(goto-char (point-max))))))
 
 ;;;; Flyspell
 (add-hook 'org-mode-hook 'flyspell-mode)

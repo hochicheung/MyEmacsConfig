@@ -77,7 +77,7 @@
 ;;; Packages
 
 ;;;; Org-mode
-(straight-use-package 'org)
+(load-library "org-autoloads")
 (setq org-src-window-setup 'split-window-below)
 
 ;;(setq org-image-actual-width (* 15 (/ (window-width) 3)))
@@ -110,11 +110,11 @@
 (setq org-default-notes-file "~/Syncthing/Org-folder/Agenda/agenda.org")
 
 (add-to-list 'display-buffer-alist
-             `(,(rx string-start "*Calendar*" string-end)
-               (display-buffer-at-bottom)))
+						 `(,(rx string-start "*Calendar*" string-end)
+							 (display-buffer-at-bottom)))
 
 (setq org-capture-templates
-      '(("t" "todo" entry (file org-default-notes-file)
+			'(("t" "todo" entry (file org-default-notes-file)
 				 "* TODO %?\n%u\n%a\n")
 				("m" "Meeting" entry (file org-default-notes-file)
 				 "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
@@ -122,7 +122,7 @@
 				 "** NEXT %? \nDEADLINE: %t") ))
 
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                 (org-agenda-files :maxlevel . 9))))
+																 (org-agenda-files :maxlevel . 9))))
 
 ;;;; Flyspell
 (add-hook 'org-mode-hook 'flyspell-mode)
@@ -219,7 +219,7 @@
 (add-hook 'text-mode-hook 'olivetti-mode)
 
 ;;;; Mouse-clicks
-(dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]  
+(dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
 														[mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
 														[mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]
 														[mouse-4] [down-mouse-4] [drag-mouse-4] [double-mouse-4] [triple-mouse-4]
@@ -268,7 +268,7 @@
 Navigation                           ^^Edit                               ^^^^Resize
 _C-w_: toggle    _n_: bottom-right   _c_: delete         _H_: move-left     _-_: hor-    _0_: balance
 _h_:   left      _y_: top-left       _x_: xor						 _J_: move-down     _=_: hor+    _)_: area
-_j_:   down                        _s_: split-below    _K_: move-up       ___: ver-    
+_j_:   down                        _s_: split-below    _K_: move-up       ___: ver-
 _k_:   up                          _v_: split-right    _L_: move-right    _+_: ver+
 _l_:   right                       _r_: rotate
 "
@@ -632,7 +632,7 @@ _l_:   right                       _r_: rotate
 												(interactive)
 												(exwm-workspace-switch-create ,i))))
 									(number-sequence 0 9))
-				;; [s-&][M-&] Launch applications 
+				;; [s-&][M-&] Launch applications
 				([?\s-&] . (lambda (command)
 										 (interactive (list (read-shell-command "$ ")))
 										 (start-process-shell-command command nil command)))
@@ -699,25 +699,25 @@ _l_:   right                       _r_: rotate
 
 ;;;; Randr-config
 (defun generate-randr-config (primary secondary)
-  (-flatten `(,(-map (lambda (n) (list n primary)) (number-sequence 1 7))
-              (0 secondary)
-              ,(-map (lambda (n) (list n secondary)) (number-sequence 8 9)))))
+	(-flatten `(,(-map (lambda (n) (list n primary)) (number-sequence 1 7))
+							(0 secondary)
+							,(-map (lambda (n) (list n secondary)) (number-sequence 8 9)))))
 
 (defun randr-layout-dp1-extend ()
 	"Extend the screen to Display Port"
 
-  (interactive)
-  (setq exwm-randr-workspace-monitor-plist (generate-randr-config "DP-1" "eDP-1"))
-  (exwm-randr-refresh)
+	(interactive)
+	(setq exwm-randr-workspace-monitor-plist (generate-randr-config "DP-1" "eDP-1"))
+	(exwm-randr-refresh)
 	(randr-layout-single)
-  (shell-command "xrandr --output DP-1 --left-of eDP-1 --auto --primary"))
+	(shell-command "xrandr --output DP-1 --left-of eDP-1 --auto --primary"))
 
 (defun randr-layout-hdmi1-extend ()
 	"Extend the screen to HDMI"
 
-  (interactive)
-  (setq exwm-randr-workspace-monitor-plist (generate-randr-config "HDMI-1" "eDP-1"))
-  (exwm-randr-refresh)
+	(interactive)
+	(setq exwm-randr-workspace-monitor-plist (generate-randr-config "HDMI-1" "eDP-1"))
+	(exwm-randr-refresh)
 	(randr-layout-single)
 	(shell-command "xrandr --output HDMI-1 --auto --left-of eDP-1 --auto --primary"))
 
@@ -787,11 +787,11 @@ _l_:   right                       _r_: rotate
 				 :unnarrowed t)))
 
 (setq org-roam-dailies-capture-templates
-      '(("d" "default" entry
-         #'org-roam-capture--get-point
-         "* %?"
-         :file-name "dailies/%<%Y-%m-%d>"
-         :head "#+title: %<%Y-%m-%d>\n\n")))
+			'(("d" "default" entry
+				 #'org-roam-capture--get-point
+				 "* %?"
+				 :file-name "dailies/%<%Y-%m-%d>"
+				 :head "#+title: %<%Y-%m-%d>\n\n")))
 
 
 ;;;;; Org-ref
@@ -837,19 +837,19 @@ _l_:   right                       _r_: rotate
 ;; Additional fields defined by helm bibtex:
 ;; https://github.com/tmalsburg/helm-bibtex/blob/master/bibtex-completion.el#L1147-L1205
 (setq orb-preformat-keywords
-      '("citekey" "title" "url" "author-or-editor" "keywords" "file")
+			'("citekey" "title" "url" "author-or-editor" "keywords" "file")
 			orb-process-file-field t
-      orb-file-field-extensions "pdf")
+			orb-file-field-extensions "pdf")
 
 ;; Templates to use when creating a new bibliographical note
 (setq orb-templates
-      '(("r" "ref" plain (function org-roam-capture--get-point) ""
+			'(("r" "ref" plain (function org-roam-capture--get-point) ""
 				 :file-name "${citekey}"
 				 :head "#+TITLE: ${citekey} - ${title}\n#+ROAM_KEY: ${ref}\n"
 				 :unnarrowed t)
 				("n" "ref+noter" plain (function org-roam-capture--get-point) ""
-         :file-name "${citekey}"
-         :head "#+TITLE: ${citekey} - ${title}\n#+ROAM_KEY: ${ref}
+				 :file-name "${citekey}"
+				 :head "#+TITLE: ${citekey} - ${title}\n#+ROAM_KEY: ${ref}
 
 - keywords :: ${keywords}
 

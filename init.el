@@ -103,29 +103,6 @@
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
 ;;;;; Org-agenda
-<<<<<<< HEAD
-(global-set-key (kbd "s-a a") 'org-agenda)
-(global-set-key (kbd "s-a f") 'org-cycle-agenda-files)
-(setq org-agenda-start-on-weekday nil)
-(setq org-agenda-span 30)
-(setq org-agenda-files '("~/Syncthing/Org-folder/Agenda/agenda.org"))
-(setq org-default-notes-file "~/Syncthing/Org-folder/Agenda/agenda.org")
-
-(add-to-list 'display-buffer-alist
-						 `(,(rx string-start "*Calendar*" string-end)
-							 (display-buffer-at-bottom)))
-
-(setq org-capture-templates
-			'(("t" "todo" entry (file org-default-notes-file)
-				 "* TODO %?\n%u\n%a\n")
-				("m" "Meeting" entry (file org-default-notes-file)
-				 "* MEETING with %? :MEETING:\n%t" :clock-in t :clock-resume t)
-				("n" "Next Task" entry (file+headline org-default-notes-file "Tasks")
-				 "** NEXT %? \nDEADLINE: %t") ))
-
-(setq org-refile-targets (quote ((nil :maxlevel . 9)
-																 (org-agenda-files :maxlevel . 9))))
-=======
 (setq org-agenda-files '("~/gtd/inbox.org"
 												 "~/gtd/gtd.org"
 												 "~/gtd/tickler.org"))
@@ -142,7 +119,10 @@
 													 ("~/gtd/tickler.org" :maxlevel . 2)))
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
->>>>>>> agendaGTD
+
+(setq org-agenda-custom-commands
+			'(("o" "At the office" tags-todo "@office"
+				 ((org-agenda-overriding-header "Office")))))
 
 ;;;; Flyspell
 (add-hook 'org-mode-hook 'flyspell-mode)

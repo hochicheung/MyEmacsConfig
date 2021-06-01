@@ -190,15 +190,19 @@
 										:height 120)
 
 ;;;;; Mode specific font
+;; Font size
+(setq my/regular-face-height (floor (/ (frame-outer-height) 7)))
+(setq my/modeline-face-height (floor (* my/regular-face-height 0.8)))
+
 (defun my/buffer-face-mode-variable ()
 	"Set font to a variable width (proportional) fonts in current buffer"
-	(setq buffer-face-mode-face '(:family "noto serif" :height 120 :width semicondensed :weight regular))
-	(set-face-attribute 'org-table nil :family "deja vu sans mono" :height 120)
+	(setq buffer-face-mode-face '(:family "noto serif" :height my/regular-face-height :width semicondensed :weight regular))
+	(set-face-attribute 'org-table nil :family "deja vu sans mono" :height my/regular-face-height)
 	(buffer-face-mode))
 
 (defun my/buffer-face-mode-fixed ()
 	"Sets a fixed width (monospace) font in current buffer"
-	(setq buffer-face-mode-face '(:family "deja vu sans mono" :height 120))
+	(setq buffer-face-mode-face '(:family "deja vu sans mono" :height my/regular-face-height))
 	(buffer-face-mode))
 
 ;; Mode specific fonts
@@ -206,8 +210,8 @@
 (add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
 
 ;;;;; Modeline face
-(set-face-attribute 'mode-line nil :family "deja vu sans mono" :height 80)
-(set-face-attribute 'mode-line-inactive nil :family "deja vu sans mono" :height 80)
+(set-face-attribute 'mode-line nil :family "deja vu sans mono" :height my/modeline-face-height)
+(set-face-attribute 'mode-line-inactive nil :family "deja vu sans mono" :height my/modeline-face-height)
 
 ;;;;; Org-mode faces
 (set-face-attribute 'org-table nil :family "deja vu sans mono")
@@ -867,8 +871,4 @@ _l_:   right                       _r_: rotate
 :NOTER_PAGE:
 :END:")))
 
-;;; Doom-modeline
-(straight-use-package 'doom-modeline)
-(require 'doom-modeline)
-(doom-modeline-mode 1)
-(add-hook 'after-init-hook #'doom-modeline-mode)
+;;;; Mode Line

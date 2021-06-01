@@ -78,16 +78,16 @@
 
 ;;;; Org-mode
 (load-library "org-autoloads")
+
+
+(setq org-hide-emphasis-markers t)
 (setq org-src-window-setup 'split-window-below)
-
 (setq org-image-actual-width nil)
-
 (setq org-log-done 'time)
 
 ;; persistent clock
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
-
 (setq org-clock-idle-time 15)
 
 (define-key org-mode-map (kbd "C-c l") 'org-store-link)

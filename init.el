@@ -185,15 +185,15 @@
 ;;;; Font
 
 ;;;;; Default-face
-(set-face-attribute 'default nil
-										:family "deja vu sans mono"
-										:height 120)
-
-;;;;; Mode specific font
 ;; Font size
 (setq my/regular-face-height (floor (/ (frame-outer-height) 7)))
 (setq my/modeline-face-height (floor (* my/regular-face-height 0.8)))
 
+(set-face-attribute 'default nil
+										:family "deja vu sans mono"
+										:height my/regular-face-height)
+
+;;;;; Mode specific font
 (defun my/buffer-face-mode-variable ()
 	"Set font to a variable width (proportional) fonts in current buffer"
 	(setq buffer-face-mode-face '(:family "noto serif" :height my/regular-face-height :width semicondensed :weight regular))

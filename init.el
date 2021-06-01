@@ -103,6 +103,7 @@
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
 ;;;;; Org-agenda
+(global-set-key (kbd "S-a") 'org-agenda)
 (setq org-agenda-files '("~/gtd/inbox.org"
 												 "~/gtd/gtd.org"
 												 "~/gtd/tickler.org"))
@@ -792,6 +793,10 @@ _l_:   right                       _r_: rotate
 				 "* %?"
 				 :file-name "dailies/%<%Y-%m-%d>"
 				 :head "#+title: %<%Y-%m-%d>\n\n")))
+
+;;;;; Nroam
+(straight-use-package 'nroam)
+(add-hook 'org-mode-hook #'nroam-setup-maybe)
 
 
 ;;;;; Org-ref

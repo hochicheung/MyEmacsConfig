@@ -185,39 +185,44 @@
 ;;;; Font
 
 ;;;;; Default-face
-;; Font size
-(setq my/regular-face-height (floor (/ (frame-outer-height) 7)))
-(setq my/modeline-face-height (floor (* my/regular-face-height 0.8)))
+(defun my/set-face-height ()
+	;; Font size
+	(setq my/regular-face-height (floor (/ (frame-outer-height) 7)))
+	(setq my/modeline-face-height (floor (* my/regular-face-height 0.8)))
 
-(set-face-attribute 'default nil
-										:family "deja vu sans mono"
-										:height my/regular-face-height)
+	(set-face-attribute 'default nil
+											:family "deja vu sans mono"
+											:height my/regular-face-height)
 
-;;;;; Mode specific font
-(defun my/buffer-face-mode-variable ()
-	"Set font to a variable width (proportional) fonts in current buffer"
-	(setq buffer-face-mode-face '(:family "noto serif" :height my/regular-face-height :width semicondensed :weight regular))
-	(set-face-attribute 'org-table nil :family "deja vu sans mono" :height my/regular-face-height)
-	(buffer-face-mode))
+	;; Mode specific font
+	(defun my/buffer-face-mode-variable ()
+		"Set font to a variable width (proportional) fonts in current buffer"
+		(setq buffer-face-mode-face '(:family "noto serif" :height my/regular-face-height :width semicondensed :weight regular))
+		(set-face-attribute 'org-table nil :family "deja vu sans mono" :height my/regular-face-height)
+		(buffer-face-mode))
+	
+	(defun my/buffer-face-mode-fixed ()
+		"Sets a fixed width (monospace) font in current buffer"
+		(setq buffer-face-mode-face '(:family "deja vu sans mono" :height my/regular-face-height))
+		(buffer-face-mode))
+	
+	;; Mode specific fonts
+	;;(add-hook 'text-mode-hook 'variable-pitch-mode)
+	(add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
+	
+	;; Modeline face
+	(set-face-attribute 'mode-line nil :family "deja vu sans mono" :height my/modeline-face-height)
+	(set-face-attribute 'mode-line-inactive nil :family "deja vu sans mono" :height my/modeline-face-height)
+	
+	;; Org-mode faces
+	(set-face-attribute 'org-table nil :family "deja vu sans mono")
+	(set-face-attribute 'org-block nil :family "deja vu sans mono")
+	(set-face-attribute 'org-code nil :family "deja vu sans mono" :foreground "#696969")
+	(set-face-attribute 'org-verbatim nil :family "deja vu sans mono"))
 
-(defun my/buffer-face-mode-fixed ()
-	"Sets a fixed width (monospace) font in current buffer"
-	(setq buffer-face-mode-face '(:family "deja vu sans mono" :height my/regular-face-height))
-	(buffer-face-mode))
+(add-hook 'exwm-workspace-switch-hook 'my/set-face-height)
 
-;; Mode specific fonts
-;;(add-hook 'text-mode-hook 'variable-pitch-mode)
-(add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
 
-;;;;; Modeline face
-(set-face-attribute 'mode-line nil :family "deja vu sans mono" :height my/modeline-face-height)
-(set-face-attribute 'mode-line-inactive nil :family "deja vu sans mono" :height my/modeline-face-height)
-
-;;;;; Org-mode faces
-(set-face-attribute 'org-table nil :family "deja vu sans mono")
-(set-face-attribute 'org-block nil :family "deja vu sans mono")
-(set-face-attribute 'org-code nil :family "deja vu sans mono" :foreground "#696969")
-(set-face-attribute 'org-verbatim nil :family "deja vu sans mono")
 
 ;;;; Olivetti
 (straight-use-package 'olivetti)

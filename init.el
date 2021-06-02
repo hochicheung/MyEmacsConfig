@@ -877,3 +877,22 @@ _l_:   right                       _r_: rotate
 :END:")))
 
 ;;;; Mode Line
+(setq display-time-format "%R %d-%b")
+(setq battery-mode-line-format "[%L %p%% %t]")
+
+(setq mode-line-format
+			(list "  "
+						'mode-line-mule-info
+						'mode-line-modified
+						" "
+						'mode-name
+						"  "
+						"%b "
+						'vc-mode
+						"  "
+						'(-3 "%p")
+						" L%l  "
+						'display-time-string
+						"  "
+						'battery-mode-line-string
+						))

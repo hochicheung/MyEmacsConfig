@@ -103,7 +103,9 @@
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
 ;;;;; Org-agenda
-(global-set-key (kbd "S-a") 'org-agenda)
+(global-set-key (kbd "s-a") 'org-agenda)
+(global-set-key (kbd "s-c") 'org-capture)
+
 (setq org-agenda-files '("~/gtd/inbox.org"
 												 "~/gtd/gtd.org"
 												 "~/gtd/tickler.org"))

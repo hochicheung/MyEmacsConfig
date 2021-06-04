@@ -75,7 +75,7 @@
 (require 'battery)
 
 ;;;; Line Numbers
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 ;;;; NixOS
 ;; Load emacs packages from nixOS directory

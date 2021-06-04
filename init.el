@@ -33,6 +33,26 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;;;; Mode Line
+(setq display-time-format "%R %d-%b")
+(setq battery-mode-line-format "[%L %p%% %t]")
+
+(setq-default mode-line-format
+							(list "  "
+										'mode-line-mule-info
+										'mode-line-modified
+										" "
+										'mode-name
+										" "
+										"%b "
+										'vc-mode
+										'(-3 "%p")
+										" L%l  "
+										'display-time-string
+										" "
+										'battery-mode-line-string
+										))
+
 ;;;; Straight
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -53,7 +73,6 @@
 
 ;;;; Battery
 (require 'battery)
-(setq battery-mode-line-format "%th - %p")
 
 ;;;; Line Numbers
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -878,23 +897,3 @@ _l_:   right                       _r_: rotate
 :NOTER_PAGE:
 :END:")))
 
-;;;; Mode Line
-(setq display-time-format "%R %d-%b")
-(setq battery-mode-line-format "[%L %p%% %t]")
-
-(setq mode-line-format
-			(list "  "
-						'mode-line-mule-info
-						'mode-line-modified
-						" "
-						'mode-name
-						"  "
-						"%b "
-						'vc-mode
-						"  "
-						'(-3 "%p")
-						" L%l  "
-						'display-time-string
-						"  "
-						'battery-mode-line-string
-						))

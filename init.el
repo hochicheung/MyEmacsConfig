@@ -247,7 +247,12 @@
 
 ;;;; Olivetti
 (straight-use-package 'olivetti)
+(add-hook 'text-mode-hook (lambda () (setq olivetti-body-width 70)))
 (add-hook 'text-mode-hook 'olivetti-mode)
+(add-hook 'prog-mode-hook (lambda () (setq olivetti-body-width 0.8)))
+(add-hook 'prog-mode-hook 'olivetti-mode)
+
+
 
 ;;;; Mouse-clicks
 (dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]

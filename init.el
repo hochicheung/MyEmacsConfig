@@ -46,6 +46,7 @@
 										" "
 										"%b "
 										'vc-mode
+										" "
 										'(-3 "%p")
 										" L%l  "
 										'display-time-string
@@ -206,7 +207,8 @@
 ;;;; Font
 
 ;;;;; Default-face
-(defun my/set-face-height ()
+;; set all my faces
+(defun my/set-face ()
 	;; Font size
 	(setq my/regular-face-height (floor (/ (frame-outer-height) 7)))
 	(setq my/modeline-face-height (floor (* my/regular-face-height 0.8)))
@@ -241,7 +243,7 @@
 	(set-face-attribute 'org-code nil :family "deja vu sans mono" :foreground "#696969")
 	(set-face-attribute 'org-verbatim nil :family "deja vu sans mono"))
 
-(add-hook 'exwm-workspace-switch-hook 'my/set-face-height)
+(add-hook 'exwm-workspace-switch-hook 'my/set-face)
 
 
 

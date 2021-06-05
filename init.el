@@ -192,21 +192,11 @@
 ;;;;; Spacemacs-theme
 (straight-use-package 'spacemacs-theme)
 
-;;;;; Gruvbox-theme
-(straight-use-package 'gruvbox-theme)
-
-;;;;; Dracula-theme
-(straight-use-package 'dracula-theme)
-
-;;;;; Doom-theme
-(straight-use-package 'doom-themes)
-
 ;; Set theme
 (load-theme 'spacemacs-dark t)
 
-;;;; Font
+;;;; Face
 
-;;;;; Default-face
 ;; set all my faces
 (defun my/set-face ()
 	;; Font size
@@ -241,9 +231,12 @@
 	(set-face-attribute 'org-table nil :family "deja vu sans mono")
 	(set-face-attribute 'org-block nil :family "deja vu sans mono")
 	(set-face-attribute 'org-code nil :family "deja vu sans mono" :foreground "#696969")
-	(set-face-attribute 'org-verbatim nil :family "deja vu sans mono"))
+	(set-face-attribute 'org-verbatim nil :family "deja vu sans mono")
 
-(add-hook 'exwm-workspace-switch-hook 'my/set-face)
+	;; Ivy-face
+	(set-face-attribute 'ivy-highlight-face nil :inherit nil))
+
+	(add-hook 'exwm-workspace-switch-hook 'my/set-face)
 
 
 

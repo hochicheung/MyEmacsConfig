@@ -47,12 +47,23 @@
 										"%b "
 										'vc-mode
 										" "
-										'(-3 "%p")
-										" L%l  "
+										"%l/"
+										'count-number-of-lines
+										" "
 										'display-time-string
 										" "
 										'battery-mode-line-string
 										))
+
+;; Count buffer-local number of lines function
+(defun my/modeline-line-number-max ()
+	(setq count-number-of-lines
+				(format "%d" (line-number-at-pos (point-max))))
+	(make-local-variable 'count-number-of-lines)
+  (force-mode-line-update))
+
+(add-hook 'window-configuration-change-hook 'my/modeline-line-number-max)
+(add-hook 'after-save-hook 'my/modeline-line-number-max)
 
 ;;;; Straight
 (defvar bootstrap-version)

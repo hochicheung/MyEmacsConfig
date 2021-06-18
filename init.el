@@ -33,38 +33,6 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;;;; Mode Line
-(setq display-time-format "%R %d-%b")
-(setq battery-mode-line-format "[%L %p%% %t]")
-
-(setq-default mode-line-format
-							(list "  "
-										'mode-line-mule-info
-										'mode-line-modified
-										" "
-										'mode-name
-										" "
-										"%b "
-										'vc-mode
-										" "
-										"%l/"
-										'count-number-of-lines
-										" "
-										'display-time-string
-										" "
-										'battery-mode-line-string
-										))
-
-;; Count buffer-local number of lines function
-(defun my/modeline-line-number-max ()
-	(setq count-number-of-lines
-				(format "%d" (line-number-at-pos (point-max))))
-	(make-local-variable 'count-number-of-lines)
-  (force-mode-line-update))
-
-(add-hook 'window-configuration-change-hook 'my/modeline-line-number-max)
-(add-hook 'after-save-hook 'my/modeline-line-number-max)
-
 ;;;; Straight
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -245,11 +213,19 @@
 	(set-face-attribute 'org-verbatim nil :family "deja vu sans mono")
 
 	;; Ivy-face
-	(set-face-attribute 'ivy-highlight-face nil :inherit nil))
+	(set-face-attribute 'ivy-highlight-face nil :inherit nil)
 
-	(add-hook 'exwm-workspace-switch-hook 'my/set-face)
+	;; Set modeline width
+	(defun my/calc-modeline-width()
+		(setq my/modeline-total-width (round(* (window-total-width) my/modeline-face-factor)))
+		(make-local-variable 'my/modeline-total-width))
 
+	(setq my/modeline-face-factor (/ my/regular-face-height my/modeline-face-height 1.0))
+	(my/calc-modeline-width))
 
+(add-hook 'exwm-workspace-switch-hook 'my/set-face)
+(add-hook 'window-configuration-change-hook 'my/set-face)
+(add-hook 'window-state-change-hook 'my/set-face)
 
 ;;;; Olivetti
 (straight-use-package 'olivetti)
@@ -908,3 +884,49 @@ _l_:   right                       _r_: rotate
 :NOTER_PAGE:
 :END:")))
 
+
+;;; Mode Line
+(setq display-time-format "%R %d-%b")
+(setq battery-mode-line-format "[%L %p%% %t]")
+
+;; Count buffer-local number of lines function
+(defun my/modeline-line-number-max ()
+	(setq count-number-of-lines
+				(format "%d" (line-number-at-pos (point-max))))
+	(make-local-variable 'count-number-of-lines)
+	(force-mode-line-update))
+(add-hook 'window-configuration-change-hook 'my/modeline-line-number-max)
+(add-hook 'after-save-hook 'my/modeline-line-number-max)
+
+;; Write a function to do the spacing
+(defun simple-mode-line-render (left right)
+	"Return a string of `window-width' length.
+Containing LEFT, and RIGHT aligned respectively."
+	(let ((available-width
+				 (max 0 (- my/modeline-total-width
+									 (+ (length (format-mode-line left))
+											(length (format-mode-line right)))))))
+		(append left
+						(list (format (format "%%%ds" available-width) ""))
+						right)))
+
+(setq-default mode-line-format
+							'((:eval
+								 (simple-mode-line-render
+									;; Left.
+									(quote (" "
+													mode-line-mule-info
+													mode-line-modified
+													" "
+													mode-name
+													" %b "
+													vc-mode
+													))
+									;; Right.
+									(quote ("  %l/"
+													count-number-of-lines
+													" "
+													display-time-string
+													" "
+													battery-mode-line-string
+													" "))))))

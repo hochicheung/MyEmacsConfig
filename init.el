@@ -175,7 +175,6 @@
 (load-theme 'spacemacs-dark t)
 
 ;;;; Face
-
 ;; set all my faces
 (defun my/set-face ()
 	;; Font size
@@ -904,7 +903,7 @@ _l_:   right                       _r_: rotate
 	"Return a string of `window-width' length.
 Containing LEFT, and RIGHT aligned respectively."
 	(let ((available-width
-				 (max 0 (- my/modeline-total-width
+				 (max 0 (- my/modeline-total-width 2
 									 (+ (length (format-mode-line left))
 											(length (format-mode-line right)))))))
 		(append left
@@ -930,4 +929,4 @@ Containing LEFT, and RIGHT aligned respectively."
 													display-time-string
 													" "
 													battery-mode-line-string
-													" "))))))
+													"   "))))))

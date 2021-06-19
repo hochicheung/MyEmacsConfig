@@ -812,7 +812,8 @@ _l_:   right                       _r_: rotate
 				 :head "#+title: %<%Y-%m-%d>\n\n")))
 
 ;;;;; Nroam
-(straight-use-package 'nroam)
+(straight-use-package
+ '(nroam :type git :host github :repo "NicolasPetton/nroam"))
 (add-hook 'org-mode-hook #'nroam-setup-maybe)
 
 

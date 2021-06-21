@@ -1,10 +1,10 @@
+;;; -*- lexical-binding: t; -*-
+
 ;;; Emacs Settings
+
 ;;;; Keyboard Layout
 (shell-command
  "setxkbmap -layout us -variant altgr-intl -option caps:escape")
-
-;;;; Lexical-binding
-(setq lexical-binding t)
 
 ;;;; Emacs UI
 (menu-bar-mode -1)

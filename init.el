@@ -3,6 +3,9 @@
 (shell-command
  "setxkbmap -layout us -variant altgr-intl -option caps:escape")
 
+;;;; Lexical-binding
+(setq lexical-binding t)
+
 ;;;; Emacs UI
 (menu-bar-mode -1)
 (display-time-mode 1)
@@ -903,7 +906,7 @@ _l_:   right                       _r_: rotate
 	"Return a string of `window-width' length.
 Containing LEFT, and RIGHT aligned respectively."
 	(let ((available-width
-				 (max 0 (- my/modeline-total-width 2
+				 (max 0 (- my/modeline-total-width
 									 (+ (length (format-mode-line left))
 											(length (format-mode-line right)))))))
 		(append left
@@ -929,4 +932,4 @@ Containing LEFT, and RIGHT aligned respectively."
 													display-time-string
 													" "
 													battery-mode-line-string
-													"   "))))))
+													" "))))))

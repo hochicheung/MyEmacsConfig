@@ -260,7 +260,7 @@
 ;;(setq dired-du-size-format t)
 
 ;;;; Common-lisp
-(require 'cl)
+(require 'cl-lib)
 
 ;;;; Hydra
 ;; https://github.com/abo-abo/hydra

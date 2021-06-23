@@ -677,7 +677,7 @@ _l_:   right                       _r_: rotate
 
 (defun exwm-passthrough (orig-fun keymap on-exit &optional foreign-keys)
 	(setq exwm-input-line-mode-passthrough t)
-	(let ((on-exit (lexical-let ((on-exit on-exit))
+	(let ((on-exit (let ((on-exit on-exit))
 									 (lambda ()
 										 (setq exwm-input-line-mode-passthrough nil)
 										 (when on-exit (funcall on-exit))))))

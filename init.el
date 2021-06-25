@@ -178,7 +178,7 @@
 (load-theme 'spacemacs-dark t)
 
 ;;;; Face
-;; Font size
+;; Face height
 (setq my/regular-face-height 154)
 
 (setq my/modeline-face-height (ceiling (* 0.8 154)))
@@ -215,17 +215,6 @@
 
 ;; Ivy-face
 ;;(set-face-attribute 'ivy-highlight-face nil :inherit nil)
-
-;; Set modeline width
-(defun my/calc-modeline-width()
-	(setq my/modeline-total-width (round(* (window-total-width) my/modeline-face-factor)))
-	(make-local-variable 'my/modeline-total-width))
-
-(setq my/modeline-face-factor (/ my/regular-face-height my/modeline-face-height 1.0))
-
-(add-hook 'exwm-workspace-switch-hook 'my/calc-modeline-width)
-(add-hook 'window-configuration-change-hook 'my/calc-modeline-width)
-(add-hook 'window-state-change-hook 'my/calc-modeline-width)
 
 ;;;; Olivetti
 (straight-use-package 'olivetti)
@@ -889,6 +878,17 @@ _l_:   right                       _r_: rotate
 ;;; Mode Line
 (setq display-time-format "%R %d-%b")
 (setq battery-mode-line-format "[%L %p%% %t]")
+
+;; Set modeline width
+(defun my/calc-modeline-width()
+	(setq my/modeline-total-width (round(* (window-total-width) my/modeline-face-factor)))
+	(make-local-variable 'my/modeline-total-width))
+
+(setq my/modeline-face-factor (/ my/regular-face-height my/modeline-face-height 1.0))
+
+(add-hook 'exwm-workspace-switch-hook 'my/calc-modeline-width)
+(add-hook 'window-configuration-change-hook 'my/calc-modeline-width)
+(add-hook 'window-state-change-hook 'my/calc-modeline-width)
 
 ;; Count buffer-local number of lines function
 (defun my/modeline-line-number-max ()

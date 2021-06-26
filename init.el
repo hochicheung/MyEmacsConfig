@@ -763,9 +763,9 @@ _l_:   right                       _r_: rotate
 
 
 ;;;;; Nroam
-;;(straight-use-package
-;;'(nroam :type git :host github :repo "NicolasPetton/nroam"))
-;;(add-hook 'org-mode-hook #'nroam-setup-maybe)
+(straight-use-package
+ '(nroam :type git :host github :repo "NicolasPetton/nroam"))
+(add-hook 'org-mode-hook #'nroam-setup-maybe)
 
 
 ;;;;; Org-ref

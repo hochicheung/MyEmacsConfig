@@ -182,6 +182,9 @@
 (setq my/regular-face-height 180)
 (setq my/modeline-face-height (ceiling (* 0.8 180)))
 
+;; For scaling the modeline
+(setq my/modeline-face-factor 1.224)
+
 (set-face-attribute 'default nil
 										:family "deja vu sans mono"
 										:height my/regular-face-height)
@@ -841,10 +844,8 @@ _l_:   right                       _r_: rotate
 (setq battery-mode-line-format "[%L %p%% %t]")
 
 ;; Set modeline width
-(setq my/modeline-face-factor (+ (/ (- my/regular-face-height my/modeline-face-height) my/regular-face-height 1.0) 1))
-
 (defun my/calc-modeline-width()
-	(setq my/modeline-total-width (round(* (window-total-width) my/modeline-face-factor)))
+	(setq my/modeline-total-width (floor(* (window-total-width nil 'floor) my/modeline-face-factor)))
 	(make-local-variable 'my/modeline-total-width))
 
 (add-hook 'exwm-workspace-switch-hook 'my/calc-modeline-width)

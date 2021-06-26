@@ -391,58 +391,8 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'outshine)
 (add-hook 'emacs-lisp-mode-hook 'outshine-mode)
 
-;;;; Org-brain
-(straight-use-package 'org-brain)
-(setq org-brain-path "~/Documents/OrgBrain")
-(setq org-id-locations-file "~/.emacs.d/.org-id-locations")
-(setq org-brain-show-history nil)
-(setq org-brain-show-resources nil)
-(setq org-brain-open-same-window t)
-
-;;(global-set-key (kbd "s-b") 'org-brain-visualize)
-;;(global-set-key (kbd "s-B") 'org-brain-switch-brain)
-;;(evil-define-key 'normal org-mode-map (kbd "s-t") 'org-brain-get-id)
-
-;;(with-eval-after-load 'evil
-;;(evil-set-initial-state 'org-brain-visualize-mode 'emacs))
-
-;; combined healine-file entries
-(setq org-brain-scan-for-header-entries t
-			org-id-track-globally t
-			org-brain-include-file-entries t)
-
-;; headline entries only
-;;(setq org-brain-include-file-entries nil
-;;org-brain-file-entries-use-title nil
-;;org-id-track-globally t
-;;org-brain-headline-entry-name-format-string "%2$s")
-;;(add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
-
-;; file entries only
-;;(setq org-brain-scan-for-header-entries nil)
-
-
-(setq org-brain-completion-system 'ivy)
-
-(with-eval-after-load 'org
-	(require 'org-brain))
-
-(add-hook 'org-brain-visualize-text-hook 'org-toggle-latex-fragment)
-(add-hook 'org-brain-visualize-text-hook 'org-toggle-inline-images)
-
 ;;;; Hide-mode-line
 (straight-use-package 'hide-mode-line)
-
-(evil-define-key 'normal 'org-roam-mode-map
-	(kbd "C-c n t") 'org-roam-buffer-toggle-display
-	(kbd "C-c n f") 'org-roam-find-file
-	(kbd "C-c n g") 'org-roam-graph)
-(evil-define-key 'normal 'org-mode-map
-	(kbd "C-C n i") 'org-roam-insert
-	(kbd "C-C n I") 'org-roam-insert-immediate)
-;;(add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
-
-(setq org-roam-completion-everywhere t)
 
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)
@@ -800,10 +750,22 @@ _l_:   right                       _r_: rotate
 				 :file-name "dailies/%<%Y-%m-%d>"
 				 :head "#+title: %<%Y-%m-%d>\n\n")))
 
+(evil-define-key 'normal 'org-roam-mode-map
+	(kbd "C-c n t") 'org-roam-buffer-toggle-display
+	(kbd "C-c n f") 'org-roam-find-file
+	(kbd "C-c n g") 'org-roam-graph)
+(evil-define-key 'normal 'org-mode-map
+	(kbd "C-C n i") 'org-roam-insert
+	(kbd "C-C n I") 'org-roam-insert-immediate)
+;;(add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
+
+(setq org-roam-completion-everywhere t)
+
+
 ;;;;; Nroam
-(straight-use-package
- '(nroam :type git :host github :repo "NicolasPetton/nroam"))
-(add-hook 'org-mode-hook #'nroam-setup-maybe)
+;;(straight-use-package
+;;'(nroam :type git :host github :repo "NicolasPetton/nroam"))
+;;(add-hook 'org-mode-hook #'nroam-setup-maybe)
 
 
 ;;;;; Org-ref

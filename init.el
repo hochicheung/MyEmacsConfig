@@ -843,15 +843,6 @@ _l_:   right                       _r_: rotate
 (setq display-time-format "%R %d-%b")
 (setq battery-mode-line-format "[%L %p%% %t]")
 
-;; Set modeline width
-(defun my/calc-modeline-width()
-	(setq my/modeline-total-width (floor(* (window-total-width nil 'floor) my/modeline-face-factor)))
-	(make-local-variable 'my/modeline-total-width))
-
-(add-hook 'exwm-workspace-switch-hook 'my/calc-modeline-width)
-(add-hook 'window-configuration-change-hook 'my/calc-modeline-width)
-(add-hook 'window-state-change-hook 'my/calc-modeline-width)
-
 ;; Count buffer-local number of lines function
 (defun my/modeline-line-number-max ()
 	(setq count-number-of-lines
@@ -860,6 +851,17 @@ _l_:   right                       _r_: rotate
 	(force-mode-line-update))
 (add-hook 'window-configuration-change-hook 'my/modeline-line-number-max)
 (add-hook 'after-save-hook 'my/modeline-line-number-max)
+
+;;;; Mode-line alignment
+
+;; Set modeline width
+(defun my/calc-modeline-width()
+	(setq my/modeline-total-width (floor(* (window-total-width nil 'floor) my/modeline-face-factor)))
+	(make-local-variable 'my/modeline-total-width))
+
+(add-hook 'exwm-workspace-switch-hook 'my/calc-modeline-width)
+(add-hook 'window-configuration-change-hook 'my/calc-modeline-width)
+(add-hook 'window-state-change-hook 'my/calc-modeline-width)
 
 ;; Write a function to do the spacing
 (defun simple-mode-line-render (left right)

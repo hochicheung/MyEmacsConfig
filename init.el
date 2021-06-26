@@ -179,24 +179,27 @@
 
 ;;;; Face
 ;; Face height
-(setq my/regular-face-height 154)
-
-(setq my/modeline-face-height (ceiling (* 0.8 154)))
+(setq my/regular-face-height 180)
+(setq my/modeline-face-height (ceiling (* 0.8 180)))
 
 (set-face-attribute 'default nil
 										:family "deja vu sans mono"
 										:height my/regular-face-height)
 
+(set-face-attribute 'mode-line nil
+										:family "deja vu sans mono"
+										:height my/modeline-face-height)
+
 ;; Mode specific font
 (defun my/buffer-face-mode-variable ()
 	"Set font to a variable width (proportional) fonts in current buffer"
-	(setq buffer-face-mode-face '(:family "noto serif" :height my/regular-face-height :width semicondensed :weight regular))
-	(set-face-attribute 'org-table nil :family "deja vu sans mono" :height my/regular-face-height)
+	(setq buffer-face-mode-face '(:family "noto serif" :width semicondensed :weight regular))
+	(set-face-attribute 'org-table nil :family "deja vu sans mono")
 	(buffer-face-mode))
 
 (defun my/buffer-face-mode-fixed ()
 	"Sets a fixed width (monospace) font in current buffer"
-	(setq buffer-face-mode-face '(:family "deja vu sans mono" :height my/regular-face-height))
+	(setq buffer-face-mode-face '(:family "deja vu sans mono"))
 	(buffer-face-mode))
 
 ;; Mode specific fonts
@@ -204,17 +207,13 @@
 (add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
 
 ;; Modeline face
-(set-face-attribute 'mode-line nil :family "deja vu sans mono" :height my/modeline-face-height)
-(set-face-attribute 'mode-line-inactive nil :family "deja vu sans mono" :height my/modeline-face-height)
+(set-face-attribute 'mode-line-inactive nil :inherit 'mode-line)
 
 ;; Org-mode faces
-(set-face-attribute 'org-table nil :family "deja vu sans mono")
-(set-face-attribute 'org-block nil :family "deja vu sans mono")
-(set-face-attribute 'org-code nil :family "deja vu sans mono" :foreground "#696969")
-(set-face-attribute 'org-verbatim nil :family "deja vu sans mono")
-
-;; Ivy-face
-;;(set-face-attribute 'ivy-highlight-face nil :inherit nil)
+(set-face-attribute 'org-table nil :inherit 'default)
+(set-face-attribute 'org-block nil :inherit 'default)
+(set-face-attribute 'org-code nil :foreground "#696969" :inherit 'default)
+(set-face-attribute 'org-verbatim nil :inherit 'default)
 
 ;;;; Olivetti
 (straight-use-package 'olivetti)
@@ -842,11 +841,11 @@ _l_:   right                       _r_: rotate
 (setq battery-mode-line-format "[%L %p%% %t]")
 
 ;; Set modeline width
+(setq my/modeline-face-factor (+ (/ (- my/regular-face-height my/modeline-face-height) my/regular-face-height 1.0) 1))
+
 (defun my/calc-modeline-width()
 	(setq my/modeline-total-width (round(* (window-total-width) my/modeline-face-factor)))
 	(make-local-variable 'my/modeline-total-width))
-
-(setq my/modeline-face-factor (/ my/regular-face-height my/modeline-face-height 1.0))
 
 (add-hook 'exwm-workspace-switch-hook 'my/calc-modeline-width)
 (add-hook 'window-configuration-change-hook 'my/calc-modeline-width)
@@ -892,4 +891,4 @@ Containing LEFT, and RIGHT aligned respectively."
 													display-time-string
 													" "
 													battery-mode-line-string
-													" "))))))
+													""))))))

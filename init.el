@@ -215,8 +215,12 @@
 ;; Org-mode faces
 (set-face-attribute 'org-table nil :inherit 'default)
 (set-face-attribute 'org-block nil :inherit 'default)
-(set-face-attribute 'org-code nil :foreground "#696969" :inherit 'default)
+(set-face-attribute 'org-code nil :foreground "#696969")
 (set-face-attribute 'org-verbatim nil :inherit 'default)
+
+;; Ivy-highligh-face
+(with-eval-after-load 'ivy
+	(set-face-attribute 'ivy-highlight-face nil :inherit 'default))
 
 ;;;; Olivetti
 (straight-use-package 'olivetti)
@@ -224,8 +228,6 @@
 (add-hook 'text-mode-hook 'olivetti-mode)
 (add-hook 'prog-mode-hook (lambda () (setq olivetti-body-width 0.8)))
 (add-hook 'prog-mode-hook 'olivetti-mode)
-
-
 
 ;;;; Mouse-clicks
 (dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]

@@ -182,7 +182,7 @@
 (setq my/regular-face-height 180)
 (setq my/modeline-face-height (ceiling (* 0.8 180)))
 
-;; For scaling the modeline
+;; Scaling for modeline alignment
 (setq my/modeline-face-factor 1.224)
 
 (set-face-attribute 'default nil
@@ -198,6 +198,7 @@
 	"Set font to a variable width (proportional) fonts in current buffer"
 	(setq buffer-face-mode-face '(:family "noto serif" :width semicondensed :weight regular))
 	(set-face-attribute 'org-table nil :family "deja vu sans mono")
+	(set-face-attribute 'org-block nil :family "deja vu sans mono")
 	(buffer-face-mode))
 
 (defun my/buffer-face-mode-fixed ()
@@ -206,7 +207,6 @@
 	(buffer-face-mode))
 
 ;; Mode specific fonts
-;;(add-hook 'text-mode-hook 'variable-pitch-mode)
 (add-hook 'org-mode-hook 'my/buffer-face-mode-variable)
 
 ;; Modeline face

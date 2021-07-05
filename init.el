@@ -81,7 +81,6 @@
 ;;;; Org-mode
 (load-library "org-autoloads")
 
-
 (setq org-hide-emphasis-markers t)
 (setq org-src-window-setup 'split-window-below)
 (setq org-image-actual-width nil)
@@ -839,6 +838,44 @@ _l_:   right                       _r_: rotate
 :NOTER_DOCUMENT: ${file}
 :NOTER_PAGE:
 :END:")))
+
+;;; Email
+;;;; Message-mode
+(setq mail-user-agent 'message-user-agent)
+(setq message-send-mail-function 'message-send-mail-with-sendmail)
+
+;; kill message buffer after message is sent
+(setq message-kill-buffer-on-exit t)
+
+;;;; Notmuch
+(straight-use-package 'notmuch)
+
+;;;; NeverMore
+(straight-use-package 'nm)
+(require 'nm)
+(require 'nm-company)
+
+(evil-define-key 'normal nm-mode-map
+	(kbd "RET") 'nm-open
+	(kbd "-") 'negative-argument
+	(kbd "/") 'nm-incrementally
+	(kbd "J") 'nm-junk
+	(kbd "M") 'nm-toggle-query-mode
+	(kbd "R") 'nm-reply-all
+	(kbd "S") 'nm-toggle-sort-order
+	(kbd "T") 'nm-focus-thread
+	(kbd "W") 'nm-wakeup
+	(kbd "a") 'nm-archive
+	(kbd "d") 'nm-delete
+	(kbd "f") 'nm-forward
+	(kbd "g r") 'nm-refresh
+	(kbd "m") 'notmuch-mua-new-mail
+	(kbd "b") 'nm-bury
+	(kbd "r") 'nm-reply
+	(kbd "s") 'nm-snooze
+	(kbd "t") 'nm-tag
+	(kbd "C-c C-c") 'nm-interrupt
+	(kbd "C-c C-g") 'nm-reset)
 
 
 ;;; Mode Line

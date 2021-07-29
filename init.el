@@ -218,7 +218,6 @@
 (set-face-attribute 'org-verbatim nil :inherit 'default)
 
 ;; Ivy-highligh-face
-(ivy-mode 1)
 (with-eval-after-load 'ivy
 	(set-face-attribute 'ivy-highlight-face nil :inherit 'default))
 
@@ -326,6 +325,7 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'ivy)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
+(ivy-mode 1)
 
 ;;;;; Counsel
 (straight-use-package 'counsel)

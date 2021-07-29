@@ -323,8 +323,6 @@ _l_:   right                       _r_: rotate
 
 ;;;; Ivy
 (straight-use-package 'ivy)
-(with-eval-after-load 'helm
-	(add-hook 'after-init-hook 'ivy-mode))
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 
@@ -348,37 +346,6 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'avy)
 (evil-define-key 'normal 'evil-normal-state-map (kbd "C-a a") 'evil-avy-goto-char-2
 	(kbd "C-a s") 'evil-avy-goto-char-timer)
-
-;;;; Helm
-(straight-use-package 'helm)
-(add-hook 'after-init-hook 'helm-mode)
-(require 'helm)
-(require 'helm-config)
-
-;; ensures helm always splits down and don't toggle off other buffers
-(setq helm-always-two-windows nil
-			helm-default-display-buffer-functions '(display-buffer-in-side-window))
-
-;;(setq helm-ff-auto-update-initial-value t)
-(setq helm-move-to-line-cycle-in-source nil)
-
-;; remove helm header
-(setq helm-display-header-line nil)
-
-;;(global-set-key (kbd "C-c h") 'helm-command-prefix)
-;;(global-unset-key (kbd "C-x c"))
-;;
-;;(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-;;(define-key helm-map (kbd "C-z") 'helm-select-action)
-;;
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-x d") 'helm-find-files)
-;;(define-key helm-command-map (kbd "<menu>") 'helm-resume)
-
-;;(setq helm-autoresize-max-height 0
-;;helm-autoresize-min-height 20)
-(helm-autoresize-mode 1)
 
 ;;;; Ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)

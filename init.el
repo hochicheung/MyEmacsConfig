@@ -218,6 +218,7 @@
 (set-face-attribute 'org-verbatim nil :inherit 'default)
 
 ;; Ivy-highligh-face
+(ivy-mode 1)
 (with-eval-after-load 'ivy
 	(set-face-attribute 'ivy-highlight-face nil :inherit 'default))
 
@@ -701,34 +702,6 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'org-roam)
 
 (setq org-roam-directory "/home/samcheung/Org/roam-repo/")
-(setq org-roam-dailies-directory (concat org-roam-directory "dailies/"))
-
-;; the slug tag are what are passed down from my search
-(setq org-roam-capture-templates
-			'(("d" "default" plain
-				 (function org-roam--capture-get-point)
-				 "%?"
-				 :file-name "%<%y%m%d>-${slug}"
-				 :head "#+title: ${title}\nTime-stamp: <>\n"
-				 :unnarrowed t)))
-
-(setq org-roam-dailies-capture-templates
-			'(("d" "default" entry
-				 #'org-roam-capture--get-point
-				 "* %?"
-				 :file-name "dailies/%<%Y-%m-%d>"
-				 :head "#+title: %<%Y-%m-%d>\n\n")))
-
-(evil-define-key 'normal 'org-roam-mode-map
-	(kbd "C-c n t") 'org-roam-buffer-toggle-display
-	(kbd "C-c n f") 'org-roam-find-file
-	(kbd "C-c n g") 'org-roam-graph)
-(evil-define-key 'normal 'org-mode-map
-	(kbd "C-C n i") 'org-roam-insert
-	(kbd "C-C n I") 'org-roam-insert-immediate)
-;;(add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
-
-(setq org-roam-completion-everywhere t)
 
 ;;; Email
 ;;;; Message-mode

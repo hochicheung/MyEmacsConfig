@@ -732,7 +732,6 @@ _l_:   right                       _r_: rotate
 
 ;;;; Org-roam
 (straight-use-package 'org-roam)
-(add-hook 'after-init-hook 'org-roam-mode)
 
 (setq org-roam-directory "/home/samcheung/Org/roam-repo/")
 (setq org-roam-dailies-directory (concat org-roam-directory "dailies/"))
@@ -763,74 +762,6 @@ _l_:   right                       _r_: rotate
 ;;(add-hook 'org-roam-buffer-prepare-hook #'hide-mode-line-mode)
 
 (setq org-roam-completion-everywhere t)
-
-;;;;; Org-ref
-(straight-use-package 'org-ref)
-(require 'org-ref)
-
-;; Bibliography file
-(setq reftex-default-bibliography '("~/Syncthing/bibliography/references.bib"))
-
-;; Bibliography file
-(setq org-ref-default-bibliography '("~/Syncthing/bibliography/references.bib")
-			;; Source pdf locations
-			org-ref-pdf-directory "~/Syncthing/bibliography/bib-pdf/")
-
-
-;;;;; Helm-bibtex
-;; Change to ivy-bibtex for ivy front-end
-(straight-use-package 'helm-bibtex)
-(define-key helm-command-map "b" 'helm-bibtex)
-
-;; Tell where bibtex-completion to find bibliography file
-(setq bibtex-completion-bibliography "~/Syncthing/bibliography/references.bib")
-
-;; Source pdf locations
-;; https://github.com/tmalsburg/helm-bibtex#pdf-files
-(setq bibtex-completion-library-path "~/Syncthing/bibliography/bib-pdf")
-(setq bibtex-completion-pdf-field "File")
-
-;;;;; Org-roam-bibtex
-(straight-use-package 'org-roam-bibtex)
-(require 'org-roam-bibtex)
-
-(with-eval-after-load 'org-roam
-	(add-hook 'org-roam-mode-hook #'org-roam-bibtex-mode))
-
-;; Choose which front-end to use (ivy-bibtex, helm-bibtex or generic)
-(setq orb-insert-interface 'helm-bibtex)
-
-;; Set citation style
-(setq orb-insert-link-description 'citation)
-
-;; Which bibtex fields to grab to use by orb-templates
-;; Additional fields defined by helm bibtex:
-;; https://github.com/tmalsburg/helm-bibtex/blob/master/bibtex-completion.el#L1147-L1205
-(setq orb-preformat-keywords
-			'("citekey" "title" "url" "author-or-editor" "keywords" "file")
-			orb-process-file-field t
-			orb-file-field-extensions "pdf")
-
-;; Templates to use when creating a new bibliographical note
-(setq orb-templates
-			'(("r" "ref" plain (function org-roam-capture--get-point) ""
-				 :file-name "${citekey}"
-				 :head "#+TITLE: ${citekey} - ${title}\n#+ROAM_KEY: ${ref}\n"
-				 :unnarrowed t)
-				("n" "ref+noter" plain (function org-roam-capture--get-point) ""
-				 :file-name "${citekey}"
-				 :head "#+TITLE: ${citekey} - ${title}\n#+ROAM_KEY: ${ref}
-
-- keywords :: ${keywords}
-
-* ${title}
-:PROPERTIES:
-:Custom_ID: ${citekey}
-:URL: ${url}
-:AUTHOR: ${author-or-editor}
-:NOTER_DOCUMENT: ${file}
-:NOTER_PAGE:
-:END:")))
 
 ;;; Email
 ;;;; Message-mode

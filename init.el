@@ -701,6 +701,12 @@ _l_:   right                       _r_: rotate
 ;;;; Org-roam
 (straight-use-package 'org-roam)
 
+(global-set-key (kbd "C-c n f") 'org-roam-node-find)
+
+(evil-define-key 'normal org-roam-mode-map
+	(kbd "C-c n i") 'org-roam-node-insert
+	(kbd "C-c n t") 'org-roam-buffer-toggle)
+
 (setq org-roam-directory "/home/samcheung/Org/roam-repo/")
 
 ;;; Email

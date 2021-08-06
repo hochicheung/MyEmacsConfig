@@ -709,6 +709,8 @@ _l_:   right                       _r_: rotate
 
 (setq org-roam-directory "/home/samcheung/Org/roam-repo/")
 
+(setq org-roam-v2-ack t)
+
 ;;; Email
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)

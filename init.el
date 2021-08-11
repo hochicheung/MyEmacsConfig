@@ -116,7 +116,7 @@
 															 "* TODO %i%?")
 															("T" "Tickler" entry
 															 (file+headline "~/gtd/tickler.org" "Tickler")
-															 "* %i%? \n %U")))
+															 "* %i%? \n %U \n %t")))
 
 (setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
 													 ("~/gtd/someday.org" :level . 1)

@@ -195,7 +195,7 @@
 ;; Mode specific font
 (defun my/buffer-face-mode-variable ()
 	"Set font to a variable width (proportional) fonts in current buffer"
-	(setq buffer-face-mode-face '(:family "noto serif" :width semicondensed :weight regular))
+	(setq buffer-face-mode-face '(:family "deja vu serif" :width semicondensed :weight regular))
 	(set-face-attribute 'org-table nil :family "deja vu sans mono")
 	(set-face-attribute 'org-block nil :family "deja vu sans mono")
 	(buffer-face-mode))

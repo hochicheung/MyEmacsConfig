@@ -799,7 +799,7 @@ Containing LEFT, and RIGHT aligned respectively."
 													vc-mode
 													))
 									;; Right.
-									(quote ("  %l/"
+									(quote ("  L%l:"
 													count-number-of-lines
 													" "
 													display-time-string

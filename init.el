@@ -717,6 +717,18 @@ _l_:   right                       _r_: rotate
 
 (setq org-roam-v2-ack t)
 
+(setq org-roam-capture-templates
+			'(("d" "default" plain
+				 "%?"
+				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+														"#+title: ${title}\n")
+				 :unnarrowed t)
+				("b" "book-note" plain
+				 "\n\n* Bibliography\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n %?"
+				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+														"#+title: ${title}\n")
+				 :unnarrowed t)))
+
 ;;; Email
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)

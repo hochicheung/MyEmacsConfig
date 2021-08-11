@@ -574,7 +574,6 @@ _l_:   right                       _r_: rotate
 (define-key exwm-mode-map [?\s-f] #'exwm-layout-toggle-fullscreen)
 (define-key exwm-mode-map [?\C-w] #'hydra-window/body)
 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
-(define-key exwm-mode-map [?\s-b ] #'org-brain-visualize)
 
 (evil-set-initial-state 'exwm-mode 'emacs)
 (setq exwm-input-simulation-keys

@@ -345,8 +345,8 @@ _l_:   right                       _r_: rotate
 
 ;;;; Avy
 (straight-use-package 'avy)
-(evil-define-key 'normal 'evil-normal-state-map (kbd "C-a a") 'evil-avy-goto-char-2
-	(kbd "C-a s") 'evil-avy-goto-char-timer)
+(evil-define-key 'normal 'evil-normal-state-map
+	(kbd "C-a") 'evil-avy-goto-char-timer)
 
 ;;;; Ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)

@@ -267,7 +267,7 @@
 (defhydra hydra-menu ()
 	"Hydra Menu"
 	("b" my/set-brightness "set-brightness" :exit t)
-	("e" hydra-pulseaudio/body "hydra-pulseaudio" :exit t)
+	("e" hydra-pulseaudio/body "pulseaudio-menu" :exit t)
 	("s-SPC" nil "quit" :exit t))
 
 (global-set-key (kbd "s-SPC") 'hydra-menu/body)
@@ -309,7 +309,6 @@ _l_:   right                       _r_: rotate
 	("q" nil  :exit t))
 
 (evil-define-key 'normal 'evil-normal-state-map (kbd "C-w") 'hydra-window/body)
-;;(global-set-key (kbd "s-q") 'hydra-window/body)
 
 ;;;;; Hydra-pulseaudio
 (defhydra hydra-pulseaudio ()
@@ -320,6 +319,19 @@ _l_:   right                       _r_: rotate
 	("+" pulseaudio-control-toggle-current-sink-mute "mute sink")
 	("b" hydra-menu/body "back" :exit t)
 	("s-SPC" nil "quit" :exit t))
+
+;;;;; Hydra-counsel
+(defhydra hydra-counsel ()
+	"counsel-menu"
+	("f" counsel-describe-function "describe-function" :exit t)
+	("v" counsel-describe-variable "describe-variable" :exit t)
+	("l" counsel-find-library "find-library" :exit t)
+	("i" counsel-info-lookup-symbol "info-lookup" :exit t)
+	("u" counsel-unicode-char "unicode-char" :exit t)
+	("b" hydra-menu/body "back" :exit t)
+	("s-SPC" nil "quit" :exit t))
+
+(global-set-key (kbd "C-h h") 'hydra-counsel/body)
 
 ;;;; Ivy
 (straight-use-package 'ivy)
@@ -333,11 +345,6 @@ _l_:   right                       _r_: rotate
 ;;(global-set-key (kbd "M-x") 'counsel-M-x)
 ;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
 (global-set-key (kbd "C-x d") 'counsel-find-file)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
 
 ;;;;; Swiper
 (straight-use-package 'swiper)

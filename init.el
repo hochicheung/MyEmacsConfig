@@ -113,7 +113,7 @@
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
 															 (file+headline "~/gtd/inbox.org" "Tasks")
-															 "* Todo %i%?")
+															 "* TODO %i%?")
 															("T" "Tickler" entry
 															 (file+headline "~/gtd/tickler.org" "Tickler")
 															 "* %i%? \n %U")))

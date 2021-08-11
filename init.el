@@ -751,8 +751,9 @@ _l_:   right                       _r_: rotate
 
 
 ;;; Mode Line
-(setq display-time-format "%R %d-%b")
-(setq battery-mode-line-format "[%L %p%% %t]")
+(setq display-time-load-average nil)
+(setq display-time-format "%R %a %d/%b")
+(setq battery-mode-line-format "%L %p%% %t")
 
 ;; Count buffer-local number of lines function
 (defun my/modeline-line-number-max ()
@@ -801,8 +802,8 @@ Containing LEFT, and RIGHT aligned respectively."
 									;; Right.
 									(quote ("  L%l:"
 													count-number-of-lines
-													" "
+													" | "
 													display-time-string
-													" "
+													" | "
 													battery-mode-line-string
 													""))))))

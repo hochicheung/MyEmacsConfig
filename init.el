@@ -50,6 +50,12 @@
 			(eval-print-last-sexp)))
 	(load bootstrap-file nil 'nomessage))
 
+;;;; My/directory-p-nil-create
+(defun my/directory-p-nil-create (directory)
+	(when (not (file-exists-p directory))
+		(message "Creating directory %s" directory)
+		(make-directory directory t)))
+
 ;;;; Prefered Webbrowser
 (setq browse-url-browser-function 'browse-url-generic
 			browse-url-generic-program "qutebrowser")
@@ -106,6 +112,8 @@
 ;;;;; Org-agenda
 (global-set-key (kbd "s-a") 'org-agenda)
 (global-set-key (kbd "s-c") 'org-capture)
+
+(my/directory-p-nil-create "~/Org/agenda")
 
 (setq org-agenda-files '("~/Org/agenda/inbox.org"
 												 "~/Org/agenda/gtd.org"
@@ -394,7 +402,7 @@ _l_:   right                       _r_: rotate
 
 ;;;;; Company
 (straight-use-package 'company)
-(add-hook 'after-init-hook 'global-company-mode)
+(add-hook 'exwm-manage-finish-hook 'global-company-mode)
 (setq company-dabbrev-other-buffers t
 			company-dabbrev-code-other-buffers t)
 
@@ -708,13 +716,17 @@ _l_:   right                       _r_: rotate
 ;;;; Org-roam
 (straight-use-package 'org-roam)
 
+(setq org-roam-v2-ack t)
+
 (global-set-key (kbd "C-c n f") 'org-roam-node-find)
 
 (evil-define-key 'normal org-roam-mode-map
 	(kbd "C-c n i") 'org-roam-node-insert
 	(kbd "C-c n t") 'org-roam-buffer-toggle)
 
-(setq org-roam-directory "/home/samcheung/Org/roam-repo/")
+(my/directory-p-nil-create "~/Org/roam-repo/")
+
+(setq org-roam-directory "~/Org/roam-repo/")
 
 (setq org-roam-capture-templates
 			'(("d" "default" plain
@@ -727,9 +739,6 @@ _l_:   right                       _r_: rotate
 				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
 														"#+title: ${title}\n")
 				 :unnarrowed t)))
-
-(org-roam-db-autosync-mode)
-(setq org-roam-v2-ack t)
 
 ;;; Email
 ;;;; Message-mode

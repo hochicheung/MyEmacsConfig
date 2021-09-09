@@ -107,9 +107,9 @@
 (global-set-key (kbd "s-a") 'org-agenda)
 (global-set-key (kbd "s-c") 'org-capture)
 
-(setq org-agenda-files '("~/gtd/inbox.org"
-												 "~/gtd/gtd.org"
-												 "~/gtd/tickler.org"))
+(setq org-agenda-files '("~/Org/agenda/inbox.org"
+												 "~/Org/agenda/gtd.org"
+												 "~/Org/agenda/tickler.org"))
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
 															 (file+headline "~/gtd/inbox.org" "Tasks")
@@ -178,8 +178,8 @@
 
 ;;;; Face
 ;; Face height
-(setq my/regular-face-height 180)
-(setq my/modeline-face-height (ceiling (* 0.8 180)))
+(setq my/regular-face-height 140)
+(setq my/modeline-face-height (ceiling (* 0.8 my/regular-face-height)))
 
 ;; Scaling for modeline alignment
 (setq my/modeline-face-factor 1.224)
@@ -268,6 +268,7 @@
 	"Hydra Menu"
 	("b" my/set-brightness "set-brightness" :exit t)
 	("e" hydra-pulseaudio/body "pulseaudio-menu" :exit t)
+	("s" screenshot "screenshot" :exit t)
 	("s-SPC" nil "quit" :exit t))
 
 (global-set-key (kbd "s-SPC") 'hydra-menu/body)
@@ -626,7 +627,7 @@ _l_:   right                       _r_: rotate
 (global-set-key (kbd "s-s") 'screenshot)
 (setq screenshot-schemes
 			'(
-				("local"
+				("media"
 				 :dir "~/Media/Screenshots")
 				("current-dir"
 				 :dir default-directory)))

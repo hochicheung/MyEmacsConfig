@@ -716,8 +716,6 @@ _l_:   right                       _r_: rotate
 
 (setq org-roam-directory "/home/samcheung/Org/roam-repo/")
 
-(setq org-roam-v2-ack t)
-
 (setq org-roam-capture-templates
 			'(("d" "default" plain
 				 "%?"
@@ -729,6 +727,9 @@ _l_:   right                       _r_: rotate
 				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
 														"#+title: ${title}\n")
 				 :unnarrowed t)))
+
+(org-roam-db-autosync-mode)
+(setq org-roam-v2-ack t)
 
 ;;; Email
 ;;;; Message-mode

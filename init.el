@@ -584,10 +584,13 @@ _l_:   right                       _r_: rotate
 										(start-process "" nil "/usr/bin/mupdf" (f-this-file))))))
 
 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
-(define-key exwm-mode-map [?\s-c] #'exwm-input-release-keyboard)
+(define-key exwm-mode-map [?\s-q] #'exwm-input-release-keyboard)
 (define-key exwm-mode-map [?\s-f] #'exwm-layout-toggle-fullscreen)
+
 (define-key exwm-mode-map [?\C-w] #'hydra-window/body)
 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
+(define-key exwm-mode-map [?\s-a] #'org-agenda)
+(define-key exwm-mode-map [?\s-c] #'org-capture)
 
 (evil-set-initial-state 'exwm-mode 'emacs)
 (setq exwm-input-simulation-keys

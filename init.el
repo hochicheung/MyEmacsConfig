@@ -115,15 +115,13 @@
 
 (my/directory-p-nil-create "~/Org/agenda")
 
-(setq org-agenda-files '("~/Org/agenda/inbox.org"
-												 "~/Org/agenda/gtd.org"
-												 "~/Org/agenda/tickler.org"))
+(setq org-agenda-files '("~/Org/agenda/"))
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
-															 (file+headline "~/gtd/inbox.org" "Tasks")
+															 (file+headline "~/Org/agenda/inbox.org" "Tasks")
 															 "* TODO %i%?")
 															("T" "Tickler" entry
-															 (file+headline "~/gtd/tickler.org" "Tickler")
+															 (file+headline "~/Org/agenda/tickler.org" "Tickler")
 															 "* %i%? \n %U \n %t")))
 
 (setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)

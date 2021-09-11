@@ -725,6 +725,7 @@ _l_:   right                       _r_: rotate
 	(kbd "C-c n t") 'org-roam-buffer-toggle)
 
 (my/directory-p-nil-create "~/Org/roam-repo/")
+(org-roam-db-autosync-mode)
 
 (setq org-roam-directory "~/Org/roam-repo/")
 

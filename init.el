@@ -711,6 +711,9 @@ _l_:   right                       _r_: rotate
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (setq projectile-completion-system 'ivy)
 
+;;;; Ebib
+(straight-use-package 'ebib)
+
 ;;;; Org-noter
 (straight-use-package 'org-noter)
 
@@ -718,12 +721,6 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'org-roam)
 
 (setq org-roam-v2-ack t)
-
-(global-set-key (kbd "C-c n f") 'org-roam-node-find)
-
-(evil-define-key 'normal org-roam-mode-map
-	(kbd "C-c n i") 'org-roam-node-insert
-	(kbd "C-c n t") 'org-roam-buffer-toggle)
 
 (my/directory-p-nil-create "~/Org/roam-repo/")
 
@@ -741,7 +738,28 @@ _l_:   right                       _r_: rotate
 														"#+title: ${title}\n")
 				 :unnarrowed t)))
 
+(defun org-roam-node-insert-immediate (arg &rest args)
+	(interactive "P")
+	(let ((args (cons arg args))
+				(org-roam-capture-templates (list (append (car org-roam-capture-templates)
+																									'(:immediate-finish t)))))
+		(apply #'org-roam-node-insert args)))
+
+(global-set-key (kbd "C-c n f") 'org-roam-node-find)
+(global-set-key (kbd "C-c n i") 'org-roam-node-insert-immediate)
+(global-set-key (kbd "C-c n t") 'org-roam-buffer-toggle)
+
 (org-roam-db-autosync-mode)
+
+;;;; Org-roam-ui
+(straight-use-package
+ '(org-roam-ui :type git :host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out")))
+(add-hook 'after-init-hook 'org-roam-ui-mode)
+
+(setq org-roam-ui-sync-theme t
+      org-roam-ui-follow t
+      org-roam-ui-update-on-save t
+      org-roam-ui-open-on-start t)
 
 ;;; Email
 ;;;; Message-mode
@@ -784,7 +802,7 @@ _l_:   right                       _r_: rotate
 
 ;;; Mode Line
 (setq display-time-load-average nil)
-(setq display-time-format "%R %a %d/%b")
+(setq display-time-format "%a %d/%b %R ")
 (setq battery-mode-line-format "%L %p%% %t")
 
 ;; Count buffer-local number of lines function
@@ -835,7 +853,7 @@ Containing LEFT, and RIGHT aligned respectively."
 									(quote ("  L%l:"
 													count-number-of-lines
 													" | "
-													display-time-string
-													" | "
 													battery-mode-line-string
+													" | "
+													display-time-string
 													""))))))

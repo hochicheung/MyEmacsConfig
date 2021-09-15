@@ -754,7 +754,8 @@ _l_:   right                       _r_: rotate
 ;;;; Org-roam-ui
 (straight-use-package
  '(org-roam-ui :type git :host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out")))
-(add-hook 'after-init-hook 'org-roam-ui-mode)
+
+(global-set-key (kbd "C-c n g") org-roam-ui-mode)
 
 (setq org-roam-ui-sync-theme t
       org-roam-ui-follow t

@@ -711,12 +711,6 @@ _l_:   right                       _r_: rotate
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (setq projectile-completion-system 'ivy)
 
-;;;; Ebib
-(straight-use-package 'ebib)
-
-;;;; Org-noter
-(straight-use-package 'org-noter)
-
 ;;;; Org-roam
 (straight-use-package 'org-roam)
 
@@ -750,6 +744,14 @@ _l_:   right                       _r_: rotate
 (global-set-key (kbd "C-c n t") 'org-roam-buffer-toggle)
 
 (org-roam-db-autosync-mode)
+
+;;;; Ebib
+(straight-use-package 'ebib)
+(require 'ebib)
+(setq ebib-layout 'window)
+
+;;;; Org-noter
+(straight-use-package 'org-noter)
 
 ;;;; Org-roam-ui
 (straight-use-package
@@ -800,6 +802,28 @@ _l_:   right                       _r_: rotate
 	(kbd "C-c C-c") 'nm-interrupt
 	(kbd "C-c C-g") 'nm-reset)
 
+;;;; My/insert-current-date-time
+
+(defvar my/current-date-format "%F"
+  "Format of date to insert with `insert-current-date' func
+See help of `format-time-string' for possible replacements")
+
+(defvar my/current-time-format "%a %H:%M:%S %Z"
+  "Format of date to insert with `insert-current-time' func.
+Note the weekly scope of the command's precision.")
+
+(defun my/insert-current-date ()
+  "insert the current date and time into current buffer.
+Uses `current-date-format' for the formatting the date/time."
+  (interactive)
+  (insert (format-time-string my/current-date-format (current-time)))
+  (insert "\n"))
+
+(defun my/insert-current-time ()
+  "insert the current time (1-week scope) into the current buffer."
+  (interactive)
+  (insert (format-time-string my/current-time-format (current-time)))
+  (insert "\n"))
 
 ;;; Mode Line
 (setq display-time-load-average nil)

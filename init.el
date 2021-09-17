@@ -345,6 +345,9 @@ _l_:   right                       _r_: rotate
 
 (global-set-key (kbd "C-h h") 'hydra-counsel/body)
 
+;;;; Helm
+(straight-use-package 'helm)
+
 ;;;; Ivy
 (straight-use-package 'ivy)
 (setq ivy-use-virtual-buffers t)
@@ -754,6 +757,8 @@ _l_:   right                       _r_: rotate
 ;; Creating / Editing bib files
 (straight-use-package 'ebib)
 (require 'ebib)
+(setq ebib-preload-bib-files '("~/Documents/bibliography/bibliography.bib"))
+
 (setq ebib-layout 'window)
 
 ;;;; Org-roam-bibtex (ORB)

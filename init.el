@@ -105,7 +105,7 @@
 
 ;;;;; Timestamps
 (setq time-stamp-active t     ; enable time-stamps
-			time-stamp-line-limit 5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "
+			time-stamp-line-limit -5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "
 			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
@@ -774,6 +774,33 @@ _l_:   right                       _r_: rotate
       org-roam-ui-follow t
       org-roam-ui-update-on-save t
       org-roam-ui-open-on-start t)
+
+;;;; Deft
+(straight-use-package 'deft)
+(global-set-key (kbd "C-c n d") 'deft)
+(setq deft-recursive t
+			deft-use-filter-string-for-filename t
+			deft-default-extension "org"
+			deft-directory org-roam-directory)
+
+(defun cm/deft-parse-title (file contents)
+  "Parse the given FILE and CONTENTS and determine the title.
+  If `deft-use-filename-as-title' is nil, the title is taken to
+  be the first non-empty line of the FILE.  Else the base name of the FILE is
+  used as title."
+  (let ((begin (string-match "^#\\+[tT][iI][tT][lL][eE]: .*$" contents)))
+		(if begin
+				(string-trim (substring contents begin (match-end 0)) "#\\+[tT][iI][tT][lL][eE]: *" "[\n\t ]+")
+			(deft-base-filename file))))
+
+(advice-add 'deft-parse-title :override #'cm/deft-parse-title)
+
+(setq deft-strip-summary-regexp
+			(concat "\\("
+							"[\n\t]" ;; blank
+							"\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
+							"\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
+							"\\)"))
 
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)

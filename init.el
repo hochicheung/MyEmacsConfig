@@ -163,6 +163,11 @@
 																							(interactive)
 																							(quit-window)))
 
+;;;;; Window
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-x h") 'previous-buffer)
+
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-x l") 'next-buffer)
+
 ;;;; Evil-surround
 (straight-use-package 'evil-surround)
 (global-evil-surround-mode 1)

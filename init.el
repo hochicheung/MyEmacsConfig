@@ -746,9 +746,20 @@ _l_:   right                       _r_: rotate
 (org-roam-db-autosync-mode)
 
 ;;;; Ebib
+;; Creating / Editing bib files
 (straight-use-package 'ebib)
 (require 'ebib)
 (setq ebib-layout 'window)
+
+;;;; Org-roam-bibtex (ORB)
+;; Integration of org-roam + ivy-bibtex + org-ref
+(straight-use-package 'org-roam-bibtex)
+(require 'org-ref)
+
+;;;;; Helm-bibtex
+;; List of bibliography files
+(setq bibtex-completion-bibliography
+			'("~/Documents/bibliography/bibliography.bib"))
 
 ;;;; Org-noter
 (straight-use-package 'org-noter)
@@ -764,7 +775,6 @@ _l_:   right                       _r_: rotate
       org-roam-ui-update-on-save t
       org-roam-ui-open-on-start t)
 
-;;; Email
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)
 (setq message-send-mail-function 'message-send-mail-with-sendmail)
@@ -803,7 +813,6 @@ _l_:   right                       _r_: rotate
 	(kbd "C-c C-g") 'nm-reset)
 
 ;;;; My/insert-current-date-time
-
 (defvar my/current-date-format "%F"
   "Format of date to insert with `insert-current-date' func
 See help of `format-time-string' for possible replacements")

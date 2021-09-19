@@ -56,6 +56,12 @@
 		(message "Creating directory %s" directory)
 		(make-directory directory t)))
 
+;;;; My/file-exists-p-nil-create
+(defun my/file-exists-p-nil-create (file)
+	(when (not (file-exists-p file))
+		(message "Creating file %s" file)
+		(write-region "" nil file)))
+
 ;;;; Prefered Webbrowser
 (setq browse-url-browser-function 'browse-url-generic
 			browse-url-generic-program "qutebrowser")
@@ -63,7 +69,11 @@
 ;;;; Battery
 (require 'battery)
 
-;;;; Line Numbers
+;;;; Line Numbers(defun my/file-exists-p-nil-create (file)
+(when (not (file-exists-p file))
+	(message "Creating file %s" file)
+	(write-region "" nil file))
+
 ;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 ;;;; NixOS
@@ -114,8 +124,14 @@
 (global-set-key (kbd "s-c") 'org-capture)
 
 (my/directory-p-nil-create "~/Org/agenda")
+(my/file-exists-p-nil-create "~/Org/agenda/inbox.org")
+(my/file-exists-p-nil-create "~/Org/agenda/gtd.org")
+(my/file-exists-p-nil-create "~/Org/agenda/tickler.org")
+(my/file-exists-p-nil-create "~/Org/agenda/someday.org")
 
-(setq org-agenda-files '("~/Org/agenda/"))
+(setq org-agenda-files '("~/Org/agenda/gtd.org"
+												 "~/Org/agenda/inbox.org"
+												 "~/Org/agenda/tickler.org"))
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
 															 (file+headline "~/Org/agenda/inbox.org" "Tasks")
@@ -124,9 +140,9 @@
 															 (file+headline "~/Org/agenda/tickler.org" "Tickler")
 															 "* %i%? \n %U \n %t")))
 
-(setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
-													 ("~/gtd/someday.org" :level . 1)
-													 ("~/gtd/tickler.org" :maxlevel . 2)))
+(setq org-refile-targets '(("~/Org/agenda/gtd.org" :maxlevel . 3)
+													 ("~/Org/agenda/someday.org" :level . 1)
+													 ("~/Org/agenda/tickler.org" :maxlevel . 2)))
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
@@ -164,9 +180,9 @@
 																							(quit-window)))
 
 ;;;;; Window
-(evil-define-key 'normal 'evil-normal-state-map (kbd "C-x h") 'previous-buffer)
+(evil-define-key 'normal 'evil-normal-state-map (kbd "s-h") 'previous-buffer)
 
-(evil-define-key 'normal 'evil-normal-state-map (kbd "C-x l") 'next-buffer)
+(evil-define-key 'normal 'evil-normal-state-map (kbd "s-l") 'next-buffer)
 
 ;;;; Evil-surround
 (straight-use-package 'evil-surround)

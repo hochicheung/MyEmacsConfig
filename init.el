@@ -57,10 +57,13 @@
 		(make-directory directory t)))
 
 ;;;; My/file-exists-p-nil-create
-(defun my/file-exists-p-nil-create (file)
+(defun my/file-exists-p-nil-create (file &optional content)
 	(when (not (file-exists-p file))
-		(message "Creating file %s" file)
-		(write-region "" nil file)))
+		(if content
+				(progn (message "Creating file %s" file)
+							 (write-region content nil file))
+			(progn (message "Creating file %s" file)
+						 (write-region "" nil file)))))
 
 ;;;; Prefered Webbrowser
 (setq browse-url-browser-function 'browse-url-generic
@@ -124,10 +127,10 @@
 (global-set-key (kbd "s-c") 'org-capture)
 
 (my/directory-p-nil-create "~/Org/agenda")
-(my/file-exists-p-nil-create "~/Org/agenda/inbox.org")
-(my/file-exists-p-nil-create "~/Org/agenda/gtd.org")
-(my/file-exists-p-nil-create "~/Org/agenda/tickler.org")
-(my/file-exists-p-nil-create "~/Org/agenda/someday.org")
+(my/file-exists-p-nil-create "~/Org/agenda/inbox.org" "* Inbox")
+(my/file-exists-p-nil-create "~/Org/agenda/gtd.org" "* Projects")
+(my/file-exists-p-nil-create "~/Org/agenda/tickler.org" "* Tickler")
+(my/file-exists-p-nil-create "~/Org/agenda/someday.org" "* Someday")
 
 (setq org-agenda-files '("~/Org/agenda/gtd.org"
 												 "~/Org/agenda/inbox.org"

@@ -137,6 +137,7 @@
 												 "~/Org/agenda/tickler.org"))
 
 (setq org-agenda-window-setup 'only-window)
+(setq org-agenda-restore-windows-after-quit t)
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
 															 (file+headline "~/Org/agenda/inbox.org" "Tasks")
@@ -147,14 +148,24 @@
 
 (setq org-refile-targets '(("~/Org/agenda/gtd.org" :maxlevel . 3)
 													 ("~/Org/agenda/someday.org" :level . 1)
-													 ("~/Org/agenda/tickler.org" :maxlevel . 2)))
+													 ("~/Org/agenda/tickler.org" :level . 1)))
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
 (setq org-agenda-custom-commands 
       '(("o" "At work" tags-todo "@work"
          ((org-agenda-overriding-header "Work")
-          (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))))
+          (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+				("W" "Weekly Review"
+				 ((agenda "" ((org-agenda-span 7)))
+					(todo "" ((org-agenda-files '("~/Org/agenda/inbox.org"))
+										(org-agenda-overriding-header "INBOX")))
+					(todo "" ((org-agenda-files '("~/Org/agenda/gtd.org"))
+										(org-agenda-overriding-header "PROJECTS")
+										(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+					(todo "" ((org-agenda-files '("~/Org/agenda/someday.org"))
+										(org-agenda-overriding-header "SOMEDAY"))))
+				 )))
 
 (defun my/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
@@ -203,8 +214,8 @@
 
 ;;;;; Window
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-h") 'previous-buffer)
-
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-l") 'next-buffer)
+(evil-define-key 'normal 'evil-normal-state-map (kbd "s-x") 'kill-this-buffer)
 
 ;;;; Evil-surround
 (straight-use-package 'evil-surround)

@@ -136,6 +136,8 @@
 												 "~/Org/agenda/inbox.org"
 												 "~/Org/agenda/tickler.org"))
 
+(setq org-agenda-window-setup 'only-window)
+
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
 															 (file+headline "~/Org/agenda/inbox.org" "Tasks")
 															 "* TODO %i%?")
@@ -150,8 +152,8 @@
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
 (setq org-agenda-custom-commands 
-      '(("o" "At the office" tags-todo "@office"
-         ((org-agenda-overriding-header "Office")
+      '(("o" "At work" tags-todo "@work"
+         ((org-agenda-overriding-header "Work")
           (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))))
 
 (defun my/org-agenda-skip-all-siblings-but-first ()
@@ -635,6 +637,9 @@ _l_:   right                       _r_: rotate
 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
 (define-key exwm-mode-map [?\s-a] #'org-agenda)
 (define-key exwm-mode-map [?\s-c] #'org-capture)
+
+(define-key exwm-mode-map [?\s-h] #'previous-buffer)
+(define-key exwm-mode-map [?\s-l] #'next-buffer)
 
 (evil-set-initial-state 'exwm-mode 'emacs)
 (setq exwm-input-simulation-keys

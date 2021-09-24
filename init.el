@@ -152,10 +152,6 @@
 (global-set-key (kbd "s-a") 'org-agenda)
 (global-set-key (kbd "s-c") 'org-capture)
 
-(evil-define-key 'normal 'org-agenda-mode-map
-	(kbd "q") 'org-agenda-exit
-	(kbd "RET") 'org-agenda-switch-to)
-
 (my/directory-p-nil-create "~/Org/agenda")
 (my/file-exists-p-nil-create "~/Org/agenda/inbox.org" "* Inbox")
 (my/file-exists-p-nil-create "~/Org/agenda/gtd.org" "* Projects")

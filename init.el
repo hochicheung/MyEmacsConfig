@@ -97,6 +97,32 @@
 
 ;;; Packages
 
+;;;; Evil
+(setq evil-want-keybinding nil)
+(setq evil-want-integration t)
+
+(straight-use-package 'evil)
+(add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
+(evil-mode)
+(setq evil-emacs-state-modes nil
+			evil-insert-state-modes nil
+			evil-motion-state-modes nil)
+
+(define-key evil-normal-state-map (kbd "C-u") (lambda ()
+																								(interactive)
+																								(evil-scroll-up nil)))
+(define-key evil-normal-state-map (kbd "C-d") (lambda ()
+																								(interactive)
+																								(evil-scroll-down nil)))
+(define-key evil-normal-state-map (kbd "Q") (lambda ()
+																							(interactive)
+																							(quit-window)))
+
+;;;;; Window
+(evil-define-key 'normal 'evil-normal-state-map (kbd "s-h") 'previous-buffer)
+(evil-define-key 'normal 'evil-normal-state-map (kbd "s-l") 'next-buffer)
+(evil-define-key 'normal 'evil-normal-state-map (kbd "s-x") 'kill-this-buffer)
+
 ;;;; Org-mode
 (load-library "org-autoloads")
 
@@ -125,6 +151,10 @@
 ;;;;; Org-agenda
 (global-set-key (kbd "s-a") 'org-agenda)
 (global-set-key (kbd "s-c") 'org-capture)
+
+(evil-define-key 'normal 'org-agenda-mode-map
+	(kbd "q") 'org-agenda-exit
+	(kbd "RET") 'org-agenda-switch-to)
 
 (my/directory-p-nil-create "~/Org/agenda")
 (my/file-exists-p-nil-create "~/Org/agenda/inbox.org" "* Inbox")
@@ -156,6 +186,16 @@
       '(("o" "At work" tags-todo "@work"
          ((org-agenda-overriding-header "Work")
           (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+				("p" "At home" tags-todo "@home"
+         ((org-agenda-overriding-header "Home")
+          (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+				("i" "Inbox" todo ""
+				 ((org-agenda-files '("~/Org/agenda/inbox.org"))
+					(org-agenda-overriding-header "INBOX")))
+				("P" "All Projects" todo ""
+				 ((org-agenda-files '("~/Org/agenda/gtd.org"))
+					(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)
+					(org-agenda-overriding-header "All Projects")))
 				("W" "Weekly Review"
 				 ((agenda "" ((org-agenda-span 7)))
 					(todo "" ((org-agenda-files '("~/Org/agenda/inbox.org"))
@@ -164,8 +204,7 @@
 										(org-agenda-overriding-header "PROJECTS")
 										(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
 					(todo "" ((org-agenda-files '("~/Org/agenda/someday.org"))
-										(org-agenda-overriding-header "SOMEDAY"))))
-				 )))
+										(org-agenda-overriding-header "SOMEDAY")))))))
 
 (defun my/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
@@ -190,32 +229,6 @@
 (straight-use-package 'undo-tree)
 (global-undo-tree-mode 1)
 (setq evil-undo-system 'undo-tree)
-
-;;;; Evil
-(setq evil-want-keybinding nil)
-(setq evil-want-integration t)
-
-(straight-use-package 'evil)
-(add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
-(evil-mode)
-(setq evil-emacs-state-modes nil
-			evil-insert-state-modes nil
-			evil-motion-state-modes nil)
-
-(define-key evil-normal-state-map (kbd "C-u") (lambda ()
-																								(interactive)
-																								(evil-scroll-up nil)))
-(define-key evil-normal-state-map (kbd "C-d") (lambda ()
-																								(interactive)
-																								(evil-scroll-down nil)))
-(define-key evil-normal-state-map (kbd "Q") (lambda ()
-																							(interactive)
-																							(quit-window)))
-
-;;;;; Window
-(evil-define-key 'normal 'evil-normal-state-map (kbd "s-h") 'previous-buffer)
-(evil-define-key 'normal 'evil-normal-state-map (kbd "s-l") 'next-buffer)
-(evil-define-key 'normal 'evil-normal-state-map (kbd "s-x") 'kill-this-buffer)
 
 ;;;; Evil-surround
 (straight-use-package 'evil-surround)

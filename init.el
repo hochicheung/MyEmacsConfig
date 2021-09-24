@@ -218,6 +218,10 @@
 (defun org-current-is-todo ()
   (string= "TODO" (org-get-todo-state)))
 
+(evil-define-key 'normal org-agenda-mode-map
+	(kbd "RET") 'org-agenda-switch-to
+	(kbd "q") 'org-agenda-quit)
+
 ;;;; Flyspell
 (add-hook 'org-mode-hook 'flyspell-mode)
 

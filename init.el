@@ -432,6 +432,13 @@ _l_:   right                       _r_: rotate
 (evil-define-key 'normal 'evil-normal-state-map
 	(kbd "C-a") 'evil-avy-goto-char-timer)
 
+;;;; Org-download
+(straight-use-package 'org-download)
+
+;; Drag-and-drop to `dired`
+(add-hook 'dired-mode-hook 'org-download-enable)
+(setq-default org-download-image-dir "/home/samcheung/Org/image-dir")
+
 ;;;; Ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)

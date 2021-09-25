@@ -580,41 +580,6 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'elpy)
 (elpy-enable)
 
-;;;; LSP-mode
-(straight-use-package 'lsp-mode)
-(require 'lsp-mode)
-(add-hook 'lsp-mode-hook #'lsp)
-(add-hook 'c-mode-hook #'lsp)
-(add-hook 'java-mode-hook #'lsp)
-(add-hook 'lsp-mode-hook #'lsp)
-(add-hook 'nxml-mode-hook #'lsp)
-
-;;;;; Dap-mode
-(straight-use-package 'dap-mode)
-(dap-mode 1)
-(dap-ui-mode 1)
-(dap-tooltip-mode 1)
-(tooltip-mode 1)
-
-;;;;; CCLS
-(straight-use-package 'ccls)
-(with-eval-after-load 'lsp
-	(require 'ccls)
-	(setq ccls-executable "/usr/bin/ccls")
-	(add-hook 'c-mode-hook #'lsp))
-
-;;;;; LSP-java
-(straight-use-package 'lsp-java)
-(with-eval-after-load 'lsp
-	(require 'dap-java)
-	(require 'lsp-java))
-
-;;;; Lua-mode
-(straight-use-package 'lua-mode)
-
-;;;; Nxml-mode
-(add-hook 'nxml-mode-hook 'line-number-mode)
-
 ;;;; Org-babel
 (org-babel-do-load-languages
  'org-babel-load-languages '((shell . t)

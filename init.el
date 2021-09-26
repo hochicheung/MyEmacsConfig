@@ -124,7 +124,8 @@
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-x") 'kill-this-buffer)
 
 ;;;; Org-mode
-(load-library "org-autoloads")
+;;(load-library "org-autoloads")
+(straight-use-package '(org :local-repo nil))
 
 (setq org-hide-emphasis-markers t)
 (setq org-src-window-setup 'split-window-below)

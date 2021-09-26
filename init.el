@@ -433,13 +433,6 @@ _l_:   right                       _r_: rotate
 (evil-define-key 'normal 'evil-normal-state-map
 	(kbd "C-a") 'evil-avy-goto-char-timer)
 
-;;;; Org-download
-(straight-use-package 'org-download)
-
-;; Drag-and-drop to `dired`
-(add-hook 'dired-mode-hook 'org-download-enable)
-(setq-default org-download-image-dir "/home/samcheung/Org/image-dir")
-
 ;;;; Ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -682,8 +675,10 @@ _l_:   right                       _r_: rotate
 (global-set-key (kbd "s-s") 'screenshot)
 (setq screenshot-schemes
 			'(
-				("media"
+				("Media-dir"
 				 :dir "~/Media/Screenshots")
+				("Roam-dir"
+				 :dir "~/Org/reference")
 				("current-dir"
 				 :dir default-directory)))
 

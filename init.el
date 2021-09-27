@@ -179,21 +179,20 @@
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
+(setq org-agenda-todo-list-sublevels nil)
+
 (setq org-agenda-custom-commands 
-      '(("o" "At work" tags-todo "@work"
-         ((org-agenda-overriding-header "Work")
-          (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
-				("p" "At home" tags-todo "@home"
-         ((org-agenda-overriding-header "Home")
-          (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+      '(("o" "At office" tags-todo "@office"
+         ((org-agenda-overriding-header "Office")))
+				("h" "At home" tags-todo "@home"
+         ((org-agenda-overriding-header "Home")))
 				("i" "Inbox" todo ""
 				 ((org-agenda-files '("~/Org/agenda/inbox.org"))
 					(org-agenda-overriding-header "INBOX")))
-				("P" "All Projects" todo ""
+				("p" "All Projects" todo ""
 				 ((org-agenda-files '("~/Org/agenda/gtd.org"))
-					(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)
 					(org-agenda-overriding-header "All Projects")))
-				("W" "Weekly Review"
+				("w" "Weekly Review"
 				 ((agenda "" ((org-agenda-span 7)))
 					(todo "" ((org-agenda-files '("~/Org/agenda/inbox.org"))
 										(org-agenda-overriding-header "INBOX")))

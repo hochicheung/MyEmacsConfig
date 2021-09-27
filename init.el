@@ -117,6 +117,7 @@
 (define-key evil-normal-state-map (kbd "Q") (lambda ()
 																							(interactive)
 																							(quit-window)))
+(evil-set-undo-system 'undo-tree)
 
 ;;;;; Window
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-h") 'previous-buffer)
@@ -843,6 +844,9 @@ _l_:   right                       _r_: rotate
 							"\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
 							"\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
 							"\\)"))
+
+;;;; Org-ql
+(straight-use-package 'org-ql)
 
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)

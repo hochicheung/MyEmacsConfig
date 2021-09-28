@@ -156,11 +156,11 @@
 
 (my/directory-p-nil-create "~/Org/agenda")
 (my/file-exists-p-nil-create "~/Org/agenda/inbox.org" "* Inbox")
-(my/file-exists-p-nil-create "~/Org/agenda/gtd.org" "* Projects")
+(my/file-exists-p-nil-create "~/Org/agenda/projects.org" "* Projects")
 (my/file-exists-p-nil-create "~/Org/agenda/tickler.org" "* Tickler")
 (my/file-exists-p-nil-create "~/Org/agenda/someday.org" "* Someday")
 
-(setq org-agenda-files '("~/Org/agenda/gtd.org"
+(setq org-agenda-files '("~/Org/agenda/projects.org"
 												 "~/Org/agenda/inbox.org"
 												 "~/Org/agenda/tickler.org"))
 
@@ -168,19 +168,17 @@
 (setq org-agenda-restore-windows-after-quit t)
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
-															 (file+headline "~/Org/agenda/inbox.org" "Tasks")
+															 (file+headline "~/Org/agenda/inbox.org" "Inbox")
 															 "* TODO %i%?")
 															("T" "Tickler" entry
 															 (file+headline "~/Org/agenda/tickler.org" "Tickler")
 															 "* %i%? \n %U \n %t")))
 
-(setq org-refile-targets '(("~/Org/agenda/gtd.org" :maxlevel . 3)
+(setq org-refile-targets '(("~/Org/agenda/projects.org" :maxlevel . 3)
 													 ("~/Org/agenda/someday.org" :level . 1)
 													 ("~/Org/agenda/tickler.org" :level . 1)))
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
-
-(setq org-agenda-todo-list-sublevels nil)
 
 (setq org-agenda-custom-commands 
       '(("o" "At office" tags-todo "@office"
@@ -191,13 +189,14 @@
 				 ((org-agenda-files '("~/Org/agenda/inbox.org"))
 					(org-agenda-overriding-header "INBOX")))
 				("p" "All Projects" todo ""
-				 ((org-agenda-files '("~/Org/agenda/gtd.org"))
-					(org-agenda-overriding-header "All Projects")))
+				 ((org-agenda-files '("~/Org/agenda/projects.org"))
+					(org-agenda-overriding-header "All Projects")
+					(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
 				("w" "Weekly Review"
 				 ((agenda "" ((org-agenda-span 7)))
 					(todo "" ((org-agenda-files '("~/Org/agenda/inbox.org"))
 										(org-agenda-overriding-header "INBOX")))
-					(todo "" ((org-agenda-files '("~/Org/agenda/gtd.org"))
+					(todo "" ((org-agenda-files '("~/Org/agenda/projects.org"))
 										(org-agenda-overriding-header "PROJECTS")
 										(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
 					(todo "" ((org-agenda-files '("~/Org/agenda/someday.org"))
@@ -847,6 +846,9 @@ _l_:   right                       _r_: rotate
 
 ;;;; Org-ql
 (straight-use-package 'org-ql)
+
+;;;;; Helm-org-ql
+(straight-use-package 'helm-org-ql)
 
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)

@@ -762,7 +762,7 @@ _l_:   right                       _r_: rotate
 
 (setq org-roam-capture-templates
 			'(("d" "default" plain
-				 "%?\nTime-stamp: <>"
+				 "%?\nTime-stamp: \" \""
 				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
 														"#+TITLE: ${title}\n#+CREATED: %u\n")
 				 :unnarrowed t)

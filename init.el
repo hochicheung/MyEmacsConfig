@@ -147,7 +147,7 @@
 ;;;;; Timestamps
 (setq time-stamp-active t     ; enable time-stamps
 			time-stamp-line-limit -5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "
-			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
+			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S %Z (%u)") ; date format
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
 ;;;;; Org-agenda
@@ -169,7 +169,7 @@
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
 															 (file+headline "~/Org/agenda/inbox.org" "Inbox")
-															 "* TODO %i%?")
+															 "* TODO %i%? \n %U")
 															("T" "Tickler" entry
 															 (file+headline "~/Org/agenda/tickler.org" "Tickler")
 															 "* %i%? \n %U \n %t")))
@@ -762,12 +762,12 @@ _l_:   right                       _r_: rotate
 
 (setq org-roam-capture-templates
 			'(("d" "default" plain
-				 "%?"
+				 "%?\nTime-stamp: <>"
 				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-														"#+title: ${title}\n")
+														"#+TITLE: ${title}\n#+CREATED: %u\n")
 				 :unnarrowed t)
 				("b" "book-note" plain
-				 "\n\n* Bibliography\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n %?"
+				 "\n\n* Bibliography\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n %?\nTime-stamp: <>"
 				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
 														"#+title: ${title}\n")
 				 :unnarrowed t)))

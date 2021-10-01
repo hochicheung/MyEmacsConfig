@@ -180,32 +180,46 @@
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
+(setq org-agenda-breadcrumbs-separator ":\n\t"
+			org-agenda-start-on-weekday nil
+			org-agenda-span 14
+			org-agenda-start-day "-2d"
+			org-agenda-show-all-dates nil)
+
 (setq org-agenda-custom-commands 
       '(("o" "At office" tags-todo "@office"
-         ((org-agenda-overriding-header "Office")))
+         ((org-agenda-overriding-header "Office")
+					(org-agenda-prefix-format '((tags . "\n %b")))
+					(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
 				("h" "At home" tags-todo "@home"
-         ((org-agenda-overriding-header "Home")))
+         ((org-agenda-overriding-header "@Home")
+					(org-agenda-prefix-format '((tags . "\n %b")))
+					(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
 				("i" "Inbox" todo ""
 				 ((org-agenda-files '("~/Org/agenda/inbox.org"))
 					(org-agenda-overriding-header "INBOX")))
 				("p" "All Projects" todo ""
 				 ((org-agenda-files '("~/Org/agenda/projects.org"))
 					(org-agenda-overriding-header "All Projects")
+					(org-agenda-prefix-format '((todo . "\n %b")))
 					(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
 				("w" "Weekly Review"
-				 ((agenda "" ((org-agenda-span 7)))
+				 ((agenda "" ((org-agenda-prefix-format '((agenda . "\t%t ")))))
 					(todo "" ((org-agenda-files '("~/Org/agenda/inbox.org"))
+										(org-agenda-prefix-format '((todo . "\t")))
 										(org-agenda-overriding-header "INBOX")))
 					(todo "" ((org-agenda-files '("~/Org/agenda/projects.org"))
+										(org-agenda-prefix-format '((todo . " %b")))
 										(org-agenda-overriding-header "PROJECTS")
 										(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
 					(todo "" ((org-agenda-files '("~/Org/agenda/someday.org"))
+										(org-agenda-prefix-format '((todo . "\t")))
 										(org-agenda-overriding-header "SOMEDAY")))))))
 
 (defun my/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
   (let (should-skip-entry)
-    (unless (org-current-is-todo)
+    (unless (org-current-is-todo) ;Unless X run code
       (setq should-skip-entry t))
     (save-excursion
       (while (and (not should-skip-entry) (org-goto-sibling t))

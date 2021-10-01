@@ -858,12 +858,6 @@ _l_:   right                       _r_: rotate
 							"\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
 							"\\)"))
 
-;;;; Org-ql
-(straight-use-package 'org-ql)
-
-;;;;; Helm-org-ql
-(straight-use-package 'helm-org-ql)
-
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)
 (setq message-send-mail-function 'message-send-mail-with-sendmail)

@@ -917,6 +917,14 @@ Uses `current-date-format' for the formatting the date/time."
   (insert (format-time-string my/current-time-format (current-time)))
   (insert "\n"))
 
+(defun my/insert-current-date-time ()
+  "insert the current time (1-week scope) into the current buffer."
+  (interactive)
+  (insert (format-time-string my/current-time-format (current-time)))
+	(insert " ")
+  (insert (format-time-string my/current-date-format (current-time)))
+	(insert "\n"))
+
 ;;; Mode Line
 (setq display-time-load-average nil)
 (setq display-time-format "%a %d/%b %R ")

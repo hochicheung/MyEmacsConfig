@@ -146,7 +146,7 @@
 
 ;;;;; Timestamps
 (setq time-stamp-active t     ; enable time-stamps
-			time-stamp-line-limit -5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "
+			time-stamp-line-limit 5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "
 			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S %Z (%u)") ; date format
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
@@ -776,14 +776,14 @@ _l_:   right                       _r_: rotate
 
 (setq org-roam-capture-templates
 			'(("d" "default" plain
-				 "%?\nTime-stamp: \" \""
+				 "%?"
 				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-														"#+TITLE: ${title}\n#+CREATED: %u\n")
+														"#+TITLE: ${title}\n#+CREATED: %u\n#+Time-stamp: \" \"")
 				 :unnarrowed t)
 				("b" "book-note" plain
-				 "\n\n* Bibliography\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n %?\nTime-stamp: <>"
+				 "\n\n* Bibliography\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n %?"
 				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-														"#+title: ${title}\n")
+														"#+title: ${title}\n#+CREATED: %u\n#+Time-stamp: \" \"")
 				 :unnarrowed t)))
 
 (defun org-roam-node-insert-immediate (arg &rest args)

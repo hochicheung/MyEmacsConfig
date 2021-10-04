@@ -174,7 +174,9 @@
 															 (file+headline "~/Org/agenda/tickler.org" "Tickler")
 															 "* %i%? \n %U \n %t")))
 
-(setq org-refile-targets '(("~/Org/agenda/projects.org" :maxlevel . 3)
+(setq org-refile-use-outline-path 'file)
+
+(setq org-refile-targets '(("~/Org/agenda/projects.org" :level . 1)
 													 ("~/Org/agenda/someday.org" :level . 1)
 													 ("~/Org/agenda/tickler.org" :level . 1)))
 

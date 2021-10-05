@@ -168,10 +168,10 @@
 (setq org-agenda-restore-windows-after-quit t)
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
-															 (file+headline "~/Org/agenda/inbox.org" "Inbox")
+															 (file "~/Org/agenda/inbox.org")
 															 "* TODO %i%? \n %U")
 															("T" "Tickler" entry
-															 (file+headline "~/Org/agenda/tickler.org" "Tickler")
+															 (file "~/Org/agenda/tickler.org")
 															 "* %i%? \n %U \n %t")))
 
 (setq org-refile-use-outline-path 'file)

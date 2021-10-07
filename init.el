@@ -95,7 +95,7 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold 100)
 
-;;; Packages
+;;; Essentials
 
 ;;;; Evil
 (setq evil-want-keybinding nil)
@@ -123,6 +123,16 @@
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-h") 'previous-buffer)
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-l") 'next-buffer)
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-x") 'kill-this-buffer)
+
+;;;;; Mouse-clicks
+(dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
+														[mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
+														[mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]
+														[mouse-4] [down-mouse-4] [drag-mouse-4] [double-mouse-4] [triple-mouse-4]
+														[mouse-5] [down-mouse-5] [drag-mouse-5] [double-mouse-5] [triple-mouse-5]))
+  (global-unset-key mouseclicks-kill))
+(define-key evil-motion-state-map [down-mouse-1] nil)
+(define-key evil-normal-state-map [down-mouse-1] nil)
 
 ;;;; Org-mode
 ;;(load-library "org-autoloads")
@@ -186,17 +196,28 @@
 			org-agenda-start-on-weekday nil
 			org-agenda-span 14
 			org-agenda-start-day "-2d"
-			org-agenda-show-all-dates nil)
+			org-agenda-show-all-dates nil
+			org-agenda-use-time-grid nil)
 
 (setq org-agenda-custom-commands 
-      '(("o" "At office" tags-todo "@office"
-         ((org-agenda-overriding-header "Office")
-					(org-agenda-prefix-format '((tags . "\n %b")))
-					(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
-				("h" "At home" tags-todo "@home"
-         ((org-agenda-overriding-header "@Home")
-					(org-agenda-prefix-format '((tags . "\n %b")))
-					(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+      '(("o" "At office"
+				 ((tags-todo "@office"((org-agenda-files '("~/Org/agenda/inbox.org"))
+															 (org-agenda-prefix-format '((tags . "\n %b")))
+															 (org-agenda-overriding-header "@office inbox")
+															 (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+					(tags-todo "@office"((org-agenda-files '("~/Org/agenda/projects.org"))
+															 (org-agenda-prefix-format '((tags . "\n %b")))
+															 (org-agenda-overriding-header "@office projects")
+															 (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))))
+				("h" "At home"
+				 ((tags-todo "@home"((org-agenda-files '("~/Org/agenda/inbox.org"))
+														 (org-agenda-prefix-format '((tags . "\n %b")))
+														 (org-agenda-overriding-header "@home inbox")
+														 (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+					(tags-todo "@home"((org-agenda-files '("~/Org/agenda/projects.org"))
+														 (org-agenda-prefix-format '((tags . "\n %b")))
+														 (org-agenda-overriding-header "@home projects")
+														 (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))))
 				("i" "Inbox" todo ""
 				 ((org-agenda-files '("~/Org/agenda/inbox.org"))
 					(org-agenda-overriding-header "INBOX")))
@@ -238,9 +259,6 @@
 	(kbd "RET") 'org-agenda-switch-to
 	(kbd "q") 'org-agenda-quit)
 
-;;;; Flyspell
-(add-hook 'org-mode-hook 'flyspell-mode)
-
 ;;;; Undo-tree
 (straight-use-package 'undo-tree)
 (global-undo-tree-mode 1)
@@ -249,13 +267,6 @@
 ;;;; Evil-surround
 (straight-use-package 'evil-surround)
 (global-evil-surround-mode 1)
-
-;;;; Evil-collection
-;; https://github.com/emacs-evil/evil-collection
-(straight-use-package 'evil-collection)
-(setq evil-collection-setup-minibuffer t)
-(when (require 'evil-collection nil t)
-	(evil-collection-init))
 
 ;;;; Colorschemes
 
@@ -310,36 +321,22 @@
 (with-eval-after-load 'ivy
 	(set-face-attribute 'ivy-highlight-face nil :inherit 'default))
 
-;;;; Olivetti
-(straight-use-package 'olivetti)
-(add-hook 'text-mode-hook (lambda () (setq olivetti-body-width 100)))
-(add-hook 'text-mode-hook 'olivetti-mode)
-(add-hook 'prog-mode-hook (lambda () (setq olivetti-body-width 0.8)))
-(add-hook 'prog-mode-hook 'olivetti-mode)
+;;;; Ivy
+(straight-use-package 'ivy)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(ivy-mode 1)
 
-;;;; Mouse-clicks
-(dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
-														[mouse-2] [down-mouse-2] [drag-mouse-2] [double-mouse-2] [triple-mouse-2]
-														[mouse-3] [down-mouse-3] [drag-mouse-3] [double-mouse-3] [triple-mouse-3]
-														[mouse-4] [down-mouse-4] [drag-mouse-4] [double-mouse-4] [triple-mouse-4]
-														[mouse-5] [down-mouse-5] [drag-mouse-5] [double-mouse-5] [triple-mouse-5]))
-  (global-unset-key mouseclicks-kill))
-(define-key evil-motion-state-map [down-mouse-1] nil)
-(define-key evil-normal-state-map [down-mouse-1] nil)
+;;;;; Counsel
+(straight-use-package 'counsel)
+(counsel-mode)
+;;(global-set-key (kbd "M-x") 'counsel-M-x)
+;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
+(global-set-key (kbd "C-x d") 'counsel-find-file)
 
-;;;; Dired
-(add-hook 'dired-mode-hook
-					(lambda ()
-						(dired-hide-details-mode)))
-;; Human readable memory listing
-(setq dired-listing-switches "-alh")
-
-;;;; Dired-du
-;;(straight-use-package 'dired-du)
-;;(setq dired-du-size-format t)
-
-;;;; Common-lisp
-(require 'cl-lib)
+;;;;; Swiper
+(straight-use-package 'swiper)
+(global-set-key (kbd "C-s") 'swiper)
 
 ;;;; Hydra
 ;; https://github.com/abo-abo/hydra
@@ -423,149 +420,6 @@ _l_:   right                       _r_: rotate
 
 (global-set-key (kbd "C-h h") 'hydra-counsel/body)
 
-;;;; Helm
-(straight-use-package 'helm)
-
-;;;; Ivy
-(straight-use-package 'ivy)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(ivy-mode 1)
-
-;;;;; Counsel
-(straight-use-package 'counsel)
-(counsel-mode)
-;;(global-set-key (kbd "M-x") 'counsel-M-x)
-;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
-(global-set-key (kbd "C-x d") 'counsel-find-file)
-
-;;;;; Swiper
-(straight-use-package 'swiper)
-(global-set-key (kbd "C-s") 'swiper)
-
-;;;; Avy
-(straight-use-package 'avy)
-(evil-define-key 'normal 'evil-normal-state-map
-	(kbd "C-a") 'evil-avy-goto-char-timer)
-
-;;;; Ediff
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-(setq ediff-split-window-function 'split-window-horizontally)
-(setq ediff-diff-options "-w")
-
-;;;; Which Key
-(straight-use-package 'which-key)
-(which-key-mode)
-(setq which-key-show-prefix 'left)
-
-;;;; Outshine
-(straight-use-package 'outshine)
-(add-hook 'emacs-lisp-mode-hook 'outshine-mode)
-
-;;;; Hide-mode-line
-(straight-use-package 'hide-mode-line)
-
-;;;; Image-mode
-(setq image-auto-resize 'fit-height)
-(evil-set-initial-state 'image-mode 'normal)
-;;(evil-define-key 'normal image-mode-map
-	;;(kbd "W") 'image-transform-fit-to-width
-	;;(kbd "H") 'image-transform-fit-to-height
-	;;(kbd "j") 'image-scroll-up
-	;;(kbd "k") 'image-scroll-down
-	;;(kbd "l") 'image-next-file
-	;;(kbd "h") 'image-previous-file)
-
-;;;; Code Completion Engines
-
-;;;;; Yasnippet
-(straight-use-package 'yasnippet)
-(add-to-list 'load-path
-						 "~/.emacs.d/plugins/yasnippet")
-(yas-global-mode 1)
-
-;;;;; Company
-(straight-use-package 'company)
-(add-hook 'exwm-manage-finish-hook 'global-company-mode)
-(setq company-dabbrev-other-buffers t
-			company-dabbrev-code-other-buffers t)
-
-;;;; Magit
-(straight-use-package 'magit)
-
-;;;;; Keybinds
-(evil-define-key 'normal 'evil-normal-state-map
-	(kbd "C-x g") 'magit-status)
-;;(evil-define-key 'normal magit-mode-map
-	;;(kbd "j") 'magit-section-forward
-	;;(kbd "k") 'magit-section-backward
-	;;(kbd "p") 'magit-pull
-	;;(kbd "s") 'magit-stage-file
-	;;(kbd "u") 'magit-unstage-file
-	;;(kbd "c") 'magit-commit
-	;;(kbd "m") 'magit-merge
-	;;(kbd "P") 'magit-push
-	;;(kbd "f") 'magit-fetch
-	;;(kbd "l") 'magit-log
-	;;(kbd "i") 'magit-gitignore
-	;;(kbd "r") 'magit-refresh
-	;;(kbd "g") 'beginning-of-buffer
-	;;(kbd "G") 'end-of-buffer
-	;;(kbd "M") 'magit-remote
-	;;(kbd "d") 'magit-diff
-	;;(kbd "b") 'magit-branch
-	;;(kbd "R") 'magit-reset
-	;;(kbd "Q") 'magit-mode-bury-buffer)
-
-;;;; Org-bullets
-(straight-use-package 'org-bullets)
-(defun org-bullet-mode()
-	(org-bullets-mode 1))
-(add-hook 'org-mode-hook 'org-bullet-mode)
-
-;;;; Aggressive Indent
-(straight-use-package 'aggressive-indent)
-(add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-
-;;;; Pdf-tools
-(load-library "pdf-tools-autoloads")
-(pdf-tools-install)
-(add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
-
-;;;;; Keybinds
-;;(evil-define-key 'normal pdf-view-mode-map
-;;(kbd "j") 'pdf-view-scroll-up-or-next-page
-;;(kbd "k") 'pdf-view-scroll-down-or-previous-page
-;;(kbd "C-j") 'pdf-view-next-line-or-next-page
-;;(kbd "C-k") 'pdf-view-previous-line-or-previous-page
-;;(kbd "J") 'pdf-view-next-page-command
-;;(kbd "K") 'pdf-view-previous-page-command
-;;(kbd "h") 'image-backward-hscroll
-;;(kbd "l") 'image-forward-hscroll
-;;(kbd "f") 'pdf-view-goto-page
-;;(kbd "r") 'pdf-view-revert-buffer
-;;(kbd "=") 'pdf-view-enlarge
-;;(kbd "+") 'pdf-view-enlarge
-;;(kbd "-") 'pdf-view-shrink
-;;(kbd "0") 'pdf-view-scale-reset
-;;(kbd "H") 'pdf-view-fit-height-to-window
-;;(kbd "W") 'pdf-view-fit-width-to-window
-;;(kbd "P") 'pdf-view-fit-page-to-window
-;;(kbd "/") 'isearch-forward-word
-;;(kbd "n") 'isearch-repeat-forward
-;;(kbd "N") 'isearch-repeat-backward
-;;(kbd "G") 'pdf-view-first-page
-;;(kbd "o") 'pdf-outline)
-
-;;;; Rainbow Delimiters
-(straight-use-package 'rainbow-delimiters)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
-;;;; Gnuplot
-(straight-use-package 'gnuplot)
-;;;; Ox-twbs
-(straight-use-package 'ox-twbs)
-
 ;;;; Smartparens
 (straight-use-package 'smartparens)
 (require 'smartparens-config)
@@ -579,20 +433,11 @@ _l_:   right                       _r_: rotate
 (setq-default sp-escape-quotes-after-insert nil)
 ;;Symbol's function definition is void: sp-local-pair
 
-;;;; Flycheck
-(straight-use-package 'flycheck)
-(global-flycheck-mode)
-(with-eval-after-load 'flycheck
-	(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+;;;; Ido-mode
+(ido-mode -1)
+(defun ido-mode (&optional rest)
+	())
 
-;;;; Elpy
-(straight-use-package 'elpy)
-(elpy-enable)
-
-;;;; Org-babel
-(org-babel-do-load-languages
- 'org-babel-load-languages '((shell . t)
-														 (C . t)))
 ;;;; Exwm
 (straight-use-package 'exwm)
 (server-start)
@@ -667,6 +512,175 @@ _l_:   right                       _r_: rotate
 (exwm-randr-enable)
 (exwm-enable)
 
+;;; Packages
+
+;;;; Magit
+(straight-use-package 'magit)
+
+;;;;; Keybinds
+(evil-define-key 'normal 'evil-normal-state-map
+	(kbd "C-x g") 'magit-status)
+;;(evil-define-key 'normal magit-mode-map
+;;(kbd "j") 'magit-section-forward
+;;(kbd "k") 'magit-section-backward
+;;(kbd "p") 'magit-pull
+;;(kbd "s") 'magit-stage-file
+;;(kbd "u") 'magit-unstage-file
+;;(kbd "c") 'magit-commit
+;;(kbd "m") 'magit-merge
+;;(kbd "P") 'magit-push
+;;(kbd "f") 'magit-fetch
+;;(kbd "l") 'magit-log
+;;(kbd "i") 'magit-gitignore
+;;(kbd "r") 'magit-refresh
+;;(kbd "g") 'beginning-of-buffer
+;;(kbd "G") 'end-of-buffer
+;;(kbd "M") 'magit-remote
+;;(kbd "d") 'magit-diff
+;;(kbd "b") 'magit-branch
+;;(kbd "R") 'magit-reset
+;;(kbd "Q") 'magit-mode-bury-buffer)
+
+;;;; Flyspell
+(add-hook 'org-mode-hook 'flyspell-mode)
+
+;;;; Olivetti
+(straight-use-package 'olivetti)
+(add-hook 'text-mode-hook (lambda () (setq olivetti-body-width 100)))
+(add-hook 'text-mode-hook 'olivetti-mode)
+(add-hook 'prog-mode-hook (lambda () (setq olivetti-body-width 0.8)))
+(add-hook 'prog-mode-hook 'olivetti-mode)
+
+;;;; Dired
+(add-hook 'dired-mode-hook
+					(lambda ()
+						(dired-hide-details-mode)))
+;; Human readable memory listing
+(setq dired-listing-switches "-alh")
+
+;;;; Common-lisp
+(require 'cl-lib)
+
+;;;; Helm
+(straight-use-package 'helm)
+
+;;;; Avy
+(straight-use-package 'avy)
+(evil-define-key 'normal 'evil-normal-state-map
+	(kbd "C-a") 'evil-avy-goto-char-timer)
+
+;;;; Ediff
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-diff-options "-w")
+
+;;;; Which Key
+(straight-use-package 'which-key)
+(which-key-mode)
+(setq which-key-show-prefix 'left)
+
+;;;; Outshine
+(straight-use-package 'outshine)
+(add-hook 'emacs-lisp-mode-hook 'outshine-mode)
+
+;;;; Hide-mode-line
+(straight-use-package 'hide-mode-line)
+
+;;;; Image-mode
+(setq image-auto-resize 'fit-height)
+(evil-set-initial-state 'image-mode 'normal)
+;;(evil-define-key 'normal image-mode-map
+;;(kbd "W") 'image-transform-fit-to-width
+;;(kbd "H") 'image-transform-fit-to-height
+;;(kbd "j") 'image-scroll-up
+;;(kbd "k") 'image-scroll-down
+;;(kbd "l") 'image-next-file
+;;(kbd "h") 'image-previous-file)
+
+;;;; Completion Engines
+
+;;;;; Yasnippet
+(straight-use-package 'yasnippet)
+(add-to-list 'load-path
+						 "~/.emacs.d/plugins/yasnippet")
+(yas-global-mode 1)
+
+;;;;; Company
+(straight-use-package 'company)
+(add-hook 'exwm-manage-finish-hook 'global-company-mode)
+(setq company-dabbrev-other-buffers t
+			company-dabbrev-code-other-buffers t)
+
+;;;; Org-bullets
+(straight-use-package 'org-bullets)
+(defun org-bullet-mode()
+	(org-bullets-mode 1))
+(add-hook 'org-mode-hook 'org-bullet-mode)
+
+;;;; Aggressive Indent
+(straight-use-package 'aggressive-indent)
+(add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+
+;;;; Pdf-tools
+(load-library "pdf-tools-autoloads")
+(pdf-tools-install)
+(add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
+
+;;;;; Keybinds
+;;(evil-define-key 'normal pdf-view-mode-map
+;;(kbd "j") 'pdf-view-scroll-up-or-next-page
+;;(kbd "k") 'pdf-view-scroll-down-or-previous-page
+;;(kbd "C-j") 'pdf-view-next-line-or-next-page
+;;(kbd "C-k") 'pdf-view-previous-line-or-previous-page
+;;(kbd "J") 'pdf-view-next-page-command
+;;(kbd "K") 'pdf-view-previous-page-command
+;;(kbd "h") 'image-backward-hscroll
+;;(kbd "l") 'image-forward-hscroll
+;;(kbd "f") 'pdf-view-goto-page
+;;(kbd "r") 'pdf-view-revert-buffer
+;;(kbd "=") 'pdf-view-enlarge
+;;(kbd "+") 'pdf-view-enlarge
+;;(kbd "-") 'pdf-view-shrink
+;;(kbd "0") 'pdf-view-scale-reset
+;;(kbd "H") 'pdf-view-fit-height-to-window
+;;(kbd "W") 'pdf-view-fit-width-to-window
+;;(kbd "P") 'pdf-view-fit-page-to-window
+;;(kbd "/") 'isearch-forward-word
+;;(kbd "n") 'isearch-repeat-forward
+;;(kbd "N") 'isearch-repeat-backward
+;;(kbd "G") 'pdf-view-first-page
+;;(kbd "o") 'pdf-outline)
+
+;;;; Rainbow Delimiters
+(straight-use-package 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+;;;; Gnuplot
+(straight-use-package 'gnuplot)
+;;;; Ox-twbs
+(straight-use-package 'ox-twbs)
+
+;;;; Flycheck
+(straight-use-package 'flycheck)
+(global-flycheck-mode)
+(with-eval-after-load 'flycheck
+	(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+
+;;;; Evil-collection
+;; https://github.com/emacs-evil/evil-collection
+(straight-use-package 'evil-collection)
+(setq evil-collection-setup-minibuffer t)
+(when (require 'evil-collection nil t)
+	(evil-collection-init))
+
+;;;; Elpy
+(straight-use-package 'elpy)
+(elpy-enable)
+
+;;;; Org-babel
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((shell . t)
+														 (C . t)))
 ;;;; My/set-brightness
 (defun my/set-brightness()
 	(interactive)
@@ -752,11 +766,6 @@ _l_:   right                       _r_: rotate
 ;;(lambda ()
 ;;(start-process-shell-command
 ;;"xrandr" nil "xrandr --output DP-1 --right-of LVDS1 --auto")))
-
-;;;; Ido-mode
-(ido-mode -1)
-(defun ido-mode (&optional rest)
-	())
 
 ;;;; Libvterm
 (load-library "vterm-autoloads")

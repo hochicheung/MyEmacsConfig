@@ -829,6 +829,15 @@ _l_:   right                       _r_: rotate
 (require 'org-ref)
 (org-roam-bibtex-mode 1)
 
+;;;;; Bibtex
+;; Generation of entry key for a bibtex entry, See bibtex-generate-autokey
+(setq bibtex-autokey-year-title-separator ":")
+
+;;;;; Org-ref
+(setq reftex-default-bibliography '("~/Org/bibliography/bibliography.bib")
+			org-ref-default-bibliography '("~/Org/bibliography/bibliography.bib")
+			org-ref-pdf-directory "~/Org/bibliography/files/")
+
 ;;;;; Helm-bibtex
 ;; List of bibliography files
 (setq bibtex-completion-bibliography

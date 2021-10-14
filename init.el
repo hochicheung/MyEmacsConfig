@@ -154,7 +154,7 @@
 
 ;;;;; Timestamps
 (setq time-stamp-active t     ; enable time-stamps
-			time-stamp-line-limit 5 ;check first 5 lines for Time-stamp: <> or Time-stamp: " "
+			time-stamp-line-limit 15 ;check first 15 lines for Time-stamp: <> or Time-stamp: " "
 			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S %Z (%u)") ; date format
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 

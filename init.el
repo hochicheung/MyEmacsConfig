@@ -844,6 +844,18 @@ _l_:   right                       _r_: rotate
 			'("~/Org/bibliography/bibliography.bib"))
 (setq bibtex-completion-pdf-field "file")
 
+(defun my/org-ref-open-pdf-at-point ()
+  "Open the pdf for bibtex key under point if it exists."
+  (interactive)
+  (let* ((results (org-ref-get-bibtex-key-and-file))
+         (key (car results))
+				 (pdf-file (car (bibtex-completion-find-pdf key))))
+    (if (file-exists-p pdf-file)
+				(org-open-file pdf-file)
+      (message "No PDF found for %s" key))))
+
+(setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
+
 ;;;; Org-noter
 (straight-use-package 'org-noter)
 

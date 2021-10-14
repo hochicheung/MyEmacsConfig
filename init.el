@@ -820,17 +820,20 @@ _l_:   right                       _r_: rotate
 (require 'ebib)
 (setq ebib-preload-bib-files '("~/Org/bibliography/bibliography.bib"))
 
-(setq ebib-layout 'window)
+(setq ebib-layout 'window
+			ebib-truncate-file-names nil)
 
 ;;;; Org-roam-bibtex (ORB)
 ;; Integration of org-roam + ivy-bibtex + org-ref
 (straight-use-package 'org-roam-bibtex)
 (require 'org-ref)
+(org-roam-bibtex-mode 1)
 
 ;;;;; Helm-bibtex
 ;; List of bibliography files
 (setq bibtex-completion-bibliography
 			'("~/Org/bibliography/bibliography.bib"))
+(setq bibtex-completion-pdf-field "file")
 
 ;;;; Org-noter
 (straight-use-package 'org-noter)

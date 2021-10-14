@@ -50,13 +50,15 @@
 			(eval-print-last-sexp)))
 	(load bootstrap-file nil 'nomessage))
 
-;;;; My/directory-p-nil-create
+;;;; My/directory-file-p-nil-create functions
+
+;;;;; My/directory-p-nil-create
 (defun my/directory-p-nil-create (directory)
 	(when (not (file-exists-p directory))
 		(message "Creating directory %s" directory)
 		(make-directory directory t)))
 
-;;;; My/file-exists-p-nil-create
+;;;;; My/file-exists-p-nil-create
 (defun my/file-exists-p-nil-create (file &optional content)
 	(when (not (file-exists-p file))
 		(if content
@@ -72,11 +74,7 @@
 ;;;; Battery
 (require 'battery)
 
-;;;; Line Numbers(defun my/file-exists-p-nil-create (file)
-(when (not (file-exists-p file))
-	(message "Creating file %s" file)
-	(write-region "" nil file))
-
+;;;; Line Numbers
 ;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 ;;;; NixOS
@@ -432,6 +430,9 @@ _l_:   right                       _r_: rotate
 ;;(sp-local-pair 'org-mode "=" nil :actions :rem)
 (setq-default sp-escape-quotes-after-insert nil)
 ;;Symbol's function definition is void: sp-local-pair
+
+;;;; Org-ql
+(straight-use-package 'org-ql)
 
 ;;;; Ido-mode
 (ido-mode -1)

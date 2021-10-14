@@ -811,11 +811,14 @@ _l_:   right                       _r_: rotate
 
 (org-roam-db-autosync-mode)
 
+;;;; Bibliography
+(my/directory-p-nil-create "~/Org/bibliography/")
+
 ;;;; Ebib
 ;; Creating / Editing bib files
 (straight-use-package 'ebib)
 (require 'ebib)
-(setq ebib-preload-bib-files '("~/Documents/bibliography/bibliography.bib"))
+(setq ebib-preload-bib-files '("~/Org/bibliography/bibliography.bib"))
 
 (setq ebib-layout 'window)
 
@@ -827,7 +830,7 @@ _l_:   right                       _r_: rotate
 ;;;;; Helm-bibtex
 ;; List of bibliography files
 (setq bibtex-completion-bibliography
-			'("~/Documents/bibliography/bibliography.bib"))
+			'("~/Org/bibliography/bibliography.bib"))
 
 ;;;; Org-noter
 (straight-use-package 'org-noter)

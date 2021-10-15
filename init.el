@@ -439,6 +439,14 @@ _l_:   right                       _r_: rotate
 (defun ido-mode (&optional rest)
 	())
 
+;;;; Envrc
+(eval-and-compile
+  (straight-use-package 'envrc)
+  (require 'envrc))
+
+;; Needs to be enabled as late as possible
+(add-hook 'after-init-hook 'envrc-global-mode)
+
 ;;;; Exwm
 (straight-use-package 'exwm)
 (server-start)

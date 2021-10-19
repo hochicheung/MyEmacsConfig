@@ -202,20 +202,20 @@
 				 ((tags-todo "@office"((org-agenda-files '("~/Org/agenda/inbox.org"))
 															 (org-agenda-prefix-format '((tags . "\n %b")))
 															 (org-agenda-overriding-header "@office inbox")
-															 (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+															 (org-agenda-skip-function #'my/org-agenda-skip-nth-siblings-with-parents)))
 					(tags-todo "@office"((org-agenda-files '("~/Org/agenda/projects.org"))
 															 (org-agenda-prefix-format '((tags . "\n %b")))
 															 (org-agenda-overriding-header "@office projects")
-															 (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))))
+															 (org-agenda-skip-function #'my/org-agenda-skip-nth-siblings-with-parents)))))
 				("h" "At home"
 				 ((tags-todo "@home"((org-agenda-files '("~/Org/agenda/inbox.org"))
 														 (org-agenda-prefix-format '((tags . "\n %b")))
 														 (org-agenda-overriding-header "@home inbox")
-														 (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+														 (org-agenda-skip-function #'my/org-agenda-skip-nth-siblings-with-parents)))
 					(tags-todo "@home"((org-agenda-files '("~/Org/agenda/projects.org"))
 														 (org-agenda-prefix-format '((tags . "\n %b")))
 														 (org-agenda-overriding-header "@home projects")
-														 (org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))))
+														 (org-agenda-skip-function #'my/org-agenda-skip-nth-siblings-with-parents)))))
 				("i" "Inbox" todo ""
 				 ((org-agenda-files '("~/Org/agenda/inbox.org"))
 					(org-agenda-overriding-header "INBOX")))
@@ -223,7 +223,7 @@
 				 ((org-agenda-files '("~/Org/agenda/projects.org"))
 					(org-agenda-overriding-header "All Projects")
 					(org-agenda-prefix-format '((todo . "\n %b")))
-					(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+					(org-agenda-skip-function #'my/org-agenda-skip-nth-siblings-with-parents)))
 				("w" "Weekly Review"
 				 ((agenda "" ((org-agenda-prefix-format '((agenda . "\t%t ")))))
 					(todo "" ((org-agenda-files '("~/Org/agenda/inbox.org"))
@@ -232,26 +232,21 @@
 					(todo "" ((org-agenda-files '("~/Org/agenda/projects.org"))
 										(org-agenda-prefix-format '((todo . " %b")))
 										(org-agenda-overriding-header "PROJECTS")
-										(org-agenda-skip-function #'my/org-agenda-skip-all-siblings-but-first)))
+										(org-agenda-skip-function #'my/org-agenda-skip-nth-siblings-with-parents)))
 					(todo "" ((org-agenda-files '("~/Org/agenda/someday.org"))
 										(org-agenda-prefix-format '((todo . "\t")))
 										(org-agenda-overriding-header "SOMEDAY")))))))
 
-(defun my/org-agenda-skip-all-siblings-but-first ()
-  "Skip all but the first non-done entry."
-  (let (should-skip-entry)
-    (unless (org-current-is-todo) ;Unless X run code
-      (setq should-skip-entry t))
-    (save-excursion
-      (while (and (not should-skip-entry) (org-goto-sibling t))
-        (when (org-current-is-todo)
-          (setq should-skip-entry t))))
-    (when should-skip-entry
-      (or (outline-next-heading)
-          (goto-char (point-max))))))
-
-(defun org-current-is-todo ()
-  (string= "TODO" (org-get-todo-state)))
+(defun my/org-agenda-skip-nth-siblings-with-parents ()
+	(let (skip-entry)
+		(save-excursion
+			(while (and (org-goto-sibling t)
+									(save-excursion (org-up-heading-safe)))
+				(when (org-entry-is-todo-p)
+					(setq skip-entry t))))
+		(when skip-entry
+			(or (outline-next-heading)
+					(goto-char (point-max))))))
 
 (evil-define-key 'normal org-agenda-mode-map
 	(kbd "RET") 'org-agenda-switch-to

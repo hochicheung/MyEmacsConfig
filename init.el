@@ -137,7 +137,7 @@
 (straight-use-package '(org :local-repo nil))
 
 (setq org-hide-emphasis-markers t)
-(setq org-src-window-setup 'split-window-below)
+(setq org-src-window-setup 'current-window)
 (setq org-image-actual-width nil)
 (setq org-log-done 'time)
 

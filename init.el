@@ -331,6 +331,13 @@
 (straight-use-package 'swiper)
 (global-set-key (kbd "C-s") 'swiper)
 
+;;;;; Ivy-rich
+(straight-use-package 'ivy-rich)
+(ivy-rich-mode 1)
+(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+(setq ivy-rich-path-style 'abbrev)
+(ivy-rich-project-root-cache-mode 1)
+
 ;;;; Hydra
 ;; https://github.com/abo-abo/hydra
 
@@ -979,7 +986,6 @@ Uses `current-date-format' for the formatting the date/time."
 (add-hook 'after-save-hook 'my/modeline-line-number-max)
 
 ;;;; Mode-line alignment
-
 ;; Set modeline width
 (defun my/calc-modeline-width()
 	(setq my/modeline-total-width (floor(* (window-total-width nil 'floor) my/modeline-face-factor)))

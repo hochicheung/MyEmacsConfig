@@ -426,9 +426,6 @@ _l_:   right                       _r_: rotate
 (setq-default sp-escape-quotes-after-insert nil)
 ;;Symbol's function definition is void: sp-local-pair
 
-;;;; Org-ql
-(straight-use-package 'org-ql)
-
 ;;;; Ido-mode
 (ido-mode -1)
 (defun ido-mode (&optional rest)

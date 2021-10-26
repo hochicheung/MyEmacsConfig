@@ -163,10 +163,10 @@
 (global-set-key (kbd "s-c") 'org-capture)
 
 (my/directory-p-nil-create "~/Org/agenda")
-(my/file-exists-p-nil-create "~/Org/agenda/inbox.org" "* Inbox")
-(my/file-exists-p-nil-create "~/Org/agenda/projects.org" "* Projects")
-(my/file-exists-p-nil-create "~/Org/agenda/tickler.org" "* Tickler")
-(my/file-exists-p-nil-create "~/Org/agenda/someday.org" "* Someday")
+(my/file-exists-p-nil-create "~/Org/agenda/inbox.org" "")
+(my/file-exists-p-nil-create "~/Org/agenda/projects.org" "")
+(my/file-exists-p-nil-create "~/Org/agenda/tickler.org" "")
+(my/file-exists-p-nil-create "~/Org/agenda/someday.org" "")
 
 (setq org-agenda-files '("~/Org/agenda/projects.org"
 												 "~/Org/agenda/inbox.org"

@@ -850,6 +850,7 @@ _l_:   right                       _r_: rotate
 
 ;;;;; Helm-bibtex
 ;; List of bibliography files
+(straight-use-package 'helm-bibtex)
 (setq bibtex-completion-bibliography
 			'("~/Org/bibliography/bibliography.bib"))
 (setq bibtex-completion-pdf-field "file")

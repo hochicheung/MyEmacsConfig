@@ -275,7 +275,8 @@
 (setq my/modeline-face-height (ceiling (* 0.8 my/regular-face-height)))
 
 ;; Scaling for modeline alignment
-(setq my/modeline-face-factor 1.224)
+;; 1080p ~1.29
+(setq my/modeline-face-factor 1.29)
 
 (set-face-attribute 'default nil
 										:family "deja vu sans mono"
@@ -615,7 +616,7 @@ _l_:   right                       _r_: rotate
 
 ;;;;; Company
 (straight-use-package 'company)
-(add-hook 'exwm-manage-finish-hook 'global-company-mode)
+(add-hook 'after-init-hook 'global-company-mode)
 (setq company-dabbrev-other-buffers t
 			company-dabbrev-code-other-buffers t)
 
@@ -710,6 +711,8 @@ _l_:   right                       _r_: rotate
 ;;;; ScreenShot
 (straight-use-package 'screenshot)
 (global-set-key (kbd "s-s") 'screenshot)
+(my/directory-p-nil-create "~/Media/Screenshots")
+(my/directory-p-nil-create "~/Org/references")
 (setq screenshot-schemes
 			'(
 				("Media-dir"
@@ -1026,4 +1029,4 @@ Containing LEFT, and RIGHT aligned respectively."
 													battery-mode-line-string
 													" | "
 													display-time-string
-													""))))))
+													" "))))))

@@ -271,7 +271,7 @@
 
 ;;;; Face
 ;; Face height
-(setq my/regular-face-height 140)
+(setq my/regular-face-height 110)
 (setq my/modeline-face-height (ceiling (* 0.8 my/regular-face-height)))
 
 ;; Scaling for modeline alignment
@@ -590,6 +590,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Outshine
 (straight-use-package 'outshine)
+(add-hook 'prog-mode 'outshine-mode)
 (add-hook 'emacs-lisp-mode-hook 'outshine-mode)
 
 ;;;; Hide-mode-line

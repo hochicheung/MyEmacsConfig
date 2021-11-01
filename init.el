@@ -177,10 +177,10 @@
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
 															 (file "~/Org/agenda/inbox.org")
-															 "* TODO %i%? \n %U")
+															 "* TODO%i%? \n %U")
 															("T" "Tickler" entry
 															 (file "~/Org/agenda/tickler.org")
-															 "* %i%? \n %U \n %t")))
+															 "*%i%? \n %U \n %t")))
 
 (setq org-refile-use-outline-path 'file)
 

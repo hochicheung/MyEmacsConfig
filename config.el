@@ -132,10 +132,9 @@
 (evil-set-undo-system 'undo-tree)
 
 ;;;;; Window
-(with-eval-after-load 'window
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-h") 'previous-buffer)
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-l") 'next-buffer)
-(evil-define-key 'normal 'evil-normal-state-map (kbd "s-x") 'kill-this-buffer))
+(evil-define-key 'normal 'evil-normal-state-map (kbd "s-x") 'kill-this-buffer)
 
 ;;;;; Mouse-clicks
 (dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
@@ -263,10 +262,9 @@
 			(or (outline-next-heading)
 					(goto-char (point-max))))))
 
-(with-eval-after-load 'org-agenda
-	(evil-define-key 'normal org-agenda-mode-map
+(evil-define-key 'normal org-agenda-mode-map
 	(kbd "RET") 'org-agenda-switch-to
-	(kbd "q") 'org-agenda-quit))
+	(kbd "q") 'org-agenda-quit)
 
 ;;;; Undo-tree
 (eval-and-compile(straight-use-package 'undo-tree))
@@ -405,8 +403,7 @@ _l_:   right                       _r_: rotate
 	("L" evil-window-move-far-right :exit t)
 	("q" nil  :exit t))
 
-(with-eval-after-load 'hydra
-(evil-define-key 'normal 'evil-normal-state-map (kbd "C-w") 'hydra-window/body))
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-w") 'hydra-window/body)
 
 ;;;;; Hydra-pulseaudio
 (defhydra hydra-pulseaudio ()
@@ -537,9 +534,8 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'magit)
 
 ;;;;; Keybinds
-(with-eval-after-load 'magit
-	(evil-define-key 'normal 'evil-normal-state-map
-		(kbd "C-x g") 'magit-status))
+(evil-define-key 'normal 'evil-normal-state-map
+	(kbd "C-x g") 'magit-status)
 (evil-define-key 'normal magit-mode-map
 	(kbd "j") 'magit-section-forward
 	(kbd "k") 'magit-section-backward
@@ -583,8 +579,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Avy
 (straight-use-package 'avy)
-(with-eval-after-load 'avy
-(evil-define-key 'normal 'evil-normal-state-map (kbd "C-a") 'evil-avy-goto-char-timer))
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-a") 'evil-avy-goto-char-timer)
 
 ;;;; Ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)

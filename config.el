@@ -538,28 +538,28 @@ _l_:   right                       _r_: rotate
 
 ;;;;; Keybinds
 (with-eval-after-load 'magit
-(evil-define-key 'normal 'evil-normal-state-map
-	(kbd "C-x g") 'magit-status))
-;;(evil-define-key 'normal magit-mode-map
-;;(kbd "j") 'magit-section-forward
-;;(kbd "k") 'magit-section-backward
-;;(kbd "p") 'magit-pull
-;;(kbd "s") 'magit-stage-file
-;;(kbd "u") 'magit-unstage-file
-;;(kbd "c") 'magit-commit
-;;(kbd "m") 'magit-merge
-;;(kbd "P") 'magit-push
-;;(kbd "f") 'magit-fetch
-;;(kbd "l") 'magit-log
-;;(kbd "i") 'magit-gitignore
-;;(kbd "r") 'magit-refresh
-;;(kbd "g") 'beginning-of-buffer
-;;(kbd "G") 'end-of-buffer
-;;(kbd "M") 'magit-remote
-;;(kbd "d") 'magit-diff
-;;(kbd "b") 'magit-branch
-;;(kbd "R") 'magit-reset
-;;(kbd "Q") 'magit-mode-bury-buffer)
+	(evil-define-key 'normal 'evil-normal-state-map
+		(kbd "C-x g") 'magit-status))
+(evil-define-key 'normal magit-mode-map
+	(kbd "j") 'magit-section-forward
+	(kbd "k") 'magit-section-backward
+	(kbd "p") 'magit-pull
+	(kbd "s") 'magit-stage-file
+	(kbd "u") 'magit-unstage-file
+	(kbd "c") 'magit-commit
+	(kbd "m") 'magit-merge
+	(kbd "P") 'magit-push
+	(kbd "f") 'magit-fetch
+	(kbd "l") 'magit-log
+	(kbd "i") 'magit-gitignore
+	(kbd "r") 'magit-refresh
+	(kbd "g") 'beginning-of-buffer
+	(kbd "G") 'end-of-buffer
+	(kbd "M") 'magit-remote
+	(kbd "d") 'magit-diff
+	(kbd "b") 'magit-branch
+	(kbd "R") 'magit-reset
+	(kbd "Q") 'magit-mode-bury-buffer)
 
 ;;;; Flyspell
 (add-hook 'org-mode-hook 'flyspell-mode)
@@ -814,15 +814,15 @@ _l_:   right                       _r_: rotate
 														"#+title: ${title}\n#+CREATED: %u\n#+Time-stamp: \" \"")
 				 :unnarrowed t)))
 
-(defun org-roam-node-insert-immediate (arg &rest args)
-	(interactive "P")
-	(let ((args (cons arg args))
-				(org-roam-capture-templates (list (append (car org-roam-capture-templates)
-																									'(:immediate-finish t)))))
-		(apply #'org-roam-node-insert args)))
+;;(defun org-roam-node-insert-immediate (arg &rest args)
+	;;(interactive "P")
+	;;(let ((args (cons arg args))
+				;;(org-roam-capture-templates (list (append (car org-roam-capture-templates)
+																									;;'(:immediate-finish t)))))
+		;;(apply #'org-roam-node-insert args)))
 
+;;(global-set-key (kbd "C-c n i") 'org-roam-node-insert-immediate)
 (global-set-key (kbd "C-c n f") 'org-roam-node-find)
-(global-set-key (kbd "C-c n i") 'org-roam-node-insert-immediate)
 (global-set-key (kbd "C-c n t") 'org-roam-buffer-toggle)
 
 (org-roam-db-autosync-mode)

@@ -4,4 +4,5 @@
 !init.el
 !config.el
 !early-init.el
+!device-template.el
 !readme.el

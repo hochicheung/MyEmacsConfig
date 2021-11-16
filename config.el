@@ -1,5 +1,17 @@
 ;;; -*- lexical-binding: t; -*-
 
+;;; Startup
+
+;;;; Device config
+(defun my/load-if-exists (f)
+  "load the elisp file only if it exists and is readable"
+  (if (file-readable-p f)
+      (load-file f)))
+
+;; If a device config is not made, load the default one
+(if (not (my/load-if-exists (concat user-emacs-directory "device.el")))
+    (load-file (concat user-emacs-directory "device-template.el")))
+
 ;;; Emacs Settings
 
 ;;;; Keyboard Layout
@@ -270,14 +282,6 @@
 (load-theme 'spacemacs-dark t)
 
 ;;;; Face
-;; Face height
-(setq my/regular-face-height 110)
-(setq my/modeline-face-height (ceiling (* 0.8 my/regular-face-height)))
-
-;; Scaling for modeline alignment
-;; 1080p ~1.29
-(setq my/modeline-face-factor 1.29)
-
 (set-face-attribute 'default nil
 										:family "deja vu sans mono"
 										:height my/regular-face-height)
@@ -592,6 +596,7 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'outshine)
 (add-hook 'prog-mode 'outshine-mode)
 (add-hook 'emacs-lisp-mode-hook 'outshine-mode)
+(setq outshine-fontify-whole-heading-line t)
 
 ;;;; Hide-mode-line
 (straight-use-package 'hide-mode-line)

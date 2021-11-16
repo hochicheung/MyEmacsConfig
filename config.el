@@ -49,7 +49,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;;;; Straight
-(defvar bootstrap-version)
+(eval-and-compile (defvar bootstrap-version)
 (let ((bootstrap-file
 			 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
 			(bootstrap-version 5))
@@ -60,7 +60,7 @@
 				 'silent 'inhibit-cookies)
 			(goto-char (point-max))
 			(eval-print-last-sexp)))
-	(load bootstrap-file nil 'nomessage))
+	(load bootstrap-file nil 'nomessage)))
 
 ;;;; My/directory-file-p-nil-create functions
 
@@ -107,11 +107,13 @@
 
 ;;; Essentials
 
-;;;; Evil
-(setq evil-want-keybinding nil)
-(setq evil-want-integration t)
+;;;; Common-lisp
+(require 'cl-lib)
 
+;;;; Evil
+(eval-and-compile
 (straight-use-package 'evil)
+(require 'evil))
 (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
 (evil-mode)
 (setq evil-emacs-state-modes nil
@@ -130,9 +132,10 @@
 (evil-set-undo-system 'undo-tree)
 
 ;;;;; Window
+(with-eval-after-load 'window
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-h") 'previous-buffer)
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-l") 'next-buffer)
-(evil-define-key 'normal 'evil-normal-state-map (kbd "s-x") 'kill-this-buffer)
+(evil-define-key 'normal 'evil-normal-state-map (kbd "s-x") 'kill-this-buffer))
 
 ;;;;; Mouse-clicks
 (dolist (mouseclicks-kill '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
@@ -146,7 +149,7 @@
 
 ;;;; Org-mode
 ;;(load-library "org-autoloads")
-(straight-use-package '(org :local-repo nil))
+(eval-and-compile (straight-use-package '(org :local-repo nil)))
 
 (setq org-hide-emphasis-markers t)
 (setq org-src-window-setup 'current-window)
@@ -260,12 +263,14 @@
 			(or (outline-next-heading)
 					(goto-char (point-max))))))
 
-(evil-define-key 'normal org-agenda-mode-map
+(with-eval-after-load 'org-agenda
+	(evil-define-key 'normal org-agenda-mode-map
 	(kbd "RET") 'org-agenda-switch-to
-	(kbd "q") 'org-agenda-quit)
+	(kbd "q") 'org-agenda-quit))
 
 ;;;; Undo-tree
-(straight-use-package 'undo-tree)
+(eval-and-compile(straight-use-package 'undo-tree))
+
 (global-undo-tree-mode 1)
 (setq evil-undo-system 'undo-tree)
 
@@ -346,7 +351,7 @@
 ;;;; Hydra
 ;; https://github.com/abo-abo/hydra
 
-(straight-use-package 'hydra)
+(eval-and-compile (straight-use-package 'hydra))
 
 ;; | red      |                            |
 ;; | blue     | :exit t                    |
@@ -400,7 +405,8 @@ _l_:   right                       _r_: rotate
 	("L" evil-window-move-far-right :exit t)
 	("q" nil  :exit t))
 
-(evil-define-key 'normal 'evil-normal-state-map (kbd "C-w") 'hydra-window/body)
+(with-eval-after-load 'hydra
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-w") 'hydra-window/body))
 
 ;;;;; Hydra-pulseaudio
 (defhydra hydra-pulseaudio ()
@@ -426,22 +432,22 @@ _l_:   right                       _r_: rotate
 (global-set-key (kbd "C-h h") 'hydra-counsel/body)
 
 ;;;; Smartparens
-(straight-use-package 'smartparens)
-(require 'smartparens-config)
-(add-hook 'org-mode-hook #'smartparens-mode)
-(add-hook 'prog-mode-hook #'smartparens-mode)
+;;(straight-use-package 'smartparens)
+;;(require 'smartparens-config)
+;;(add-hook 'org-mode-hook #'smartparens-mode)
+;;(add-hook 'prog-mode-hook #'smartparens-mode)
 ;;(sp-local-pair 'c-mode "'" nil :actions :rem)
 ;;(sp-local-pair 'c-mode "'" "'")
-(sp-local-pair 'emacs-lisp-mode "`" "'")
+;;(sp-local-pair 'emacs-lisp-mode "`" "'")
 
 ;;(sp-local-pair 'org-mode "=" nil :actions :rem)
-(setq-default sp-escape-quotes-after-insert nil)
+;;(setq-default sp-escape-quotes-after-insert nil)
 ;;Symbol's function definition is void: sp-local-pair
 
 ;;;; Ido-mode
 (ido-mode -1)
-(defun ido-mode (&optional rest)
-	())
+;;(defun ido-mode (&optional rest)
+;;	())
 
 ;;;; Envrc
 (eval-and-compile
@@ -452,7 +458,7 @@ _l_:   right                       _r_: rotate
 (add-hook 'after-init-hook 'envrc-global-mode)
 
 ;;;; Exwm
-(straight-use-package 'exwm)
+(eval-and-compile (straight-use-package 'exwm))
 (server-start)
 (require 'exwm)
 
@@ -531,8 +537,9 @@ _l_:   right                       _r_: rotate
 (straight-use-package 'magit)
 
 ;;;;; Keybinds
+(with-eval-after-load 'magit
 (evil-define-key 'normal 'evil-normal-state-map
-	(kbd "C-x g") 'magit-status)
+	(kbd "C-x g") 'magit-status))
 ;;(evil-define-key 'normal magit-mode-map
 ;;(kbd "j") 'magit-section-forward
 ;;(kbd "k") 'magit-section-backward
@@ -571,16 +578,13 @@ _l_:   right                       _r_: rotate
 ;; Human readable memory listing
 (setq dired-listing-switches "-alh")
 
-;;;; Common-lisp
-(require 'cl-lib)
-
 ;;;; Helm
 (straight-use-package 'helm)
 
 ;;;; Avy
 (straight-use-package 'avy)
-(evil-define-key 'normal 'evil-normal-state-map
-	(kbd "C-a") 'evil-avy-goto-char-timer)
+(with-eval-after-load 'avy
+(evil-define-key 'normal 'evil-normal-state-map (kbd "C-a") 'evil-avy-goto-char-timer))
 
 ;;;; Ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -680,13 +684,6 @@ _l_:   right                       _r_: rotate
 (global-flycheck-mode)
 (with-eval-after-load 'flycheck
 	(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-
-;;;; Evil-collection
-;; https://github.com/emacs-evil/evil-collection
-(straight-use-package 'evil-collection)
-(setq evil-collection-setup-minibuffer t)
-(when (require 'evil-collection nil t)
-	(evil-collection-init))
 
 ;;;; Elpy
 (straight-use-package 'elpy)
@@ -798,6 +795,9 @@ _l_:   right                       _r_: rotate
 
 (setq org-roam-v2-ack t)
 
+(with-eval-after-load 'org
+	(require 'org-roam))
+
 (my/directory-p-nil-create "~/Org/roam-repo/")
 
 (setq org-roam-directory "~/Org/roam-repo/")
@@ -832,7 +832,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Ebib
 ;; Creating / Editing bib files
-(straight-use-package 'ebib)
+(eval-and-compile (straight-use-package 'ebib))
 (require 'ebib)
 (setq ebib-preload-bib-files '("~/Org/bibliography/bibliography.bib"))
 
@@ -841,7 +841,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Org-roam-bibtex (ORB)
 ;; Integration of org-roam + ivy-bibtex + org-ref
-(straight-use-package 'org-roam-bibtex)
+(eval-and-compile (straight-use-package 'org-roam-bibtex))
 (require 'org-ref)
 (org-roam-bibtex-mode 1)
 
@@ -920,36 +920,6 @@ _l_:   right                       _r_: rotate
 
 ;; kill message buffer after message is sent
 (setq message-kill-buffer-on-exit t)
-
-;;;; Notmuch
-(straight-use-package 'notmuch)
-
-;;;; NeverMore
-(straight-use-package 'nm)
-(require 'nm)
-(require 'nm-company)
-
-(evil-define-key 'normal nm-mode-map
-	(kbd "RET") 'nm-open
-	(kbd "-") 'negative-argument
-	(kbd "/") 'nm-incrementally
-	(kbd "J") 'nm-junk
-	(kbd "M") 'nm-toggle-query-mode
-	(kbd "R") 'nm-reply-all
-	(kbd "S") 'nm-toggle-sort-order
-	(kbd "T") 'nm-focus-thread
-	(kbd "W") 'nm-wakeup
-	(kbd "a") 'nm-archive
-	(kbd "d") 'nm-delete
-	(kbd "f") 'nm-forward
-	(kbd "g r") 'nm-refresh
-	(kbd "m") 'notmuch-mua-new-mail
-	(kbd "b") 'nm-bury
-	(kbd "r") 'nm-reply
-	(kbd "s") 'nm-snooze
-	(kbd "t") 'nm-tag
-	(kbd "C-c C-c") 'nm-interrupt
-	(kbd "C-c C-g") 'nm-reset)
 
 ;;;; My/insert-current-date-time
 (defvar my/current-date-format "%F"

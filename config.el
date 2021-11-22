@@ -537,9 +537,10 @@ _l_:   right                       _r_: rotate
 (evil-define-key 'normal 'evil-normal-state-map
 	(kbd "C-x g") 'magit-status)
 (evil-define-key 'normal magit-mode-map
+	(kbd "RET") 'magit-diff-dwim
 	(kbd "j") 'magit-section-forward
 	(kbd "k") 'magit-section-backward
-	(kbd "p") 'magit-pull
+	(kbd "F") 'magit-pull
 	(kbd "s") 'magit-stage-file
 	(kbd "u") 'magit-unstage-file
 	(kbd "c") 'magit-commit

@@ -603,13 +603,13 @@ _l_:   right                       _r_: rotate
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)
 (evil-set-initial-state 'image-mode 'normal)
-;;(evil-define-key 'normal image-mode-map
-;;(kbd "W") 'image-transform-fit-to-width
-;;(kbd "H") 'image-transform-fit-to-height
-;;(kbd "j") 'image-scroll-up
-;;(kbd "k") 'image-scroll-down
-;;(kbd "l") 'image-next-file
-;;(kbd "h") 'image-previous-file)
+(evil-define-key 'normal image-mode-map
+	(kbd "W") 'image-transform-fit-to-width
+	(kbd "H") 'image-transform-fit-to-height
+	(kbd "j") 'image-scroll-up
+	(kbd "k") 'image-scroll-down
+	(kbd "l") 'image-next-file
+	(kbd "h") 'image-previous-file)
 
 ;;;; Completion Engines
 

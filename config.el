@@ -126,9 +126,16 @@
 (define-key evil-normal-state-map (kbd "C-d") (lambda ()
 																								(interactive)
 																								(evil-scroll-down nil)))
-(define-key evil-normal-state-map (kbd "Q") (lambda ()
-																							(interactive)
-																							(quit-window)))
+
+(defun my-evil-record-macro ()
+  (interactive)
+  (if buffer-read-only
+      (quit-window)
+    (call-interactively 'evil-record-macro)))
+
+(with-eval-after-load 'evil-maps
+  (define-key evil-normal-state-map (kbd "q") 'my-evil-record-macro))
+
 (evil-set-undo-system 'undo-tree)
 
 ;;;;; Window

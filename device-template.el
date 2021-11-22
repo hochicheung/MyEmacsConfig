@@ -4,5 +4,5 @@
 
 ;; Scaling for modeline alignment
 ;; 1080p ~1.29
-;; 1440p ~1.23
+;; 1440p ~1.22
 (setq my/modeline-face-factor 1.29)

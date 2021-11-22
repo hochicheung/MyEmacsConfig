@@ -716,7 +716,7 @@ _l_:   right                       _r_: rotate
 				("Media-dir"
 				 :dir "~/Media/Screenshots")
 				("Roam-dir"
-				 :dir "~/Org/reference")
+				 :dir "~/Org/references")
 				("current-dir"
 				 :dir default-directory)))
 

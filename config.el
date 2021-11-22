@@ -641,29 +641,29 @@ _l_:   right                       _r_: rotate
 (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
 
 ;;;;; Keybinds
-;;(evil-define-key 'normal pdf-view-mode-map
-;;(kbd "j") 'pdf-view-scroll-up-or-next-page
-;;(kbd "k") 'pdf-view-scroll-down-or-previous-page
-;;(kbd "C-j") 'pdf-view-next-line-or-next-page
-;;(kbd "C-k") 'pdf-view-previous-line-or-previous-page
-;;(kbd "J") 'pdf-view-next-page-command
-;;(kbd "K") 'pdf-view-previous-page-command
-;;(kbd "h") 'image-backward-hscroll
-;;(kbd "l") 'image-forward-hscroll
-;;(kbd "f") 'pdf-view-goto-page
-;;(kbd "r") 'pdf-view-revert-buffer
-;;(kbd "=") 'pdf-view-enlarge
-;;(kbd "+") 'pdf-view-enlarge
-;;(kbd "-") 'pdf-view-shrink
-;;(kbd "0") 'pdf-view-scale-reset
-;;(kbd "H") 'pdf-view-fit-height-to-window
-;;(kbd "W") 'pdf-view-fit-width-to-window
-;;(kbd "P") 'pdf-view-fit-page-to-window
-;;(kbd "/") 'isearch-forward-word
-;;(kbd "n") 'isearch-repeat-forward
-;;(kbd "N") 'isearch-repeat-backward
-;;(kbd "G") 'pdf-view-first-page
-;;(kbd "o") 'pdf-outline)
+(evil-define-key 'normal pdf-view-mode-map
+	(kbd "j") 'pdf-view-scroll-up-or-next-page
+	(kbd "k") 'pdf-view-scroll-down-or-previous-page
+	(kbd "C-j") 'pdf-view-next-line-or-next-page
+	(kbd "C-k") 'pdf-view-previous-line-or-previous-page
+	(kbd "J") 'pdf-view-next-page-command
+	(kbd "K") 'pdf-view-previous-page-command
+	(kbd "h") 'image-backward-hscroll
+	(kbd "l") 'image-forward-hscroll
+	(kbd "f") 'pdf-view-goto-page
+	(kbd "r") 'pdf-view-revert-buffer
+	(kbd "=") 'pdf-view-enlarge
+	(kbd "+") 'pdf-view-enlarge
+	(kbd "-") 'pdf-view-shrink
+	(kbd "0") 'pdf-view-scale-reset
+	(kbd "H") 'pdf-view-fit-height-to-window
+	(kbd "W") 'pdf-view-fit-width-to-window
+	(kbd "P") 'pdf-view-fit-page-to-window
+	(kbd "/") 'isearch-forward-word
+	(kbd "n") 'isearch-repeat-forward
+	(kbd "N") 'isearch-repeat-backward
+	(kbd "G") 'pdf-view-first-page
+	(kbd "o") 'pdf-outline)
 
 ;;;; Rainbow Delimiters
 (straight-use-package 'rainbow-delimiters)

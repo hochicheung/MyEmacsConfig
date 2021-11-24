@@ -696,6 +696,15 @@ _l_:   right                       _r_: rotate
 (org-babel-do-load-languages
  'org-babel-load-languages '((shell . t)
 														 (C . t)))
+;;;; My/toggle-buffer
+(defun my/toggle-buffer ()
+  "Switch to most recent buffer. Repeated calls toggle back and forth between the most recent two buffers."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+;; set key binding
+(global-set-key (kbd "C-`") 'my/toggle-buffer)
+
 ;;;; My/set-brightness
 (defun my/set-brightness()
 	(interactive)

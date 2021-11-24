@@ -1019,4 +1019,4 @@ Containing LEFT, and RIGHT aligned respectively."
 													battery-mode-line-string
 													" | "
 													display-time-string
-													" "))))))
+													""))))))

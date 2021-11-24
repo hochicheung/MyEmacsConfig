@@ -510,6 +510,7 @@ _l_:   right                       _r_: rotate
 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
 (define-key exwm-mode-map [?\s-a] #'org-agenda)
 (define-key exwm-mode-map [?\s-c] #'org-capture)
+(define-key exwm-mode-map [?\C-\`] #'my/toggle-buffer)
 
 (define-key exwm-mode-map [?\s-h] #'previous-buffer)
 (define-key exwm-mode-map [?\s-l] #'next-buffer)
@@ -702,7 +703,6 @@ _l_:   right                       _r_: rotate
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-;; set key binding
 (global-set-key (kbd "C-`") 'my/toggle-buffer)
 
 ;;;; My/set-brightness

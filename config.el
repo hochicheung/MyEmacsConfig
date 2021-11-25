@@ -33,6 +33,8 @@
 (setq-default tab-width 2)
 (mouse-wheel-mode -1)
 (setq show-paren-delay 0)
+(setq truncate-lines nil)
+(setq truncate-partial-width-windows nil)
 
 (setq help-at-pt-display-when-idle t)
 (setq help-at-pt-timer-delay 0.1)
@@ -212,6 +214,7 @@
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
 (setq org-agenda-breadcrumbs-separator ":\n\t"
+			org-agenda-block-separator (make-string (- (window-total-width) 1) ?—)
 			org-agenda-start-on-weekday nil
 			org-agenda-span 14
 			org-agenda-start-day "-2d"
@@ -377,7 +380,7 @@
 ;;;;; Hydra-window
 (defhydra hydra-window (:hint nil)
 	"
-Navigation                           ^^Edit                               ^^^^Resize
+Navigation                       ^^Edit             ^^^^^Resize
 _C-w_: toggle    _n_: bottom-right   _c_: delete         _H_: move-left     _-_: hor-    _0_: balance
 _h_:   left      _y_: top-left       _x_: xor						 _J_: move-down     _=_: hor+    _)_: area
 _j_:   down                        _s_: split-below    _K_: move-up       ___: ver-

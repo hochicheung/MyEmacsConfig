@@ -817,6 +817,7 @@ _l_:   right                       _r_: rotate
 
 (setq org-roam-directory "~/Org/roam-repo/")
 
+(defvar org-roam-capture-templates)
 (setq org-roam-capture-templates
 			'(("d" "default" plain
 				 "%?"
@@ -829,7 +830,6 @@ _l_:   right                       _r_: rotate
 														"#+title: ${title}\n#+CREATED: %u\n#+Time-stamp: \" \"")
 				 :unnarrowed t)))
 
-(ignore org-roam-capture-templates)
 (defun org-roam-node-insert-immediate (arg &rest args)
 	(interactive "P")
 	(let ((args (cons arg args))

@@ -213,8 +213,9 @@
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
+(add-hook 'org-agenda-finalize-hook (lambda() (setq org-agenda-block-separator (make-string (- (window-total-width) 1) ?—))))
+
 (setq org-agenda-breadcrumbs-separator ":\n\t"
-			org-agenda-block-separator (make-string (- (window-total-width) 1) ?—)
 			org-agenda-start-on-weekday nil
 			org-agenda-span 14
 			org-agenda-start-day "-2d"

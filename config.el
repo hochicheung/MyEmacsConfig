@@ -203,7 +203,7 @@
 															 "* TODO%i%? \n %U")
 															("T" "Tickler" entry
 															 (file "~/Org/agenda/tickler.org")
-															 "*%i%? \n %U \n %t")))
+															 "* %i%? \n %U \n %t")))
 
 (setq org-refile-use-outline-path 'file)
 

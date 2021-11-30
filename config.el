@@ -277,6 +277,21 @@
 	(kbd "RET") 'org-agenda-switch-to
 	(kbd "q") 'org-agenda-quit)
 
+;;;;; Org-latex
+;; A latex-class that won't include the default packages in the generated LaTeX file. #+LATEX_CLASS: org-plain-latex.
+(with-eval-after-load 'ox-latex
+	(add-to-list 'org-latex-classes
+							 '("org-plain-latex"
+								 "\\documentclass{article}
+           [NO-DEFAULT-PACKAGES]
+           [PACKAGES]
+           [EXTRA]"
+								 ("\\section{%s}" . "\\section*{%s}")
+								 ("\\subsection{%s}" . "\\subsection*{%s}")
+								 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+								 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+								 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
 ;;;; Undo-tree
 (eval-and-compile(straight-use-package 'undo-tree))
 
@@ -707,7 +722,7 @@ _l_:   right                       _r_: rotate
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-(global-set-key (kbd "C-`") 'my/toggle-buffer)
+(global-set-key (kbd "C-<tab>") 'my/toggle-buffer)
 
 ;;;; My/set-brightness
 (defun my/set-brightness()

@@ -529,10 +529,10 @@ _l_:   right                       _r_: rotate
 (define-key exwm-mode-map [?\s-\ ] #'hydra-menu/body)
 (define-key exwm-mode-map [?\s-a] #'org-agenda)
 (define-key exwm-mode-map [?\s-c] #'org-capture)
-(define-key exwm-mode-map [?\C-\`] #'my/toggle-buffer)
 
 (define-key exwm-mode-map [?\s-h] #'previous-buffer)
 (define-key exwm-mode-map [?\s-l] #'next-buffer)
+(define-key exwm-mode-map (kbd "C-<tab>") #'my/toggle-buffer)
 
 (evil-set-initial-state 'exwm-mode 'emacs)
 (setq exwm-input-simulation-keys

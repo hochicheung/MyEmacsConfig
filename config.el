@@ -659,6 +659,14 @@ _l_:   right                       _r_: rotate
 	(org-bullets-mode 1))
 (add-hook 'org-mode-hook 'org-bullet-mode)
 
+;;;; Org-bars
+(eval-and-compile	(straight-use-package
+									 '(org-bars :type git :host github :repo "tonyaldon/org-bars")))
+(require 'org-bars)
+(add-hook 'org-mode-hook #'org-bars-mode)
+(setq org-bars-stars '(:empty "◉"
+															:invisible "→"
+															:visible "↘"))
 ;;;; Aggressive Indent
 (straight-use-package 'aggressive-indent)
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)

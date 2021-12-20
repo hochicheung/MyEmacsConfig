@@ -454,6 +454,15 @@ _l_:   right                       _r_: rotate
 
 (global-set-key (kbd "C-h h") 'hydra-counsel/body)
 
+;;;; Su
+;;When `su-mode' is enabled, you will be able to edit files which you
+;;lack permissions to write. `su-mode' will automatically switch the
+;;visited path to a TRAMP path encoding the correct privelege
+;;escalation just before you save the file.
+
+(straight-use-package 'su)
+(su-mode +1)
+
 ;;;; Smartparens
 ;;(straight-use-package 'smartparens)
 ;;(require 'smartparens-config)
@@ -953,6 +962,10 @@ _l_:   right                       _r_: rotate
 							"\\|^#\\+[[:alpha:]_]+:.*$" ;; org-mode metadata
 							"\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
 							"\\)"))
+
+;;;; Anki
+(straight-use-package 'anki-editor)
+(setq anki-editor-create-decks t)
 
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)

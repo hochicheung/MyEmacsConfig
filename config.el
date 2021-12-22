@@ -294,9 +294,7 @@
 
 ;;;; Undo-tree
 (eval-and-compile(straight-use-package 'undo-tree))
-
 (global-undo-tree-mode 1)
-(setq evil-undo-system 'undo-tree)
 
 ;;;; Evil-surround
 (straight-use-package 'evil-surround)

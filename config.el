@@ -866,7 +866,8 @@ _l_:   right                       _r_: rotate
 																									'(:immediate-finish t)))))
 		(apply #'org-roam-node-insert args)))
 
-;;(global-set-key (kbd "C-c n i") 'org-roam-node-insert-immediate)
+(global-set-key (kbd "C-c n I") 'org-roam-node-insert-immediate)
+(global-set-key (kbd "C-c n i") 'org-roam-node-insert)
 (global-set-key (kbd "C-c n f") 'org-roam-node-find)
 (global-set-key (kbd "C-c n t") 'org-roam-buffer-toggle)
 

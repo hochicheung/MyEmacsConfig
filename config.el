@@ -649,8 +649,7 @@ _l_:   right                       _r_: rotate
 
 ;;;;; Yasnippet
 (straight-use-package 'yasnippet)
-(add-to-list 'load-path
-						 "~/.emacs.d/plugins/yasnippet")
+
 (yas-global-mode 1)
 
 ;;;;; Company
@@ -736,7 +735,7 @@ _l_:   right                       _r_: rotate
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-(global-set-key (kbd "C-<tab>") 'my/toggle-buffer)
+(global-set-key (kbd "C-`") 'my/toggle-buffer)
 
 ;;;; My/set-brightness
 (defun my/set-brightness()

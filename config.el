@@ -205,8 +205,6 @@
 															 (file "~/Org/agenda/tickler.org")
 															 "* %i%? \n %U \n %t")))
 
-(setq org-refile-use-outline-path 'file)
-
 (setq org-refile-targets '(("~/Org/agenda/projects.org" :level . 1)
 													 ("~/Org/agenda/someday.org" :level . 1)
 													 ("~/Org/agenda/tickler.org" :level . 1)))
@@ -539,7 +537,7 @@ _l_:   right                       _r_: rotate
 
 (define-key exwm-mode-map [?\s-h] #'previous-buffer)
 (define-key exwm-mode-map [?\s-l] #'next-buffer)
-(define-key exwm-mode-map (kbd "C-<tab>") #'my/toggle-buffer)
+(define-key exwm-mode-map (kbd "C-`") #'my/toggle-buffer)
 
 (evil-set-initial-state 'exwm-mode 'emacs)
 (setq exwm-input-simulation-keys

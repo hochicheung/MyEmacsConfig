@@ -116,7 +116,6 @@
 (eval-and-compile
 (straight-use-package 'evil)
 (require 'evil))
-(add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree"))
 (evil-mode)
 (setq evil-emacs-state-modes nil
 			evil-insert-state-modes nil
@@ -138,7 +137,8 @@
 (with-eval-after-load 'evil-maps
   (define-key evil-normal-state-map (kbd "q") 'my-evil-record-macro))
 
-(evil-set-undo-system 'undo-tree)
+(with-eval-after-load 'undo-tree (add-to-list 'load-path (concat user-emacs-directory "straight/build/undo-tree")))
+(with-eval-after-load 'undo-tree (evil-set-undo-system 'undo-tree))
 
 ;;;;; Window
 (evil-define-key 'normal 'evil-normal-state-map (kbd "s-h") 'previous-buffer)
@@ -291,7 +291,7 @@
 								 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 ;;;; Undo-tree
-(eval-and-compile(straight-use-package 'undo-tree))
+(eval-and-compile (straight-use-package 'undo-tree))
 (global-undo-tree-mode 1)
 
 ;;;; Evil-surround
@@ -727,6 +727,10 @@ _l_:   right                       _r_: rotate
 (org-babel-do-load-languages
  'org-babel-load-languages '((shell . t)
 														 (C . t)))
+
+;;;; Haskell-mode
+(straight-use-package 'haskell-mode)
+
 ;;;; My/toggle-buffer
 (defun my/toggle-buffer ()
   "Switch to most recent buffer. Repeated calls toggle back and forth between the most recent two buffers."

@@ -293,6 +293,7 @@
 ;;;; Undo-tree
 (eval-and-compile (straight-use-package 'undo-tree))
 (global-undo-tree-mode 1)
+(setq undo-limit 50)
 
 ;;;; Evil-surround
 (straight-use-package 'evil-surround)

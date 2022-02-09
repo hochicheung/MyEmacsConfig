@@ -888,22 +888,23 @@ _l_:   right                       _r_: rotate
 (setq ebib-layout 'window
 			ebib-truncate-file-names nil)
 
+;;;; Org-ref
+(eval-and-compile (straight-use-package 'org-ref))
+(setq reftex-default-bibliography '("~/Org/bibliography/bibliography.bib")
+			org-ref-default-bibliography '("~/Org/bibliography/bibliography.bib")
+			org-ref-pdf-directory "~/Org/bibliography/files/")
+
 ;;;; Org-roam-bibtex (ORB)
 ;; Integration of org-roam + ivy-bibtex + org-ref
 (eval-and-compile (straight-use-package 'org-roam-bibtex))
 (require 'org-ref)
 (org-roam-bibtex-mode 1)
 
-;;;;; Bibtex
+;;;; Bibtex
 ;; Generation of entry key for a bibtex entry, See bibtex-generate-autokey
 (setq bibtex-autokey-year-title-separator ":")
 
-;;;;; Org-ref
-(setq reftex-default-bibliography '("~/Org/bibliography/bibliography.bib")
-			org-ref-default-bibliography '("~/Org/bibliography/bibliography.bib")
-			org-ref-pdf-directory "~/Org/bibliography/files/")
-
-;;;;; Helm-bibtex
+;;;; Helm-bibtex
 ;; List of bibliography files
 (straight-use-package 'helm-bibtex)
 (setq bibtex-completion-bibliography

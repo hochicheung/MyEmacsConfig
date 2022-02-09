@@ -197,6 +197,8 @@
 
 (setq org-agenda-window-setup 'only-window)
 (setq org-agenda-restore-windows-after-quit t)
+(setq org-refile-use-outline-path 'file)
+(setq org-refile-targets '((org-agenda-files :level . 1)))
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
 															 (file "~/Org/agenda/inbox.org")
@@ -293,7 +295,8 @@
 ;;;; Undo-tree
 (eval-and-compile (straight-use-package 'undo-tree))
 (global-undo-tree-mode 1)
-(setq undo-limit 50)
+(setq undo-limit 160000)
+(setq undo-tree-visualizer-lazy-drawing 10)
 
 ;;;; Evil-surround
 (straight-use-package 'evil-surround)
@@ -731,6 +734,9 @@ _l_:   right                       _r_: rotate
 
 ;;;; Haskell-mode
 (straight-use-package 'haskell-mode)
+
+;;;; Lua-mode
+(straight-use-package 'lua-mode)
 
 ;;;; My/toggle-buffer
 (defun my/toggle-buffer ()

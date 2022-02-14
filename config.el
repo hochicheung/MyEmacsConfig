@@ -860,12 +860,12 @@ _l_:   right                       _r_: rotate
 			'(("d" "default" plain
 				 "%?"
 				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-														"#+TITLE: ${title}\n#+CREATED: %u\n#+Time-stamp: \" \"")
+														"#+TITLE: ${title}\n#+CREATED: %u\n#+Time-stamp: <>")
 				 :unnarrowed t)
 				("b" "book-note" plain
 				 "\n\n* Bibliography\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n %?"
 				 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-														"#+title: ${title}\n#+CREATED: %u\n#+Time-stamp: \" \"")
+														"#+title: ${title}\n#+CREATED: %u\n#+Time-stamp: <>")
 				 :unnarrowed t)))
 
 (defun org-roam-node-insert-immediate (arg &rest args)

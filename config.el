@@ -297,6 +297,7 @@
 (global-undo-tree-mode 1)
 (setq undo-limit 160000)
 (setq undo-tree-visualizer-lazy-drawing 10)
+(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
 
 ;;;; Evil-surround
 (straight-use-package 'evil-surround)
@@ -590,7 +591,9 @@ _l_:   right                       _r_: rotate
 	(kbd "M") 'magit-remote
 	(kbd "d") 'magit-diff
 	(kbd "b") 'magit-branch
-	(kbd "R") 'magit-reset
+	(kbd "-") 'magit-reset
+	(kbd "o") 'magit-submodule
+	(kbd "_") 'magit-revert
 	(kbd "Q") 'magit-mode-bury-buffer)
 
 ;;;; Flyspell

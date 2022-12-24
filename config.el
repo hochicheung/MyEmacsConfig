@@ -482,6 +482,9 @@ _l_:   right                       _r_: rotate
 ;;(defun ido-mode (&optional rest)
 ;;	())
 
+;;;; Prog-mode
+(add-to-list 'auto-mode-alist '("\\.nix\\'" . prog-mode))
+
 ;;;; Envrc
 (eval-and-compile
   (straight-use-package 'envrc)
@@ -632,8 +635,10 @@ _l_:   right                       _r_: rotate
 
 ;;;; Outshine
 (straight-use-package 'outshine)
-(add-hook 'prog-mode 'outshine-mode)
+
+(add-hook 'prog-mode-hook 'outshine-mode)
 (add-hook 'emacs-lisp-mode-hook 'outshine-mode)
+
 (setq outshine-fontify-whole-heading-line t)
 
 ;;;; Hide-mode-line

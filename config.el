@@ -989,6 +989,9 @@ _l_:   right                       _r_: rotate
 ;; kill message buffer after message is sent
 (setq message-kill-buffer-on-exit t)
 
+;;;; Notmuch-emacs
+(load-library "notmuch")
+
 ;;;; My/insert-current-date-time
 (defvar my/current-date-format "%F"
   "Format of date to insert with `insert-current-date' func

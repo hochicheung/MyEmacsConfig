@@ -801,6 +801,15 @@ _l_:   right                       _r_: rotate
 	(randr-layout-single)
 	(shell-command "xrandr --output DP-1 --left-of eDP-1 --auto --primary"))
 
+(defun randr-layout-dp2-extend ()
+	"Extend the screen to VGA"
+
+	(interactive)
+	(setq exwm-randr-workspace-monitor-plist (generate-randr-config "DP-2" "eDP-1"))
+	(exwm-randr-refresh)
+	(randr-layout-single)
+	(shell-command "xrandr --output DP-2 --left-of eDP-1 --auto --primary"))
+
 (defun randr-layout-hdmi1-extend ()
 	"Extend the screen to HDMI"
 
@@ -824,6 +833,14 @@ _l_:   right                       _r_: rotate
 	(interactive)
 	(exwm-randr-refresh)
 	(shell-command "xrandr --output DP-1 --auto --primary")
+	(shell-command "xrandr --output eDP-1 --off"))
+
+(defun randr-layout-dp2-only ()
+	"Only VGA is shown"
+
+	(interactive)
+	(exwm-randr-refresh)
+	(shell-command "xrandr --output DP-2 --auto --primary")
 	(shell-command "xrandr --output eDP-1 --off"))
 
 (defun randr-layout-single ()

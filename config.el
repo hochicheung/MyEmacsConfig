@@ -202,10 +202,12 @@
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
 															 (file "~/Org/agenda/inbox.org")
-															 "* TODO%i%? \n %U")
+															 "* TODO%i%? \n%U\n"
+															 :empty-lines 1)
 															("T" "Tickler" entry
 															 (file "~/Org/agenda/tickler.org")
-															 "* %i%? \n %U \n %t")))
+															 "* %i%?\n%U \n%t\n"
+															 :empty-lines 1)))
 
 (setq org-refile-targets '(("~/Org/agenda/projects.org" :level . 1)
 													 ("~/Org/agenda/someday.org" :level . 1)

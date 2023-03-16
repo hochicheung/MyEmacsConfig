@@ -312,12 +312,13 @@
 (load-theme 'spacemacs-dark t)
 
 ;;;; Face
+;; Load face attributes from device.el see Device Config section
 (set-face-attribute 'default nil
-										:family "deja vu sans mono"
+										:family my/regular-face-family
 										:height my/regular-face-height)
 
 (set-face-attribute 'mode-line nil
-										:family "deja vu sans mono"
+										:family my/modeline-face-family
 										:height my/modeline-face-height)
 
 ;; Mode specific font

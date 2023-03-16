@@ -435,8 +435,8 @@ _l_:   right                       _r_: rotate
 ;;;;; Hydra-pulseaudio
 (defhydra hydra-pulseaudio ()
 	"pulseaudio-menu"
-	("-" pulseaudio-control-decrease-volume "dec -10")
-	("=" pulseaudio-control-increase-volume "inc +10")
+	("-" pulseaudio-control-decrease-volume "dec -5")
+	("=" pulseaudio-control-increase-volume "inc +5")
 	("_" pulseaudio-control-select-sink-by-name "select sink")
 	("+" pulseaudio-control-toggle-current-sink-mute "mute sink")
 	("b" hydra-menu/body "back" :exit t)
@@ -771,6 +771,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Pulseaudio-control
 (straight-use-package 'pulseaudio-control)
+(setq pulseaudio-control-volume-step "5%")
 
 ;;;; ScreenShot
 (straight-use-package 'screenshot)

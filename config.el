@@ -872,6 +872,10 @@ _l_:   right                       _r_: rotate
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (setq projectile-completion-system 'ivy)
 
+;;;; Emacsql Emacsql-sqlite
+(straight-use-package 'emacsql)
+(straight-use-package 'emacsql-sqlite)
+
 ;;;; Org-roam
 (straight-use-package 'org-roam)
 
@@ -999,9 +1003,11 @@ _l_:   right                       _r_: rotate
 							"\\|^:PROPERTIES:\n\\(.+\n\\)+:END:\n"
 							"\\)"))
 
-;;;; Anki
-(straight-use-package 'anki-editor)
-(setq anki-editor-create-decks t)
+;;;; Anki-editor
+(straight-use-package '(anki-editor
+												:type git
+												:host github
+												:repo "orgtre/anki-editor"))
 
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)

@@ -107,6 +107,18 @@
 (setq split-height-threshold nil)
 (setq split-width-threshold 100)
 
+;;;; Emacs Gpg
+(straight-use-package 'pinentry)
+
+(setq epg-gpg-program "gpg")
+
+(if (version< emacs-version "27.1")
+		(setq epa-pinentry-mode 'loopback)
+	(setq epg-pinentry-mode 'loopback))
+
+(setenv "GPG_AGENT_INFO" nil)
+(pinentry-start)
+
 ;;; Essentials
 
 ;;;; Common-lisp
@@ -114,8 +126,8 @@
 
 ;;;; Evil
 (eval-and-compile
-(straight-use-package 'evil)
-(require 'evil))
+	(straight-use-package 'evil)
+	(require 'evil))
 (evil-mode)
 (setq evil-emacs-state-modes nil
 			evil-insert-state-modes nil

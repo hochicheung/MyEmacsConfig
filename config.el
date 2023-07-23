@@ -364,15 +364,40 @@
 (with-eval-after-load 'ivy
 	(set-face-attribute 'ivy-highlight-face nil :inherit 'default))
 
+;;;; Vertico
+(straight-use-package 'vertico)
+(vertico-mode 1)
+
+(defun crm-indicator (args)
+  (cons (format "[CRM%s] %s"
+                (replace-regexp-in-string
+                 "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                 crm-separator)
+                (car args))
+        (cdr args)))
+(advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+(setq minibuffer-prompt-properties
+      '(read-only t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+;;;;; Orderless
+(straight-use-package 'orderless)
+(setq completion-styles '(orderless basic)
+			completion-category-defaults nil
+			completion-category-overrides '((file (styles partial-completion))))
+
+;;;;; Savehist
+(straight-use-package 'savehist)
+(savehist-mode 1)
+
 ;;;; Ivy
 (straight-use-package 'ivy)
 (setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(ivy-mode 1)
 
 ;;;;; Counsel
 (straight-use-package 'counsel)
-(counsel-mode)
+;;(counsel-mode)
 ;;(global-set-key (kbd "M-x") 'counsel-M-x)
 ;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
 (global-set-key (kbd "C-x d") 'counsel-find-file)
@@ -1038,6 +1063,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Notmuch-emacs
 (load-library "notmuch")
+(setq notmuch-poll-script nil)
 
 ;;;; My/insert-current-date-time
 (defvar my/current-date-format "%F"
@@ -1127,4 +1153,4 @@ Containing LEFT, and RIGHT aligned respectively."
 													""))))))
 
 ;;; Load GPG File
-(load-library "~/Documents/my-emacs-secrets/test-secrets.el.gpg")
+;; (load-library "~/Documents/my-emacs-secrets/test-secrets.el.gpg")

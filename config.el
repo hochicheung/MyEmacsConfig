@@ -377,6 +377,14 @@
 ;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
 (global-set-key (kbd "C-x d") 'counsel-find-file)
 
+;;;;;; Counsel-keepassxc
+(straight-use-package '(counsel-keepassxc
+												:type git
+												:host github
+												:repo "tangxinfa/counsel-keepassxc"))
+
+(setq counsel-keepassxc-database-file "~/Documents/keepass/Database181214.kdbx")
+
 ;;;;; Swiper
 (straight-use-package 'swiper)
 (global-set-key (kbd "C-s") 'swiper)
@@ -450,8 +458,8 @@ _l_:   right                       _r_: rotate
 ;;;;; Hydra-pulseaudio
 (defhydra hydra-pulseaudio ()
 	"pulseaudio-menu"
-	("-" pulseaudio-control-decrease-volume "dec -5")
-	("=" pulseaudio-control-increase-volume "inc +5")
+	("-" pulseaudio-control-decrease-sink-volume "dec -5")
+	("=" pulseaudio-control-increase-sink-volume "inc +5")
 	("_" pulseaudio-control-select-sink-by-name "select sink")
 	("+" pulseaudio-control-toggle-current-sink-mute "mute sink")
 	("b" hydra-menu/body "back" :exit t)
@@ -1117,3 +1125,6 @@ Containing LEFT, and RIGHT aligned respectively."
 													" | "
 													display-time-string
 													""))))))
+
+;;; Load GPG File
+(load-library "~/Documents/my-emacs-secrets/test-secrets.el.gpg")

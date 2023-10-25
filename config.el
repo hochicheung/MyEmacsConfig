@@ -81,7 +81,7 @@
 			(progn (message "Creating file %s" file)
 						 (write-region "" nil file)))))
 
-;;;; Prefered Webbrowser
+;;;; Prefered Web-browser
 (setq browse-url-browser-function 'browse-url-generic
 			browse-url-generic-program "qutebrowser")
 
@@ -723,15 +723,15 @@ _l_:   right                       _r_: rotate
 (add-hook 'org-mode-hook 'org-bullet-mode)
 
 ;;;; Org-bars
-(eval-and-compile	(straight-use-package
-									 '(org-bars :type git :host github :repo "tonyaldon/org-bars")))
-(require 'org-bars)
+(load-library "org-bars-autoloads")
+;; (require 'org-bars)
 (add-hook 'org-mode-hook #'org-bars-mode)
 (setq org-bars-stars '(:empty "◉"
 															:invisible "→"
 															:visible "↘"))
 ;;;; Aggressive Indent
-(straight-use-package 'aggressive-indent)
+;; (straight-use-package 'aggressive-indent)
+(load-library "aggressive-indent-autoloads")
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 
 ;;;; Pdf-tools
@@ -765,22 +765,28 @@ _l_:   right                       _r_: rotate
 	(kbd "o") 'pdf-outline)
 
 ;;;; Rainbow Delimiters
-(straight-use-package 'rainbow-delimiters)
+;; (straight-use-package 'rainbow-delimiters)
+(load-library "rainbow-delimiters-autoloads")
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;;;; Gnuplot
-(straight-use-package 'gnuplot)
+;; (straight-use-package 'gnuplot)
+(load-library "gnuplot-autoloads")
+
 ;;;; Ox-twbs
-(straight-use-package 'ox-twbs)
+;; (straight-use-package 'ox-twbs)
+(load-library "ox-twbs-autoloads")
 
 ;;;; Flycheck
-(straight-use-package 'flycheck)
+;; (straight-use-package 'flycheck)
+(load-library "flycheck-autoloads")
 (global-flycheck-mode)
 (with-eval-after-load 'flycheck
 	(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 ;;;; Elpy
-(straight-use-package 'elpy)
+;; (straight-use-package 'elpy)
+(load-library "elpy-autoloads")
 (elpy-enable)
 
 ;;;; Org-babel
@@ -789,10 +795,12 @@ _l_:   right                       _r_: rotate
 														 (C . t)))
 
 ;;;; Haskell-mode
-(straight-use-package 'haskell-mode)
+;; (straight-use-package 'haskell-mode)
+;; (load-library "haskell-mode-autoloads")
 
 ;;;; Lua-mode
-(straight-use-package 'lua-mode)
+;; (straight-use-package 'lua-mode)
+;; (load-library "lua-mode-autoloads")
 
 ;;;; My/toggle-buffer
 (defun my/toggle-buffer ()
@@ -818,11 +826,12 @@ _l_:   right                       _r_: rotate
 		 (concat "echo " (number-to-string my/brightness) " > " my/brightness-file))))
 
 ;;;; Pulseaudio-control
-(straight-use-package 'pulseaudio-control)
+;; (straight-use-package 'pulseaudio-control)
+(load-library "pulseaudio-control-autoloads")
 (setq pulseaudio-control-volume-step "5%")
 
 ;;;; ScreenShot
-(straight-use-package 'screenshot)
+;; (straight-use-package 'screenshot)
 (global-set-key (kbd "s-s") 'screenshot)
 (my/directory-p-nil-create "~/Media/Screenshots")
 (my/directory-p-nil-create "~/Org/references")
@@ -912,17 +921,21 @@ _l_:   right                       _r_: rotate
 (load-library "vterm-autoloads")
 
 ;;;; Projectile
-(straight-use-package 'projectile)
+;; (straight-use-package 'projectile)
+(load-library "projectile-autoloads")
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (setq projectile-completion-system 'ivy)
 
 ;;;; Emacsql Emacsql-sqlite
-(straight-use-package 'emacsql)
-(straight-use-package 'emacsql-sqlite)
+;; (straight-use-package 'emacsql)
+;; (straight-use-package 'emacsql-sqlite)
+(load-library "emacsql-autoloads")
+(load-library "emacsql-sqlite-autoloads")
 
 ;;;; Org-roam
-(straight-use-package 'org-roam)
+;; (straight-use-package 'org-roam)
+(load-library "org-roam-autoloads")
 
 (setq org-roam-v2-ack t)
 
@@ -965,7 +978,8 @@ _l_:   right                       _r_: rotate
 
 ;;;; Ebib
 ;; Creating / Editing bib files
-(eval-and-compile (straight-use-package 'ebib))
+;; (eval-and-compile (straight-use-package 'ebib))
+(load-library "ebib-autoloads")
 (require 'ebib)
 (setq ebib-preload-bib-files '("~/Org/bibliography/bibliography.bib"))
 
@@ -973,14 +987,16 @@ _l_:   right                       _r_: rotate
 			ebib-truncate-file-names nil)
 
 ;;;; Org-ref
-(eval-and-compile (straight-use-package 'org-ref))
+;; (eval-and-compile (straight-use-package 'org-ref))
+(load-library "org-ref-autoloads")
 (setq reftex-default-bibliography '("~/Org/bibliography/bibliography.bib")
 			org-ref-default-bibliography '("~/Org/bibliography/bibliography.bib")
 			org-ref-pdf-directory "~/Org/bibliography/files/")
 
 ;;;; Org-roam-bibtex (ORB)
 ;; Integration of org-roam + ivy-bibtex + org-ref
-(eval-and-compile (straight-use-package 'org-roam-bibtex))
+;; (eval-and-compile (straight-use-package 'org-roam-bibtex))
+(load-library "org-roam-bibtex-autoloads")
 (require 'org-ref)
 (org-roam-bibtex-mode 1)
 
@@ -990,7 +1006,8 @@ _l_:   right                       _r_: rotate
 
 ;;;; Helm-bibtex
 ;; List of bibliography files
-(straight-use-package 'helm-bibtex)
+;; (straight-use-package 'helm-bibtex)
+(load-library "helm-bibtex-autoloads")
 (setq bibtex-completion-bibliography
 			'("~/Org/bibliography/bibliography.bib"))
 (setq bibtex-completion-pdf-field "file")
@@ -1008,11 +1025,13 @@ _l_:   right                       _r_: rotate
 (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
 
 ;;;; Org-noter
-(straight-use-package 'org-noter)
+;; (straight-use-package 'org-noter)
+(load-library "org-noter-autoloads")
 
 ;;;; Org-roam-ui
-(straight-use-package
- '(org-roam-ui :type git :host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out")))
+;; (straight-use-package
+;; '(org-roam-ui :type git :host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out")))
+(load-library "org-roam-ui-autoloads")
 
 (global-set-key (kbd "C-c n g") org-roam-ui-mode)
 
@@ -1022,8 +1041,9 @@ _l_:   right                       _r_: rotate
       org-roam-ui-open-on-start t)
 
 ;;;; Deft
-(straight-use-package 'deft)
-(global-set-key (kbd "C-c n d") 'deft)
+;;(straight-use-package 'deft)
+(load-library "deft-autoloads")
+ (global-set-key (kbd "C-c n d") 'deft)
 (setq deft-recursive t
 			deft-use-filter-string-for-filename t
 			deft-default-extension "org"
@@ -1068,15 +1088,15 @@ _l_:   right                       _r_: rotate
 ;;;; My/insert-current-date-time
 (defvar my/current-date-format "%F"
   "Format of date to insert with `insert-current-date' func
-See help of `format-time-string' for possible replacements")
+	See help of `format-time-string' for possible replacements")
 
 (defvar my/current-time-format "%a %H:%M:%S %Z"
   "Format of date to insert with `insert-current-time' func.
-Note the weekly scope of the command's precision.")
+	Note the weekly scope of the command's precision.")
 
 (defun my/insert-current-date ()
   "insert the current date and time into current buffer.
-Uses `current-date-format' for the formatting the date/time."
+	Uses `current-date-format' for the formatting the date/time."
   (interactive)
   (insert (format-time-string my/current-date-format (current-time)))
   (insert "\n"))
@@ -1122,7 +1142,7 @@ Uses `current-date-format' for the formatting the date/time."
 ;; Write a function to do the spacing
 (defun simple-mode-line-render (left right)
 	"Return a string of `window-width' length.
-Containing LEFT, and RIGHT aligned respectively."
+	Containing LEFT, and RIGHT aligned respectively."
 	(let ((available-width
 				 (max 0 (- my/modeline-total-width
 									 (+ (length (format-mode-line left))

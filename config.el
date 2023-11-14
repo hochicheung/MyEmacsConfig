@@ -108,16 +108,16 @@
 (setq split-width-threshold 100)
 
 ;;;; Emacs Gpg
-(straight-use-package 'pinentry)
-
-(setq epg-gpg-program "gpg")
-
-(if (version< emacs-version "27.1")
-		(setq epa-pinentry-mode 'loopback)
-	(setq epg-pinentry-mode 'loopback))
-
-(setenv "GPG_AGENT_INFO" nil)
-(pinentry-start)
+;; (straight-use-package 'pinentry)
+;; 
+;; (setq epg-gpg-program "gpg")
+;; 
+;; (if (version< emacs-version "27.1")
+		;; (setq epa-pinentry-mode 'loopback)
+	;; (setq epg-pinentry-mode 'loopback))
+;; 
+;; (setenv "GPG_AGENT_INFO" nil)
+;; (pinentry-start)
 
 ;;; Essentials
 
@@ -724,7 +724,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Org-bars
 (load-library "org-bars-autoloads")
-;; (require 'org-bars)
+(require 'org-bars)
 (add-hook 'org-mode-hook #'org-bars-mode)
 (setq org-bars-stars '(:empty "◉"
 															:invisible "→"

@@ -125,9 +125,12 @@
 (require 'cl-lib)
 
 ;;;; Evil
-(eval-and-compile
-	(straight-use-package 'evil)
-	(require 'evil))
+;; (eval-and-compile
+;; (straight-use-package 'evil)
+;; (require 'evil))
+(load-library "evil-autoloads")
+(require 'evil)
+
 (evil-mode)
 (setq evil-emacs-state-modes nil
 			evil-insert-state-modes nil
@@ -168,8 +171,8 @@
 (define-key evil-normal-state-map [down-mouse-1] nil)
 
 ;;;; Org-mode
-;;(load-library "org-autoloads")
-(eval-and-compile (straight-use-package '(org :local-repo nil)))
+(load-library "org-autoloads")
+;;(eval-and-compile (straight-use-package '(org :local-repo nil)))
 
 (setq org-hide-emphasis-markers t)
 (setq org-src-window-setup 'current-window)
@@ -189,7 +192,7 @@
 
 ;;;;; Timestamps
 (setq time-stamp-active t     ; enable time-stamps
-			time-stamp-line-limit 15 ;check first 15 lines for Time-stamp: <> or Time-stamp: " "
+			time-stamp-line-limit 10 ;check first 10 lines for Time-stamp: <> or Time-stamp: " "
 			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S %Z (%u)") ; date format
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
@@ -307,20 +310,24 @@
 								 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 ;;;; Undo-tree
-(eval-and-compile (straight-use-package 'undo-tree))
+;; (eval-and-compile (straight-use-package 'undo-tree))
+(load-library "undo-tree-autoloads")
+
 (global-undo-tree-mode 1)
 (setq undo-limit 160000)
 (setq undo-tree-visualizer-lazy-drawing 10)
 (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
 
 ;;;; Evil-surround
-(straight-use-package 'evil-surround)
+;; (straight-use-package 'evil-surround)
+(load-library "evil-surround-autoloads")
 (global-evil-surround-mode 1)
 
 ;;;; Colorschemes
 
 ;;;;; Spacemacs-theme
-(straight-use-package 'spacemacs-theme)
+;; (straight-use-package 'spacemacs-theme)
+(load-library "spacemacs-theme-autoloads")
 
 ;; Set theme
 (load-theme 'spacemacs-dark t)
@@ -365,7 +372,8 @@
 	(set-face-attribute 'ivy-highlight-face nil :inherit 'default))
 
 ;;;; Vertico
-(straight-use-package 'vertico)
+;;(straight-use-package 'vertico)
+(load-library "vertico-autoloads")
 (vertico-mode 1)
 
 (defun crm-indicator (args)
@@ -382,40 +390,47 @@
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
 ;;;;; Orderless
-(straight-use-package 'orderless)
+;;(straight-use-package 'orderless)
+(load-library "orderless-autoloads")
 (setq completion-styles '(orderless basic)
 			completion-category-defaults nil
 			completion-category-overrides '((file (styles partial-completion))))
 
 ;;;;; Savehist
-(straight-use-package 'savehist)
+;; (straight-use-package 'savehist)
+;; (load-library "savehist-autoloads")
+(require 'savehist)
 (savehist-mode 1)
 
 ;;;; Ivy
-(straight-use-package 'ivy)
+;; (straight-use-package 'ivy)
+(load-library "ivy-autoloads")
 (setq ivy-use-virtual-buffers t)
 
 ;;;;; Counsel
-(straight-use-package 'counsel)
+;;(straight-use-package 'counsel)
+(load-library "counsel-autoloads")
 ;;(counsel-mode)
 ;;(global-set-key (kbd "M-x") 'counsel-M-x)
 ;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
 (global-set-key (kbd "C-x d") 'counsel-find-file)
 
 ;;;;;; Counsel-keepassxc
-(straight-use-package '(counsel-keepassxc
-												:type git
-												:host github
-												:repo "tangxinfa/counsel-keepassxc"))
+;;(straight-use-package '(counsel-keepassxc
+;;:type git
+;;:host github
+;;:repo "tangxinfa/counsel-keepassxc")
 
-(setq counsel-keepassxc-database-file "~/Documents/keepass/Database181214.kdbx")
+;;(setq counsel-keepassxc-database-file "~/Documents/keepass/Database181214.kdbx")
 
 ;;;;; Swiper
-(straight-use-package 'swiper)
+;;(straight-use-package 'swiper)
+(load-library "swiper-autoloads")
 (global-set-key (kbd "C-s") 'swiper)
 
 ;;;;; Ivy-rich
-(straight-use-package 'ivy-rich)
+;;(straight-use-package 'ivy-rich)
+(load-library "ivy-rich-autoloads")
 (ivy-rich-mode 1)
 (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
 (setq ivy-rich-path-style 'abbrev)
@@ -424,7 +439,8 @@
 ;;;; Hydra
 ;; https://github.com/abo-abo/hydra
 
-(eval-and-compile (straight-use-package 'hydra))
+;;(eval-and-compile (straight-use-package 'hydra))
+(load-library "hydra-autoloads")
 
 ;; | red      |                            |
 ;; | blue     | :exit t                    |
@@ -509,7 +525,8 @@ _l_:   right                       _r_: rotate
 ;;visited path to a TRAMP path encoding the correct privelege
 ;;escalation just before you save the file.
 
-(straight-use-package 'su)
+;;(straight-use-package 'su)
+(load-library "su-autoloads")
 (su-mode +1)
 
 ;;;; Smartparens
@@ -534,9 +551,11 @@ _l_:   right                       _r_: rotate
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . prog-mode))
 
 ;;;; Envrc
-(eval-and-compile
-  (straight-use-package 'envrc)
-  (require 'envrc))
+;;(eval-and-compile
+;;(straight-use-package 'envrc)
+;;(require 'envrc))
+(load-library "envrc-autoloads")
+(require 'envrc)
 
 ;; Needs to be enabled as late as possible
 (add-hook 'after-init-hook 'envrc-global-mode)
@@ -619,7 +638,8 @@ _l_:   right                       _r_: rotate
 ;;; Packages
 
 ;;;; Magit
-(straight-use-package 'magit)
+;;(straight-use-package 'magit)
+(load-library "magit-autoloads")
 
 ;;;;; Keybinds
 (evil-define-key 'normal 'evil-normal-state-map
@@ -651,7 +671,8 @@ _l_:   right                       _r_: rotate
 (add-hook 'org-mode-hook 'flyspell-mode)
 
 ;;;; Olivetti
-(straight-use-package 'olivetti)
+;;(straight-use-package 'olivetti)
+(load-library "olivetti-autoloads")
 (add-hook 'text-mode-hook (lambda () (setq olivetti-body-width 100)))
 (add-hook 'text-mode-hook 'olivetti-mode)
 (add-hook 'prog-mode-hook (lambda () (setq olivetti-body-width 0.8)))
@@ -665,10 +686,12 @@ _l_:   right                       _r_: rotate
 (setq dired-listing-switches "-alh")
 
 ;;;; Helm
-(straight-use-package 'helm)
+;;(straight-use-package 'helm)
+(load-library "helm-autoloads")
 
 ;;;; Avy
-(straight-use-package 'avy)
+;;(straight-use-package 'avy)
+(load-library "avy-autoloads")
 (evil-define-key 'normal 'evil-normal-state-map (kbd "C-a") 'evil-avy-goto-char-timer)
 
 ;;;; Ediff
@@ -676,13 +699,15 @@ _l_:   right                       _r_: rotate
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-diff-options "-w")
 
-;;;; Which Key
-(straight-use-package 'which-key)
+;;;; Which-key
+;;(straight-use-package 'which-key)
+(load-library "which-key-autoloads")
 (which-key-mode)
 (setq which-key-show-prefix 'left)
 
 ;;;; Outshine
-(straight-use-package 'outshine)
+;;(straight-use-package 'outshine)
+(load-library "outshine-autoloads")
 
 (add-hook 'prog-mode-hook 'outshine-mode)
 (add-hook 'emacs-lisp-mode-hook 'outshine-mode)
@@ -690,7 +715,8 @@ _l_:   right                       _r_: rotate
 (setq outshine-fontify-whole-heading-line t)
 
 ;;;; Hide-mode-line
-(straight-use-package 'hide-mode-line)
+;; (straight-use-package 'hide-mode-line)
+(load-library "hide-mode-line-autoloads")
 
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)
@@ -706,21 +732,22 @@ _l_:   right                       _r_: rotate
 ;;;; Completion Engines
 
 ;;;;; Yasnippet
-(straight-use-package 'yasnippet)
-
+;;(straight-use-package 'yasnippet)
+(load-library "yasnippet-autoloads")
 (yas-global-mode 1)
 
 ;;;;; Company
-(straight-use-package 'company)
+;; (straight-use-package 'company)
+(load-library "company-autoloads")
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-dabbrev-other-buffers t
 			company-dabbrev-code-other-buffers t)
 
 ;;;; Org-bullets
-(straight-use-package 'org-bullets)
-(defun org-bullet-mode()
-	(org-bullets-mode 1))
-(add-hook 'org-mode-hook 'org-bullet-mode)
+;; (straight-use-package 'org-bullets)
+(load-library "org-bullets-autoloads")
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 ;;;; Org-bars
 (load-library "org-bars-autoloads")
@@ -1069,10 +1096,11 @@ _l_:   right                       _r_: rotate
 							"\\)"))
 
 ;;;; Anki-editor
-(straight-use-package '(anki-editor
-												:type git
-												:host github
-												:repo "orgtre/anki-editor"))
+;;(straight-use-package '(anki-editor
+;;:type git
+;;:host github
+;;:repo "orgtre/anki-editor"))
+(load-library "anki-editor-autoloads")
 
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)

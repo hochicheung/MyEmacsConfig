@@ -125,9 +125,6 @@
 (require 'cl-lib)
 
 ;;;; Evil
-;; (eval-and-compile
-;; (straight-use-package 'evil)
-;; (require 'evil))
 (load-library "evil-autoloads")
 (require 'evil)
 
@@ -172,7 +169,6 @@
 
 ;;;; Org-mode
 (load-library "org-autoloads")
-;;(eval-and-compile (straight-use-package '(org :local-repo nil)))
 
 (setq org-hide-emphasis-markers t)
 (setq org-src-window-setup 'current-window)
@@ -310,7 +306,6 @@
 								 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 ;;;; Undo-tree
-;; (eval-and-compile (straight-use-package 'undo-tree))
 (load-library "undo-tree-autoloads")
 
 (global-undo-tree-mode 1)
@@ -319,14 +314,12 @@
 (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
 
 ;;;; Evil-surround
-;; (straight-use-package 'evil-surround)
 (load-library "evil-surround-autoloads")
 (global-evil-surround-mode 1)
 
 ;;;; Colorschemes
 
 ;;;;; Spacemacs-theme
-;; (straight-use-package 'spacemacs-theme)
 (load-library "spacemacs-theme-autoloads")
 
 ;; Set theme
@@ -372,7 +365,6 @@
 	(set-face-attribute 'ivy-highlight-face nil :inherit 'default))
 
 ;;;; Vertico
-;;(straight-use-package 'vertico)
 (load-library "vertico-autoloads")
 (vertico-mode 1)
 
@@ -390,25 +382,20 @@
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
 ;;;;; Orderless
-;;(straight-use-package 'orderless)
 (load-library "orderless-autoloads")
 (setq completion-styles '(orderless basic)
 			completion-category-defaults nil
 			completion-category-overrides '((file (styles partial-completion))))
 
 ;;;;; Savehist
-;; (straight-use-package 'savehist)
-;; (load-library "savehist-autoloads")
 (require 'savehist)
 (savehist-mode 1)
 
 ;;;; Ivy
-;; (straight-use-package 'ivy)
 (load-library "ivy-autoloads")
 (setq ivy-use-virtual-buffers t)
 
 ;;;;; Counsel
-;;(straight-use-package 'counsel)
 (load-library "counsel-autoloads")
 ;;(counsel-mode)
 ;;(global-set-key (kbd "M-x") 'counsel-M-x)
@@ -424,12 +411,10 @@
 ;;(setq counsel-keepassxc-database-file "~/Documents/keepass/Database181214.kdbx")
 
 ;;;;; Swiper
-;;(straight-use-package 'swiper)
 (load-library "swiper-autoloads")
 (global-set-key (kbd "C-s") 'swiper)
 
 ;;;;; Ivy-rich
-;;(straight-use-package 'ivy-rich)
 (load-library "ivy-rich-autoloads")
 (ivy-rich-mode 1)
 (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
@@ -439,7 +424,6 @@
 ;;;; Hydra
 ;; https://github.com/abo-abo/hydra
 
-;;(eval-and-compile (straight-use-package 'hydra))
 (load-library "hydra-autoloads")
 
 ;; | red      |                            |
@@ -525,7 +509,6 @@ _l_:   right                       _r_: rotate
 ;;visited path to a TRAMP path encoding the correct privelege
 ;;escalation just before you save the file.
 
-;;(straight-use-package 'su)
 (load-library "su-autoloads")
 (su-mode +1)
 
@@ -551,9 +534,6 @@ _l_:   right                       _r_: rotate
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . prog-mode))
 
 ;;;; Envrc
-;;(eval-and-compile
-;;(straight-use-package 'envrc)
-;;(require 'envrc))
 (load-library "envrc-autoloads")
 (require 'envrc)
 
@@ -638,7 +618,6 @@ _l_:   right                       _r_: rotate
 ;;; Packages
 
 ;;;; Magit
-;;(straight-use-package 'magit)
 (load-library "magit-autoloads")
 
 ;;;;; Keybinds
@@ -671,7 +650,6 @@ _l_:   right                       _r_: rotate
 (add-hook 'org-mode-hook 'flyspell-mode)
 
 ;;;; Olivetti
-;;(straight-use-package 'olivetti)
 (load-library "olivetti-autoloads")
 (add-hook 'text-mode-hook (lambda () (setq olivetti-body-width 100)))
 (add-hook 'text-mode-hook 'olivetti-mode)
@@ -686,11 +664,9 @@ _l_:   right                       _r_: rotate
 (setq dired-listing-switches "-alh")
 
 ;;;; Helm
-;;(straight-use-package 'helm)
 (load-library "helm-autoloads")
 
 ;;;; Avy
-;;(straight-use-package 'avy)
 (load-library "avy-autoloads")
 (evil-define-key 'normal 'evil-normal-state-map (kbd "C-a") 'evil-avy-goto-char-timer)
 
@@ -700,13 +676,11 @@ _l_:   right                       _r_: rotate
 (setq ediff-diff-options "-w")
 
 ;;;; Which-key
-;;(straight-use-package 'which-key)
 (load-library "which-key-autoloads")
 (which-key-mode)
 (setq which-key-show-prefix 'left)
 
 ;;;; Outshine
-;;(straight-use-package 'outshine)
 (load-library "outshine-autoloads")
 
 (add-hook 'prog-mode-hook 'outshine-mode)
@@ -715,7 +689,6 @@ _l_:   right                       _r_: rotate
 (setq outshine-fontify-whole-heading-line t)
 
 ;;;; Hide-mode-line
-;; (straight-use-package 'hide-mode-line)
 (load-library "hide-mode-line-autoloads")
 
 ;;;; Image-mode
@@ -732,19 +705,16 @@ _l_:   right                       _r_: rotate
 ;;;; Completion Engines
 
 ;;;;; Yasnippet
-;;(straight-use-package 'yasnippet)
 (load-library "yasnippet-autoloads")
 (yas-global-mode 1)
 
 ;;;;; Company
-;; (straight-use-package 'company)
 (load-library "company-autoloads")
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-dabbrev-other-buffers t
 			company-dabbrev-code-other-buffers t)
 
 ;;;; Org-bullets
-;; (straight-use-package 'org-bullets)
 (load-library "org-bullets-autoloads")
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -757,7 +727,6 @@ _l_:   right                       _r_: rotate
 															:invisible "→"
 															:visible "↘"))
 ;;;; Aggressive Indent
-;; (straight-use-package 'aggressive-indent)
 (load-library "aggressive-indent-autoloads")
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 
@@ -792,27 +761,22 @@ _l_:   right                       _r_: rotate
 	(kbd "o") 'pdf-outline)
 
 ;;;; Rainbow Delimiters
-;; (straight-use-package 'rainbow-delimiters)
 (load-library "rainbow-delimiters-autoloads")
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;;;; Gnuplot
-;; (straight-use-package 'gnuplot)
 (load-library "gnuplot-autoloads")
 
 ;;;; Ox-twbs
-;; (straight-use-package 'ox-twbs)
 (load-library "ox-twbs-autoloads")
 
 ;;;; Flycheck
-;; (straight-use-package 'flycheck)
 (load-library "flycheck-autoloads")
 (global-flycheck-mode)
 (with-eval-after-load 'flycheck
 	(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 ;;;; Elpy
-;; (straight-use-package 'elpy)
 (load-library "elpy-autoloads")
 (elpy-enable)
 
@@ -853,23 +817,23 @@ _l_:   right                       _r_: rotate
 		 (concat "echo " (number-to-string my/brightness) " > " my/brightness-file))))
 
 ;;;; Pulseaudio-control
-;; (straight-use-package 'pulseaudio-control)
 (load-library "pulseaudio-control-autoloads")
 (setq pulseaudio-control-volume-step "5%")
 
 ;;;; ScreenShot
-;; (straight-use-package 'screenshot)
-(global-set-key (kbd "s-s") 'screenshot)
-(my/directory-p-nil-create "~/Media/Screenshots")
-(my/directory-p-nil-create "~/Org/references")
-(setq screenshot-schemes
-			'(
-				("Media-dir"
-				 :dir "~/Media/Screenshots")
-				("Roam-dir"
-				 :dir "~/Org/references")
-				("current-dir"
-				 :dir default-directory)))
+;;(load-library "screenshot-autoloads")
+
+;;(global-set-key (kbd "s-s") 'screenshot)
+;;(my/directory-p-nil-create "~/Media/Screenshots")
+;;(my/directory-p-nil-create "~/Org/references")
+;;(setq screenshot-schemes
+;;'(
+;;("Media-dir"
+;;:dir "~/Media/Screenshots")
+;;("Roam-dir"
+;;:dir "~/Org/references")
+;;("current-dir"
+;;:dir default-directory)))
 
 ;;;; Randr-config
 (defun generate-randr-config (primary secondary)
@@ -948,20 +912,16 @@ _l_:   right                       _r_: rotate
 (load-library "vterm-autoloads")
 
 ;;;; Projectile
-;; (straight-use-package 'projectile)
 (load-library "projectile-autoloads")
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (setq projectile-completion-system 'ivy)
 
 ;;;; Emacsql Emacsql-sqlite
-;; (straight-use-package 'emacsql)
-;; (straight-use-package 'emacsql-sqlite)
 (load-library "emacsql-autoloads")
 (load-library "emacsql-sqlite-autoloads")
 
 ;;;; Org-roam
-;; (straight-use-package 'org-roam)
 (load-library "org-roam-autoloads")
 
 (setq org-roam-v2-ack t)
@@ -1005,7 +965,6 @@ _l_:   right                       _r_: rotate
 
 ;;;; Ebib
 ;; Creating / Editing bib files
-;; (eval-and-compile (straight-use-package 'ebib))
 (load-library "ebib-autoloads")
 (require 'ebib)
 (setq ebib-preload-bib-files '("~/Org/bibliography/bibliography.bib"))
@@ -1014,7 +973,6 @@ _l_:   right                       _r_: rotate
 			ebib-truncate-file-names nil)
 
 ;;;; Org-ref
-;; (eval-and-compile (straight-use-package 'org-ref))
 (load-library "org-ref-autoloads")
 (setq reftex-default-bibliography '("~/Org/bibliography/bibliography.bib")
 			org-ref-default-bibliography '("~/Org/bibliography/bibliography.bib")
@@ -1022,7 +980,6 @@ _l_:   right                       _r_: rotate
 
 ;;;; Org-roam-bibtex (ORB)
 ;; Integration of org-roam + ivy-bibtex + org-ref
-;; (eval-and-compile (straight-use-package 'org-roam-bibtex))
 (load-library "org-roam-bibtex-autoloads")
 (require 'org-ref)
 (org-roam-bibtex-mode 1)
@@ -1033,7 +990,6 @@ _l_:   right                       _r_: rotate
 
 ;;;; Helm-bibtex
 ;; List of bibliography files
-;; (straight-use-package 'helm-bibtex)
 (load-library "helm-bibtex-autoloads")
 (setq bibtex-completion-bibliography
 			'("~/Org/bibliography/bibliography.bib"))
@@ -1052,12 +1008,9 @@ _l_:   right                       _r_: rotate
 (setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
 
 ;;;; Org-noter
-;; (straight-use-package 'org-noter)
 (load-library "org-noter-autoloads")
 
 ;;;; Org-roam-ui
-;; (straight-use-package
-;; '(org-roam-ui :type git :host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out")))
 (load-library "org-roam-ui-autoloads")
 
 (global-set-key (kbd "C-c n g") org-roam-ui-mode)
@@ -1068,7 +1021,6 @@ _l_:   right                       _r_: rotate
       org-roam-ui-open-on-start t)
 
 ;;;; Deft
-;;(straight-use-package 'deft)
 (load-library "deft-autoloads")
  (global-set-key (kbd "C-c n d") 'deft)
 (setq deft-recursive t
@@ -1096,10 +1048,6 @@ _l_:   right                       _r_: rotate
 							"\\)"))
 
 ;;;; Anki-editor
-;;(straight-use-package '(anki-editor
-;;:type git
-;;:host github
-;;:repo "orgtre/anki-editor"))
 (load-library "anki-editor-autoloads")
 
 ;;;; Message-mode

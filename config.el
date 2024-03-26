@@ -17,6 +17,8 @@
 ;;;; Keyboard Layout
 (shell-command
  "setxkbmap -layout us -variant altgr-intl -option caps:escape")
+(shell-command "(shell-command-to-string "xset r rate 200 45")
+")
 
 ;;;; Emacs UI
 (menu-bar-mode -1)
@@ -1084,6 +1086,99 @@ _l_:   right                       _r_: rotate
 ;;;; Notmuch-emacs
 (load-library "notmuch")
 (setq notmuch-poll-script nil)
+
+;;;; CRDT
+(straight-use-package 'crdt)
+
+;;;; Undo-hl
+(defgroup undo-hl nil
+  "Custom group for undo-hl."
+  :group 'undo)
+
+(defvar undo-hl-ov nil)
+
+(defcustom undo-hl-max-draw-limit 10000
+  "How many chars undo-hl should highlight before giving up. Useful for massive edits that create thousands of overlays that would otherwise freeze Emacs."
+  :type 'number)
+
+(defvar undo-hl-max-draw-curr 0)
+
+(defface undo-hl-delete '((t . (:inherit diff-refine-removed)))
+  "Face used for highlighting the deleted text.")
+
+(defface undo-hl-insert '((t . (:inherit diff-refine-added)))
+  "Face used for highlighting the inserted text.")
+
+(defcustom undo-hl-undo-commands '(undo undo-only undo-redo undo-fu-only-undo undo-fu-only-redo evil-undo evil-redo)
+  "Commands in this list are considered undo commands.
+Undo-hl only run before and after undo commands."
+  :type '(list function))
+
+(defcustom undo-hl-wait-duration 99
+  "Undo-hl flashes the to-be-deleted text for this number of seconds.
+Note that insertion highlight is not affected by this option."
+  :type 'number)
+
+(defun undo-hl--after-change (beg end len)
+  "Highlight the inserted region after an undo.
+This is to be called from ‘after-change-functions’, see its doc
+for BEG, END and LEN."
+  (setq undo-hl-max-draw-curr (+ undo-hl-max-draw-curr (- end beg)))
+
+  (when (and
+         (< undo-hl-max-draw-curr undo-hl-max-draw-limit)
+         (memq this-command undo-hl-undo-commands)
+         ;; If beg and end is equal, it's an insertion
+         (= len 0))
+    (let ((ov (make-overlay beg end)))
+      (overlay-put ov 'face 'undo-hl-insert)
+      (overlay-put ov 'priority 98)
+      (push ov undo-hl-ov))))
+
+(defun undo-hl--before-change (beg end)
+  "Highlight the to-be-deleted region before an undo.
+This is to be called from ‘before-change-functions’, see its doc
+for BEG and END."
+  (setq undo-hl-max-draw-curr (+ undo-hl-max-draw-curr (- end beg)))
+
+  (when (and
+         (< undo-hl-max-draw-curr undo-hl-max-draw-limit)
+         (memq this-command undo-hl-undo-commands)
+         (not (= end beg)))
+    (let* ((pos (if (save-excursion
+                      (goto-char beg)
+                      (eolp))
+                    (+ 1 beg)
+                  beg))
+           (ov (make-overlay beg beg)))
+      (overlay-put ov 'face 'undo-hl-delete)
+      (overlay-put ov 'priority 99)
+      (overlay-put ov 'after-string (propertize (buffer-substring-no-properties beg end) 'face 'undo-hl-delete))
+      (push ov undo-hl-ov))))
+
+(defun undo-hl--wait ()
+  (setq undo-hl-max-draw-curr 0)
+  (when undo-hl-ov
+    (sit-for undo-hl-wait-duration)
+    (mapc 'delete-overlay undo-hl-ov)
+    (setq undo-hl-ov nil)))
+
+;;;###autoload
+(define-minor-mode undo-hl-mode
+  "Highlight undo. Note that this is a local minor mode.
+I recommend only enabling this for text-editing modes."
+  :lighter " UH"
+  :group 'undo
+  (if undo-hl-mode
+      (progn
+        (add-hook 'before-change-functions #'undo-hl--before-change -50 t)
+        (add-hook 'after-change-functions #'undo-hl--after-change -50 t)
+        (add-hook 'post-command-hook #'undo-hl--wait -49 t))
+    (remove-hook 'before-change-functions #'undo-hl--before-change t)
+    (remove-hook 'after-change-functions #'undo-hl--after-change t)
+    (remove-hook 'post-command-hook #'undo-hl--wait t)))
+
+(undo-hl-mode)
 
 ;;;; My/insert-current-date-time
 (defvar my/current-date-format "%F"

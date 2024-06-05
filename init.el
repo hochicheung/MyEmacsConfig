@@ -10,3 +10,4 @@
 	;;(byte-recompile-file (concat user-emacs-directory "config.el") nil 0 t))
 
 (put 'list-timers 'disabled nil)
+(put 'narrow-to-page 'disabled nil)

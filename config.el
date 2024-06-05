@@ -45,6 +45,7 @@
 			kept-new-versions 4
 			kept-old-versions 2
 			version-control t)
+(setq package-install-upgrade-built-in t)
 
 (setq enable-recursive-minibuffers t)
 
@@ -190,6 +191,8 @@
 (setq time-stamp-active t     ; enable time-stamps
 			time-stamp-line-limit 10 ;check first 10 lines for Time-stamp: <> or Time-stamp: " "
 			time-stamp-format "%04Y-%02m-%02d %02H:%02M:%02S %Z (%u)") ; date format
+(defun my/if-org-time-stamp ())
+
 (add-hook 'write-file-functions 'time-stamp) ; update time stamp when saving
 
 ;;;;; Org-agenda
@@ -315,6 +318,7 @@
 
 ;;;; Evil-surround
 (load-library "evil-surround-autoloads")
+(require 'evil-surround)
 (global-evil-surround-mode 1)
 
 ;;;; Colorschemes
@@ -366,37 +370,50 @@
 
 ;;;; Vertico
 (load-library "vertico-autoloads")
+(require 'vertico)
 (vertico-mode 1)
 
-(defun crm-indicator (args)
-  (cons (format "[CRM%s] %s"
-                (replace-regexp-in-string
-                 "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                 crm-separator)
-                (car args))
-        (cdr args)))
-(advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
+;; Do not allow the cursor in the minibuffer prompt
 (setq minibuffer-prompt-properties
       '(read-only t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
+;;(vertico-multiform-mode)
+;;(setq vertico-multiform-commands
+			;;'((execute-extended-command unobtrusive)))
+
 ;;;;; Orderless
 (load-library "orderless-autoloads")
+(require 'orderless)
+
+;; Define orderless style with initialism by default
+(orderless-define-completion-style +orderless-with-initialism
+	(orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
+
 (setq completion-styles '(orderless basic)
 			completion-category-defaults nil
-			completion-category-overrides '((file (styles partial-completion))))
+
+			completion-category-overrides '((file (styles partial-completion))
+																			(command (styles +orderless-with-initialism))
+																			(variable (styles +orderless-with-initialism))
+																			(symbol (styles +orderless-with-initialism))))
 
 ;;;;; Savehist
 (require 'savehist)
 (savehist-mode 1)
 
+;;;; Consult
+(straight-use-package 'consult)
+(require 'consult)
+
 ;;;; Ivy
 (load-library "ivy-autoloads")
+(require 'ivy)
 (setq ivy-use-virtual-buffers t)
 
 ;;;;; Counsel
 (load-library "counsel-autoloads")
+(require 'counsel)
 ;;(counsel-mode)
 ;;(global-set-key (kbd "M-x") 'counsel-M-x)
 ;;(global-set-key (kbd "C-x b") 'switch-to-buffer)
@@ -412,10 +429,12 @@
 
 ;;;;; Swiper
 (load-library "swiper-autoloads")
+(require 'swiper)
 (global-set-key (kbd "C-s") 'swiper)
 
 ;;;;; Ivy-rich
 (load-library "ivy-rich-autoloads")
+(require 'ivy-rich)
 (ivy-rich-mode 1)
 (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
 (setq ivy-rich-path-style 'abbrev)
@@ -425,6 +444,7 @@
 ;; https://github.com/abo-abo/hydra
 
 (load-library "hydra-autoloads")
+(require 'hydra)
 
 ;; | red      |                            |
 ;; | blue     | :exit t                    |
@@ -510,6 +530,7 @@ _l_:   right                       _r_: rotate
 ;;escalation just before you save the file.
 
 (load-library "su-autoloads")
+(require 'su)
 (su-mode +1)
 
 ;;;; Smartparens
@@ -619,6 +640,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Magit
 (load-library "magit-autoloads")
+(require 'magit)
 
 ;;;;; Keybinds
 (evil-define-key 'normal 'evil-normal-state-map
@@ -651,6 +673,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Olivetti
 (load-library "olivetti-autoloads")
+(require 'olivetti)
 (add-hook 'text-mode-hook (lambda () (setq olivetti-body-width 100)))
 (add-hook 'text-mode-hook 'olivetti-mode)
 (add-hook 'prog-mode-hook (lambda () (setq olivetti-body-width 0.8)))
@@ -665,9 +688,11 @@ _l_:   right                       _r_: rotate
 
 ;;;; Helm
 (load-library "helm-autoloads")
+(require 'helm)
 
 ;;;; Avy
 (load-library "avy-autoloads")
+(require 'avy)
 (evil-define-key 'normal 'evil-normal-state-map (kbd "C-a") 'evil-avy-goto-char-timer)
 
 ;;;; Ediff
@@ -677,11 +702,13 @@ _l_:   right                       _r_: rotate
 
 ;;;; Which-key
 (load-library "which-key-autoloads")
+(require 'which-key)
 (which-key-mode)
 (setq which-key-show-prefix 'left)
 
 ;;;; Outshine
 (load-library "outshine-autoloads")
+(require 'outshine)
 
 (add-hook 'prog-mode-hook 'outshine-mode)
 (add-hook 'emacs-lisp-mode-hook 'outshine-mode)
@@ -690,6 +717,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Hide-mode-line
 (load-library "hide-mode-line-autoloads")
+(require 'hide-mode-line)
 
 ;;;; Image-mode
 (setq image-auto-resize 'fit-height)
@@ -706,10 +734,12 @@ _l_:   right                       _r_: rotate
 
 ;;;;; Yasnippet
 (load-library "yasnippet-autoloads")
+(require 'yasnippet)
 (yas-global-mode 1)
 
 ;;;;; Company
 (load-library "company-autoloads")
+(require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-dabbrev-other-buffers t
 			company-dabbrev-code-other-buffers t)
@@ -728,10 +758,12 @@ _l_:   right                       _r_: rotate
 															:visible "↘"))
 ;;;; Aggressive Indent
 (load-library "aggressive-indent-autoloads")
+(require 'aggressive-indent)
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 
 ;;;; Pdf-tools
 (load-library "pdf-tools-autoloads")
+(require 'pdf-tools)
 (pdf-tools-install)
 (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode))
 
@@ -762,22 +794,27 @@ _l_:   right                       _r_: rotate
 
 ;;;; Rainbow Delimiters
 (load-library "rainbow-delimiters-autoloads")
+(require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;;;; Gnuplot
 (load-library "gnuplot-autoloads")
+(require 'gnuplot)
 
 ;;;; Ox-twbs
 (load-library "ox-twbs-autoloads")
+(require 'ox-twbs)
 
 ;;;; Flycheck
 (load-library "flycheck-autoloads")
+(require 'flycheck)
 (global-flycheck-mode)
 (with-eval-after-load 'flycheck
 	(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 ;;;; Elpy
 (load-library "elpy-autoloads")
+(require 'elpy)
 (elpy-enable)
 
 ;;;; Org-babel
@@ -818,6 +855,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Pulseaudio-control
 (load-library "pulseaudio-control-autoloads")
+(require 'pulseaudio-control)
 (setq pulseaudio-control-volume-step "5%")
 
 ;;;; ScreenShot
@@ -910,19 +948,23 @@ _l_:   right                       _r_: rotate
 
 ;;;; Libvterm
 (load-library "vterm-autoloads")
+(require 'vterm)
 
 ;;;; Projectile
-(load-library "projectile-autoloads")
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(setq projectile-completion-system 'ivy)
+;; (load-library "projectile-autoloads")
+;; (projectile-mode +1)
+;; (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+;; (setq projectile-completion-system 'ivy)
 
 ;;;; Emacsql Emacsql-sqlite
 (load-library "emacsql-autoloads")
 (load-library "emacsql-sqlite-autoloads")
+(require 'emacsql)
+(require 'emacsql-sqlite)
 
 ;;;; Org-roam
 (load-library "org-roam-autoloads")
+(require 'org-roam)
 
 (setq org-roam-v2-ack t)
 
@@ -974,6 +1016,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Org-ref
 (load-library "org-ref-autoloads")
+(require 'org-ref)
 (setq reftex-default-bibliography '("~/Org/bibliography/bibliography.bib")
 			org-ref-default-bibliography '("~/Org/bibliography/bibliography.bib")
 			org-ref-pdf-directory "~/Org/bibliography/files/")
@@ -981,7 +1024,6 @@ _l_:   right                       _r_: rotate
 ;;;; Org-roam-bibtex (ORB)
 ;; Integration of org-roam + ivy-bibtex + org-ref
 (load-library "org-roam-bibtex-autoloads")
-(require 'org-ref)
 (org-roam-bibtex-mode 1)
 
 ;;;; Bibtex
@@ -991,6 +1033,7 @@ _l_:   right                       _r_: rotate
 ;;;; Helm-bibtex
 ;; List of bibliography files
 (load-library "helm-bibtex-autoloads")
+(require 'helm-bibtex)
 (setq bibtex-completion-bibliography
 			'("~/Org/bibliography/bibliography.bib"))
 (setq bibtex-completion-pdf-field "file")
@@ -1009,9 +1052,11 @@ _l_:   right                       _r_: rotate
 
 ;;;; Org-noter
 (load-library "org-noter-autoloads")
+(require 'org-noter)
 
 ;;;; Org-roam-ui
 (load-library "org-roam-ui-autoloads")
+(require 'org-roam-ui)
 
 (global-set-key (kbd "C-c n g") org-roam-ui-mode)
 
@@ -1022,6 +1067,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Deft
 (load-library "deft-autoloads")
+(require 'deft)
  (global-set-key (kbd "C-c n d") 'deft)
 (setq deft-recursive t
 			deft-use-filter-string-for-filename t
@@ -1049,6 +1095,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Anki-editor
 (load-library "anki-editor-autoloads")
+(require 'anki-editor)
 
 ;;;; Message-mode
 (setq mail-user-agent 'message-user-agent)
@@ -1059,6 +1106,7 @@ _l_:   right                       _r_: rotate
 
 ;;;; Notmuch-emacs
 (load-library "notmuch")
+(require 'notmuch)
 (setq notmuch-poll-script nil)
 
 ;;;; My/insert-current-date-time
